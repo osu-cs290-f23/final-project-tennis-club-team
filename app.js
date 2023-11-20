@@ -1,10 +1,16 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+import cookieParser from 'cookie-parser';
+import express from 'express';
+import logger from 'morgan';
+import path from 'path';
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+import indexRouter from './routes/index.js';
+import toureyRouter from './routes/tour.js';
+import usersRouter from './routes/users.js';
+
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 var app = express();
 
@@ -16,5 +22,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/tournaments', toureyRouter);
 
-module.exports = app;
+export default app;
