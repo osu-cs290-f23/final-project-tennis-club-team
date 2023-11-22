@@ -1,20 +1,20 @@
 import db from '../db.js';
 import express from 'express';
 import { ObjectId } from 'bson';
-
-const shuffle = (array, block) => {
-    for (var i = block; i < array.length; i++) {
-        var j = Math.floor(Math.random() * (array.length - i)) + i;
-
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-}
+import { createSingleElim, createDoubleElim } from '../lib/events.js';
 
 var router = express.Router();
 
 router.get('/', async (req, res, next) => {
     const coll = await db.collection('tournaments');
     const result = await coll.find({}).project({ name: 1 }).toArray();
+
+    res.status(200).send(result);
+});
+
+router.get('/:id', async (req, res, next) => {
+    const coll = await db.collection('tournaments');
+    const result = await coll.find({ _id: new ObjectId(req.params.id) });
 
     res.status(200).send(result);
 });
@@ -30,78 +30,28 @@ router.post('/create', async function(req, res, next) {
     }
 });
 
-router.post('/addevent', async function(req, res, next) {
+router.get('/:id/update', async (req, res, next) => {
     const coll = await db.collection('tournaments');
-    var event = {
-        name: req.body.name,
-        type: req.body.type,
-        size: 2,
-        main: {
-            rounds: [],
-            matches: [],
-            contestants: {}
-        }
-    };
+    const result = await coll.findOneAndReplace({ _id: new ObjectId(req.params.id) }, req.body, { returnNewDocument: true });
 
-    event.main.rounds.push({ name: 'Finals' });
+    res.status(200).send(result);
+});
 
-    while(event.size < req.body.players.length) {
-        event.size *= 2;
+router.post('/:id/addevent', async function(req, res, next) {
+    const coll = await db.collection('tournaments');
+    var event; 
 
-        if(event.size === 4) {
-            event.main.rounds.push({ name: 'Semifinals' });
-        } else if(event.size === 8) {
-            event.main.rounds.push({ name: 'Quarterfinals' });
-        } else {
-            event.main.rounds.push({ name: 'Round of ' + event.size });
-        }
+    if(req.body.type === 'single') {
+        event = createSingleElim(req);
+    } else if(req.body.type === 'double') {
+        event = createDoubleElim(req);
+    } else {
+        res.status(401).send();
+
+        return;
     }
 
-    shuffle(req.body.players, event.size / 2);
-
-    for(var i = 0; i < req.body.players.length; i++) {
-        event.main.contestants['' + i] = {
-            entryStatus: ((i < event.size / 2) ? '' + (i + 1) : ''),
-            players: [ { name: req.body.players[i] } ]
-        };
-    }
-
-    for(var i = 0; i < event.size / 2; i++) {
-        event.main.matches.push({
-            roundIndex: 0,
-            order: i,
-            sides: []
-        });
-    }
-
-    var delta = event.size / 2;
-    var stack = [ 0 ];
-    event.main.matches[0].sides.push({ contestantId: 0 });
-
-    while(stack.length < event.size) {
-        for(var i = stack.length - 1; i >= 0; i--) {
-            if(i % 2 === 0) {
-                if(stack.length < req.body.players.length) {
-                    event.main.matches[stack[i] + delta - 1].sides.push({ contestantId: stack.length });
-                } else {
-                    event.main.matches[stack[i] + delta - 1].sides.push({ title: 'Bye' });
-                }
-
-                stack.push(stack[i] + delta - 1);
-            } else {
-                if(stack.length < req.body.players.length) {
-                    event.main.matches[stack[i] - delta + 1].sides.push({ contestantId: stack.length });
-                } else {
-                    event.main.matches[stack[i] - delta + 1].sides.push({ title: 'Bye' });
-                }
-                stack.push(stack[i] - delta + 1);
-            }
-        }
-
-        delta /= 2;
-    }
-
-    const result = await coll.updateOne({ _id: new ObjectId(req.body.t_id) }, { $push: { events: event }});
+    const result = await coll.updateOne({ _id: new ObjectId(req.params.id) }, { $push: { events: event } });
 
     if(result.modifiedCount === 1) {
         res.status(200).send();
