@@ -5,6 +5,39 @@
     <script defer src="./javascripts/out2.js"></script>
   </head>
   <body>
-    <input type="file" id="file-picker" accept=".csv,.xlsx" />
+    <form id="event-form">
+      <p>Event Name</p>
+      <input type="text" id="name" />
+      <fieldset>
+        <legend>Select a type</legend>    
+        <div>
+          <input type="radio" id="huey" name="drone" value="single" checked />
+          <label for="huey">Single Elimination</label>
+        </div>    
+        <div>
+          <input type="radio" id="dewey" name="drone" value="double" />
+          <label for="dewey">Double Elimination</label>
+        </div>
+      </fieldset>
+      <div>
+        <h2>Players:</h2>
+        <ul id="player-list">
+          <li>Player A</li>
+          <li>Player B</li>
+          <li>Player C</li>
+        </ul>
+      </div>
+      <div>
+        <input type="text" id="player-name" />
+        <button id="load-player">Add</button>
+      </div>
+      <div>
+        <input type="file" id="file-picker" accept=".csv,.xlsx" />
+        <button id="load-players">Load</button>
+      </div>
+      <div>
+        <input id="form-submit" type="submit"/>
+      </div>
+    </form>
   </body>
 </html>
