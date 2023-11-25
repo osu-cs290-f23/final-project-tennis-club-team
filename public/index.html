@@ -2,13 +2,42 @@
   <head>
     <title>Beaver Brackets</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
-    <script defer src="./javascripts/out.js"></script>
+    <link rel="stylesheet" href="/stylesheets/hystmodal.min.css">
+    <script defer src="/javascripts/out.js"></script>
+    <script defer src="/javascripts/hystmodal.min.js"></script>
   </head>
   <body>
-    <header>
-      
-    </header>
     <h1>BEAVER BRACKETS</h1>
+    <a href="#" data-hystmodal="#myModal">Open modal with id=myModal</a>
     <div id="bracket"></div>
+    <div class="hystmodal" id="myModal" aria-hidden="true">
+      <div class="hystmodal__wrap">
+          <div class="hystmodal__window" role="dialog" aria-modal="true">
+              <button data-hystclose class="hystmodal__close">Закрыть</button>
+              <div class="formitem">
+                <input id="player-a-name" type="text" placeholder="Player A" />
+              </div>
+              <div class="formitem">
+                <input id="player-b-name" type="text" placeholder="Player B" />
+              </div>
+              <div class="formitem">
+                <div class="a-score">
+                  <input id="a-score-main" type="number" />
+                  <input id="a-score-sub" type="number" />
+                </div>
+                <div class="b-score">
+                  <input id="b-score-main" type="number" />
+                  <input id="b-score-sub" type="number" />
+                </div>
+              </div>
+              <div class="formitem">
+                <input id="time" type="text" placeholder="Time" />
+              </div>
+              <div class="formitem">
+                <input id="place" type="text" placeholder="Place" />
+              </div>
+          </div>
+      </div>
+  </div>
   </body>
 </html>

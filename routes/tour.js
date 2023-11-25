@@ -14,7 +14,9 @@ router.get('/', async (req, res, next) => {
 
 router.get('/:id', async (req, res, next) => {
     const coll = await db.collection('tournaments');
-    const result = await coll.find({ _id: new ObjectId(req.params.id) });
+    const result = await coll.findOne({ _id: new ObjectId(req.params.id) });
+
+    console.log(result);
 
     res.status(200).send(result);
 });
