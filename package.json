@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "nodemon ./bin/www",
-    "db": "node ./db",
-    "prestart": "node ./browser"
+    "live": "nodemon ./bin/www",
+    "start": "node ./bin/www",
+    "db": "node ./db"
   },
   "dependencies": {
     "@shopify/draggable": "^1.1.3",

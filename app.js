@@ -1,3 +1,5 @@
+import './browser.js';
+
 import cookieParser from 'cookie-parser';
 import express from 'express';
 import logger from 'morgan';
