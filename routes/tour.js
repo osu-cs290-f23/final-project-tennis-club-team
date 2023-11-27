@@ -32,9 +32,12 @@ router.post('/create', async function(req, res, next) {
     }
 });
 
-router.get('/:id/update', async (req, res, next) => {
+router.post('/:id/update', async (req, res, next) => {
     const coll = await db.collection('tournaments');
-    const result = await coll.findOneAndReplace({ _id: new ObjectId(req.params.id) }, req.body, { returnNewDocument: true });
+
+    req.body._id = new ObjectId(req.params.id);
+
+    const result = await coll.findOneAndReplace({ _id: new ObjectId(req.params.id) }, req.body, { returnDocument: 'after' });
 
     res.status(200).send(result);
 });
