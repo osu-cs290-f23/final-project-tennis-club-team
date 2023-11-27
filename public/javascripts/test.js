@@ -18,7 +18,7 @@ const bScoreSub = document.querySelector('#b-score-sub');
     var data = await axios('http://localhost:3000/tournaments/655aad5fc2bc1f4db1207ede');
 
     const update = async () => {
-        data.data.events[7].main = bracket.getAllData();
+        data.data.events[15].main = bracket.getAllData();
 
         data = await await axios.post('/tournaments/655aad5fc2bc1f4db1207ede/update', data.data, {
             headers: {
@@ -26,7 +26,7 @@ const bScoreSub = document.querySelector('#b-score-sub');
             }
         });
 
-        bracket.replaceData(data.data.events[7].main);
+        bracket.replaceData(data.data.events[15].main);
     };
 
     const modalOpen = (modal) => {
@@ -36,16 +36,16 @@ const bScoreSub = document.querySelector('#b-score-sub');
         timeField.value = selectedMatch.matchStatus?.split('|')[0].trim();
         placeField.value = selectedMatch.matchStatus?.split('|')[1].trim();
 
-        aScoreMain.value = selectedMatch.sides?.[0].scores?.[0]?.mainScore;
-        aScoreSub.value = selectedMatch.sides?.[0].scores?.[0]?.subscore;
+        aScoreMain.value = selectedMatch.sides?.[0]?.scores?.[0]?.mainScore;
+        aScoreSub.value = selectedMatch.sides?.[0]?.scores?.[0]?.subscore;
 
-        bScoreMain.value = selectedMatch.sides?.[1].scores?.[0]?.mainScore;
-        bScoreSub.value = selectedMatch.sides?.[1].scores?.[0]?.subscore;
+        bScoreMain.value = selectedMatch.sides?.[1]?.scores?.[0]?.mainScore;
+        bScoreSub.value = selectedMatch.sides?.[1]?.scores?.[0]?.subscore;
     };
 
     const modalClose = (modal) => {
-        data.data.events[7].main.contestants[playerAField.value] = playerAField.value;
-        data.data.events[7].main.contestants[playerBField.value] = playerBField.value;
+        data.data.events[15].main.contestants[playerAField.value] = playerAField.value;
+        data.data.events[15].main.contestants[playerBField.value] = playerBField.value;
 
         selectedMatch.sides[0] = {
             contestantId: playerAField.value,
@@ -100,7 +100,7 @@ const bScoreSub = document.querySelector('#b-score-sub');
         onMatchClick: matchClickHandler
     };
 
-    const bracket = bracketry.createBracket(data.data.events[7].main, wrapper, options);
+    const bracket = bracketry.createBracket(data.data.events[15].main, wrapper, options);
 })();
 },{"axios/dist/browser/axios.cjs":2,"bracketry":4,"lodash":7}],2:[function(require,module,exports){
 (function (global,Buffer){(function (){

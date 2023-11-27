@@ -8,6 +8,7 @@ const pn = document.querySelector('#player-name');
 const lp = document.querySelector('#load-player');
 const lps = document.querySelector('#load-players');
 const ef = document.querySelector('#event-form');
+const fs = document.querySelector('#form-submit');
 
 const sortable = new Sortable(pl, {
     draggable: 'li',
@@ -73,15 +74,19 @@ ef.addEventListener('submit', async (event) => {
     event.stopPropagation();
     event.preventDefault();
 
-    const data = {
-        name: document.querySelector('#name').value,
-        type: document.querySelector('input[type="radio"]:checked').value,
-        players: Array.from(pl.children).map((player) => player.textContent)
-    };
+    console.log(event.submitter);
 
-    await axios.post('/tournaments/655aad5fc2bc1f4db1207ede/addevent', data, {
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+    if(event.submitter === fs) {
+        const data = {
+            name: document.querySelector('#name').value,
+            type: document.querySelector('input[type="radio"]:checked').value,
+            players: Array.from(pl.children).map((player) => player.textContent)
+        };
+    
+        await axios.post('/tournaments/655aad5fc2bc1f4db1207ede/addevent', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    }
 });
