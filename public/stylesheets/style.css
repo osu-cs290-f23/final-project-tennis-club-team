@@ -1,8 +1,29 @@
 body {
-  padding: 50px;
+  /* padding: 50px; */
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  margin: 0;
 }
 
 a {
   color: #00B7FF;
+}
+
+.background{
+  background-color: #9CBCD9;
+}
+
+.navbar{
+  background-color: #011C40;
+  width: 100vw;
+  height: 69px;
+
+}
+
+#page-title{
+  text-align: center;
+}
+
+.logo{
+  width: 124.2px;
+  height: 69px;
 }
