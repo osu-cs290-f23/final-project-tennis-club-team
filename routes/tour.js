@@ -6,19 +6,31 @@ import { createSingleElim, createDoubleElim } from '../lib/events.js';
 var router = express.Router();
 
 router.get('/', async (req, res, next) => {
-    const coll = await db.collection('tournaments');
-    const result = await coll.find({}).project({ name: 1 }).toArray();
+    try {
+        const coll = await db.collection('tournaments');
+        const result = await coll.find({}).project({ name: 1 }).toArray();
 
-    res.status(200).send(result);
+        res.status(200).send(result);
+    } catch(error) {
+        console.error(error);
+
+        res.status(501).send(error);
+    }        
 });
 
 router.get('/:id', async (req, res, next) => {
-    const coll = await db.collection('tournaments');
-    const result = await coll.findOne({ _id: new ObjectId(req.params.id) });
+    try {
+        const coll = await db.collection('tournaments');
+        const result = await coll.findOne({ _id: new ObjectId(req.params.id) });
 
-    console.log(result);
+        console.log(result);
 
-    res.status(200).send(result);
+        res.status(200).send(result);
+    } catch(error) {
+        console.error(error);
+
+        res.status(501).send(error);
+    }
 });
 
 router.post('/create', async function(req, res, next) {
