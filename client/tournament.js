@@ -1,4 +1,6 @@
 (async () => {
+    //TODO: Make it so you can add events even in this stage of the tournament, so we can manually load the stuff
+
     //Require dependencies here
     const axios = require('axios/dist/browser/axios.cjs');
     const bracketry = require('bracketry');
