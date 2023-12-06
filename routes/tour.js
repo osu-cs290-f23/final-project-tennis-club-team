@@ -1,7 +1,7 @@
 import db from '../db.js';
 import express from 'express';
 import { ObjectId } from 'bson';
-import { createSingleElim, createDoubleElim } from '../lib/events.js';
+import { createSingleElim, createDoubleElim, createPooledEvent } from '../lib/events.js';
 
 var router = express.Router();
 
@@ -62,8 +62,10 @@ router.post('/:id/addevent', async function(req, res, next) {
         event = createSingleElim(req);
     } else if(req.body.type === 'double') {
         event = createDoubleElim(req);
+    } else if(req.body.type === 'pool') {
+        event = createPooledEvent(req);
     } else {
-        res.status(401).send();
+        res.status(400).send();
 
         return;
     }
