@@ -65,7 +65,7 @@ router.post('/:id/addevent', async function(req, res, next) {
     } else if(req.body.type === 'pool') {
         event = createPooledEvent(req);
     } else {
-        res.status(401).send();
+        res.status(400).send();
 
         return;
     }
