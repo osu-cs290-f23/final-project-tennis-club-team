@@ -1,7 +1,5 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 (async () => {
-    //TODO: Make it so you can add events even in this stage of the tournament, so we can manually load the stuff
-
     //Require dependencies here
     const axios = require('axios/dist/browser/axios.cjs');
     const bracketry = require('bracketry');
@@ -53,17 +51,29 @@
         };
 
         const update = async () => {
-            tournamentData.events[index].main = mainBracket.getAllData();
+            if(tournamentData.events[index].type !== 'pool') {
+                tournamentData.events[index].main = mainBracket.getAllData();
+            }
 
             if(tournamentData.events[index].type === 'double') {
                 tournamentData.events[index].back = backBracket.getAllData();
             }
     
-            tournamentData = (await axios.post('/tournaments/655aad5fc2bc1f4db1207ede/update', tournamentData, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })).data;
+            try {
+                tournamentData = (await axios.post('/tournaments/' + searchParams.get('id') + '/update', tournamentData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })).data;
+            } catch(error) {
+                new Noty({
+                    type: 'error',
+                    layout: 'topRight',
+                    theme: 'relax',
+                    text: 'Error updating event!',
+                    closeWith: ['click', 'button']
+                }).show();
+            }
     
             loadEvent(index);
         };
@@ -71,6 +81,14 @@
         const modalOpen = (modal) => {
             playerAField.value = selectedMatch.sides[0]?.contestantId;
             playerBField.value = selectedMatch.sides[1]?.contestantId;
+
+            if(!selectedMatch.sides[0]?.contestantId) {
+                playerAField.value = '';
+            }
+
+            if(!selectedMatch.sides[1]?.contestantId) {
+                playerBField.value = '';
+            }
     
             timeField.value = selectedMatch.matchStatus?.split('|')[0].trim();
             placeField.value = selectedMatch.matchStatus?.split('|')[1].trim();
@@ -92,7 +110,6 @@
             }
     
             selectedMatch.sides[0] = {
-                contestantId: playerAField.value,
                 scores: [
                     {
                         mainScore: aScoreMain.value,
@@ -100,9 +117,12 @@
                     }
                 ]
             };
+
+            if(playerAField.value) {
+                selectedMatch.sides[0].contestantId = playerAField.value;
+            }
         
             selectedMatch.sides[1] = {
-                contestantId: playerBField.value,
                 scores: [
                     {
                         mainScore: bScoreMain.value,
@@ -110,6 +130,10 @@
                     }
                 ]
             };
+
+            if(playerBField.value) {
+                selectedMatch.sides[1].contestantId = playerBField.value;
+            }
     
             if(!timeField.value) {
                 timeField.value = 'TBA';
@@ -130,8 +154,7 @@
             update();
         };
     
-        const myModal = new HystModal({
-            linkAttributeName: "data-hystmodal",
+        const bracketModal = new HystModal({
             beforeOpen: modalOpen,
             afterClose: modalClose
         });
@@ -139,7 +162,7 @@
         const matchClickHandler = (match) => {
             selectedMatch = _.cloneDeep(match);
     
-            myModal.open('#myModal');  
+            bracketModal.open('#bracketModal');  
         };
 
         const loadEvent = (index) => {
@@ -173,15 +196,38 @@
 
             eventTabs.appendChild(eventTab);
         }
+        
+        (() => {
+            const eventTab = document.createElement('input');
+
+            eventTab.type = 'button';
+            eventTab.value = 'Add Event';
+            eventTab.dataset.index = tournamentData.events.length;
+
+            eventTabs.appendChild(eventTab);
+        })();
 
         eventTabs.addEventListener('click', (event) => {
-            index = event.target.dataset.index;
-            loadEvent(event.target.dataset.index);
+            index = parseInt(event.target.dataset.index);
+
+            if(index === tournamentData.events.length) {
+                window.location.href = '/load.html?id=' + searchParams.get('id'); 
+            } else {
+                loadEvent(event.target.dataset.index);
+            }
         });
 
         index = 0;
         loadEvent(0);
     } catch(error) {
+        new Noty({
+            type: 'error',
+            layout: 'topRight',
+            theme: 'relax',
+            text: 'Error loading event!',
+            closeWith: ['click', 'button']
+        }).show();
+
         console.log(error);
     }
 })();

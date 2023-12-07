@@ -4,6 +4,9 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/tournament.css">
     <link rel="stylesheet" href="/stylesheets/hystmodal.min.css">
+    <link rel="stylesheet" href="/stylesheets/noty.css">
+    <link rel="stylesheet" href="/stylesheets/relax.css">
+    <script defer src="/javascripts/noty.js"></script>
     <script defer src="/javascripts/hystmodal.min.js"></script>
     <script defer src="/javascripts/tournament.js"></script>
   </head>
@@ -32,10 +35,10 @@
     <div id="event-tabs"></div>
 
     <!-- Modal for draw manipulation -->
-    <div class="hystmodal" id="myModal" aria-hidden="true">
+    <div class="hystmodal" id="bracketModal" aria-hidden="true">
       <div class="hystmodal__wrap">
           <div class="hystmodal__window" role="dialog" aria-modal="true">
-              <button data-hystclose class="hystmodal__close">Закрыть</button>
+              <button data-hystclose class="hystmodal__close">Close</button>
               <div class="formitem">
                 <input id="a-name" type="text" placeholder="Player A" />
               </div>

@@ -11,6 +11,10 @@ const lps = document.querySelector('#load-players');
 const ef = document.querySelector('#event-form');
 const fs = document.querySelector('#form-submit');
 
+//Define tournament search fields
+const url = document.URL;
+const searchParams = new URLSearchParams(url.split('?')[1]);  
+
 const sortable = new Sortable(pl, {
     draggable: 'li',
 });
@@ -75,8 +79,6 @@ ef.addEventListener('submit', async (event) => {
     event.stopPropagation();
     event.preventDefault();
 
-    console.log(event.submitter);
-
     if(event.submitter === fs) {
         const data = {
             name: document.querySelector('#name').value,
@@ -84,11 +86,31 @@ ef.addEventListener('submit', async (event) => {
             players: Array.from(pl.children).map((player) => player.textContent)
         };
     
-        await axios.post('/tournaments/655aad5fc2bc1f4db1207ede/addevent', data, {
-            headers: {
-                'Content-Type': 'application/json'
+        try {
+            if(!searchParams.has('id')) {
+                throw 'No id specified!';
             }
-        });
+
+            const result = await axios.post('/tournaments/' + searchParams.get('id') + '/addevent', data, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if(result.status !== 200) {
+                throw 'Could not send event!';
+            }
+
+            window.location.href = '/tournament.html?id=' + searchParams.get('id');
+        } catch(error) {
+            new Noty({
+                type: 'error',
+                layout: 'topRight',
+                theme: 'relax',
+                text: 'Error creating event!',
+                closeWith: ['click', 'button']
+            }).show();
+        }
     }
 });
 },{"@shopify/draggable":33,"axios/dist/browser/axios.cjs":41,"xlsx":48}],2:[function(require,module,exports){
