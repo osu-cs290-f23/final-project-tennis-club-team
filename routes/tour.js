@@ -1,24 +1,36 @@
 import db from '../db.js';
 import express from 'express';
 import { ObjectId } from 'bson';
-import { createSingleElim, createDoubleElim } from '../lib/events.js';
+import { createSingleElim, createDoubleElim, createPooledEvent } from '../lib/events.js';
 
 var router = express.Router();
 
 router.get('/', async (req, res, next) => {
-    const coll = await db.collection('tournaments');
-    const result = await coll.find({}).project({ name: 1 }).toArray();
+    try {
+        const coll = await db.collection('tournaments');
+        const result = await coll.find({}).project({ name: 1 }).toArray();
 
-    res.status(200).send(result);
+        res.status(200).send(result);
+    } catch(error) {
+        console.error(error);
+
+        res.status(501).send(error);
+    }        
 });
 
 router.get('/:id', async (req, res, next) => {
-    const coll = await db.collection('tournaments');
-    const result = await coll.findOne({ _id: new ObjectId(req.params.id) });
+    try {
+        const coll = await db.collection('tournaments');
+        const result = await coll.findOne({ _id: new ObjectId(req.params.id) });
 
-    console.log(result);
+        console.log(result);
 
-    res.status(200).send(result);
+        res.status(200).send(result);
+    } catch(error) {
+        console.error(error);
+
+        res.status(501).send(error);
+    }
 });
 
 router.post('/create', async function(req, res, next) {
@@ -50,8 +62,10 @@ router.post('/:id/addevent', async function(req, res, next) {
         event = createSingleElim(req);
     } else if(req.body.type === 'double') {
         event = createDoubleElim(req);
+    } else if(req.body.type === 'pool') {
+        event = createPooledEvent(req);
     } else {
-        res.status(401).send();
+        res.status(400).send();
 
         return;
     }

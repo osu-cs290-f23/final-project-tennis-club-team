@@ -1,0 +1,19 @@
+#event-container {
+    width: 100%;
+    margin-bottom: 5%;
+}
+
+.sub-draw {
+    text-align: center;
+    height: max-content;
+}
+
+.sub-bracket {
+    max-width: 100%;
+    width: fit-content;
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none;
+}

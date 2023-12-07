@@ -4,8 +4,8 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/tournament.css">
     <link rel="stylesheet" href="/stylesheets/hystmodal.min.css">
-    <script defer src="/javascripts/test.js"></script>
     <script defer src="/javascripts/hystmodal.min.js"></script>
+    <script defer src="/javascripts/tournament.js"></script>
   </head>
   <body>
     <div class = "navbar">
@@ -13,32 +13,34 @@
           <img class = "logo" src = tennis-beaver-2.png alt = "Beaver Logo">
       </div>
     </div>
+
     <h1>BEAVER BRACKETS</h1>
+
     <!-- Container for event information to be placed -->
     <div id="event-container">
-      <!-- <section class="sub-bracket">
-        <h2>Main Draw</h2>
-        <div id="main-bracket"></div>
-      </section>
-      <section class="sub-bracket">
-        <h2>Back Draw</h2>
-        <div id="back-bracket"></div>
-      </section> -->
+        <section id="main-draw" class="sub-draw">
+            <h2>Main Draw</h2>
+            <div id="main-bracket" class="sub-bracket"></div>
+        </section>
+        <section id="back-draw" class="sub-draw">
+            <h2>Back Draw</h2>
+            <div id="back-bracket" class="sub-bracket"></div>
+        </section>
     </div>
+
     <!-- Container for event tabs to be placed -->
-    <div id="event-tabs">
-      <!-- Contain buttons that flex to left -->
-    </div>
+    <div id="event-tabs"></div>
+
     <!-- Modal for draw manipulation -->
     <div class="hystmodal" id="myModal" aria-hidden="true">
       <div class="hystmodal__wrap">
           <div class="hystmodal__window" role="dialog" aria-modal="true">
               <button data-hystclose class="hystmodal__close">Закрыть</button>
               <div class="formitem">
-                <input id="player-a-name" type="text" placeholder="Player A" />
+                <input id="a-name" type="text" placeholder="Player A" />
               </div>
               <div class="formitem">
-                <input id="player-b-name" type="text" placeholder="Player B" />
+                <input id="b-name" type="text" placeholder="Player B" />
               </div>
               <div class="formitem">
                 <div class="a-score">
@@ -58,7 +60,6 @@
               </div>
           </div>
       </div>
-    </div>
   </div>
   </body>
 </html>
