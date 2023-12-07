@@ -39,12 +39,12 @@ a {
   height: 69px;
 }
 
-* {
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
-}
+} */
 
 /* body {
   background: #e3f2fd;
@@ -150,7 +150,7 @@ a {
     transform: translate3d(0, 20px, 0);
     opacity: 0;
   }
-  
+}
 @keyframes float {
 	0% {
 		transform: translatey(0px);
