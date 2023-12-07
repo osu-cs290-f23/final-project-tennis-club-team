@@ -108,7 +108,8 @@ ef.addEventListener('submit', async (event) => {
                 layout: 'topRight',
                 theme: 'relax',
                 text: 'Error creating event!',
-                closeWith: ['click', 'button']
+                closeWith: ['click', 'button'],
+                timeout: 3000
             }).show();
         }
     }

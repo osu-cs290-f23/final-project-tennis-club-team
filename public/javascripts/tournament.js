@@ -24,6 +24,11 @@
     const bScoreMain = document.querySelector('#b-score-main');
     const bScoreSub = document.querySelector('#b-score-sub');
 
+    const optionMenu = document.querySelector(".select-menu");
+    const optionButton = optionMenu.querySelector(".select-btn");
+    const addEvent = optionMenu.querySelector("#add-event");
+    const removeEvent = optionMenu.querySelector("#remove-event");
+
     //Define html data locations
     const backDraw = document.querySelector('#back-draw');
     const mainWrapper = document.querySelector('#main-bracket');
@@ -50,6 +55,20 @@
             };
         };
 
+        const addEventTabs = () => {
+            eventTabs.replaceChildren([]);
+
+            for(var i = 0; i < tournamentData.events.length; i++) {
+                const eventTab = document.createElement('input');
+    
+                eventTab.type = 'button';
+                eventTab.value = tournamentData.events[i].name;
+                eventTab.dataset.index = i;
+    
+                eventTabs.appendChild(eventTab);
+            }
+        };
+
         const update = async () => {
             if(tournamentData.events[index].type !== 'pool') {
                 tournamentData.events[index].main = mainBracket.getAllData();
@@ -71,10 +90,12 @@
                     layout: 'topRight',
                     theme: 'relax',
                     text: 'Error updating event!',
-                    closeWith: ['click', 'button']
+                    closeWith: ['click', 'button'],
+                    timeout: 3000
                 }).show();
             }
-    
+
+            addEventTabs();    
             loadEvent(index);
         };
         
@@ -187,33 +208,67 @@
             }
         };
 
-        for(var i = 0; i < tournamentData.events.length; i++) {
-            const eventTab = document.createElement('input');
-
-            eventTab.type = 'button';
-            eventTab.value = tournamentData.events[i].name;
-            eventTab.dataset.index = i;
-
-            eventTabs.appendChild(eventTab);
-        }
-        
-        (() => {
-            const eventTab = document.createElement('input');
-
-            eventTab.type = 'button';
-            eventTab.value = 'Add Event';
-            eventTab.dataset.index = tournamentData.events.length;
-
-            eventTabs.appendChild(eventTab);
-        })();
+        addEventTabs();
 
         eventTabs.addEventListener('click', (event) => {
             index = parseInt(event.target.dataset.index);
+            loadEvent(event.target.dataset.index);
+        });
 
-            if(index === tournamentData.events.length) {
-                window.location.href = '/load.html?id=' + searchParams.get('id'); 
-            } else {
-                loadEvent(event.target.dataset.index);
+        optionButton.addEventListener('click', (event) => {
+            if(!optionMenu.classList.contains('active')) {
+                event.stopPropagation();
+            }
+
+            optionMenu.classList.toggle('active');
+
+            document.querySelector('.options.hidden')?.classList.remove('hidden');
+            
+            window.addEventListener("click", (event) => {
+                if(!optionButton.contains(event.target)) {
+                    optionMenu.classList.remove('active');
+                }
+            }, { once: true });
+        });        
+
+        addEvent.addEventListener('click', () => window.location.href = '/load.html?id=' + searchParams.get('id'));
+        
+        removeEvent.addEventListener('click', () => {
+            if(index) {
+                swal({
+                    title: 'Are you sure?',
+                    text: 'Once deleted, you cannot recover this event!',
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then(async (willDelete) => {
+                    if (willDelete) {
+                        tournamentData.events.splice(index, 1);
+
+                        index = 0;
+
+                        await update();
+                        
+                        new Noty({
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'relax',
+                            text: 'Done!',
+                            closeWith: ['click', 'button'],
+                            timeout: 3000
+                        }).show();                        
+                    } else {
+                        new Noty({
+                            type: 'info',
+                            layout: 'topRight',
+                            theme: 'relax',
+                            text: 'Event not removed!',
+                            closeWith: ['click', 'button'],
+                            timeout: 3000
+                        }).show();
+                    }
+                });
             }
         });
 
@@ -225,7 +280,8 @@
             layout: 'topRight',
             theme: 'relax',
             text: 'Error loading event!',
-            closeWith: ['click', 'button']
+            closeWith: ['click', 'button'],
+            timeout: 3000
         }).show();
 
         console.log(error);

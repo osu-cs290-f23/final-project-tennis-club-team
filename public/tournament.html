@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="/stylesheets/hystmodal.min.css">
     <link rel="stylesheet" href="/stylesheets/noty.css">
     <link rel="stylesheet" href="/stylesheets/relax.css">
+    <script defer src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script defer src="/javascripts/noty.js"></script>
     <script defer src="/javascripts/hystmodal.min.js"></script>
     <script defer src="/javascripts/tournament.js"></script>
@@ -14,6 +15,20 @@
     <div class = "navbar">
       <div>  
           <img class = "logo" src = tennis-beaver-2.png alt = "Beaver Logo">
+          <div class="select-menu">
+            <div class="select-btn">
+              <span class="sBtn-text">&#xFE19;</span>
+            </div>
+          
+            <ul class="options hidden">
+              <li class="option">
+                <span id="add-event" class="option-text">Add Event</span>
+              </li>
+              <li class="option">
+                <span id="remove-event" class="option-text">Remove Event</span>
+              </li>
+            </ul>
+          </div>
       </div>
     </div>
 
