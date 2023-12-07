@@ -4,6 +4,10 @@
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/tournament.css">
     <link rel="stylesheet" href="/stylesheets/hystmodal.min.css">
+    <link rel="stylesheet" href="/stylesheets/noty.css">
+    <link rel="stylesheet" href="/stylesheets/relax.css">
+    <script defer src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script defer src="/javascripts/noty.js"></script>
     <script defer src="/javascripts/hystmodal.min.js"></script>
     <script defer src="/javascripts/tournament.js"></script>
   </head>
@@ -11,6 +15,20 @@
     <div class = "navbar">
       <div>  
           <img class = "logo" src = tennis-beaver-2.png alt = "Beaver Logo">
+          <div class="select-menu">
+            <div class="select-btn">
+              <span class="sBtn-text">&#xFE19;</span>
+            </div>
+          
+            <ul class="options hidden">
+              <li class="option">
+                <span id="add-event" class="option-text">Add Event</span>
+              </li>
+              <li class="option">
+                <span id="remove-event" class="option-text">Remove Event</span>
+              </li>
+            </ul>
+          </div>
       </div>
     </div>
 
@@ -32,10 +50,10 @@
     <div id="event-tabs"></div>
 
     <!-- Modal for draw manipulation -->
-    <div class="hystmodal" id="myModal" aria-hidden="true">
+    <div class="hystmodal" id="bracketModal" aria-hidden="true">
       <div class="hystmodal__wrap">
           <div class="hystmodal__window" role="dialog" aria-modal="true">
-              <button data-hystclose class="hystmodal__close">Закрыть</button>
+              <button data-hystclose class="hystmodal__close">Close</button>
               <div class="formitem">
                 <input id="a-name" type="text" placeholder="Player A" />
               </div>

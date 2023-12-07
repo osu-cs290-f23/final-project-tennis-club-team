@@ -1,7 +1,5 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 (async () => {
-    //TODO: Make it so you can add events even in this stage of the tournament, so we can manually load the stuff
-
     //Require dependencies here
     const axios = require('axios/dist/browser/axios.cjs');
     const bracketry = require('bracketry');
@@ -25,6 +23,11 @@
     const aScoreSub = document.querySelector('#a-score-sub');
     const bScoreMain = document.querySelector('#b-score-main');
     const bScoreSub = document.querySelector('#b-score-sub');
+
+    const optionMenu = document.querySelector(".select-menu");
+    const optionButton = optionMenu.querySelector(".select-btn");
+    const addEvent = optionMenu.querySelector("#add-event");
+    const removeEvent = optionMenu.querySelector("#remove-event");
 
     //Define html data locations
     const backDraw = document.querySelector('#back-draw');
@@ -52,25 +55,68 @@
             };
         };
 
-        const update = async () => {
-            tournamentData.events[index].main = mainBracket.getAllData();
+        const addEventTabs = () => {
+            eventTabs.replaceChildren([]);
 
-            if(tournamentData.events[index].type === 'double') {
-                tournamentData.events[index].back = backBracket.getAllData();
+            for(var i = 0; i < tournamentData.events.length; i++) {
+                const eventTab = document.createElement('input');
+    
+                eventTab.type = 'button';
+                eventTab.value = tournamentData.events[i].name;
+                eventTab.dataset.index = i;
+    
+                eventTabs.appendChild(eventTab);
+            }
+        };
+
+        const update = async () => {
+            if(index !== -1) {
+                if(tournamentData.events[index].type !== 'pool') {
+                    tournamentData.events[index].main = mainBracket.getAllData();
+                }
+
+                if(tournamentData.events[index].type === 'double') {
+                    tournamentData.events[index].back = backBracket.getAllData();
+                }
             }
     
-            tournamentData = (await axios.post('/tournaments/655aad5fc2bc1f4db1207ede/update', tournamentData, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })).data;
-    
+            try {
+                tournamentData = (await axios.post('/tournaments/' + searchParams.get('id') + '/update', tournamentData, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })).data;
+            } catch(error) {
+                new Noty({
+                    type: 'error',
+                    layout: 'topRight',
+                    theme: 'relax',
+                    text: 'Error updating event!',
+                    closeWith: ['click', 'button'],
+                    timeout: 3000
+                }).show();
+            }
+
+            //TODO: Alter this
+            if(index === -1) {
+                index = 0;
+            }
+
+            addEventTabs();    
             loadEvent(index);
         };
         
         const modalOpen = (modal) => {
             playerAField.value = selectedMatch.sides[0]?.contestantId;
             playerBField.value = selectedMatch.sides[1]?.contestantId;
+
+            if(!selectedMatch.sides[0]?.contestantId) {
+                playerAField.value = '';
+            }
+
+            if(!selectedMatch.sides[1]?.contestantId) {
+                playerBField.value = '';
+            }
     
             timeField.value = selectedMatch.matchStatus?.split('|')[0].trim();
             placeField.value = selectedMatch.matchStatus?.split('|')[1].trim();
@@ -92,7 +138,6 @@
             }
     
             selectedMatch.sides[0] = {
-                contestantId: playerAField.value,
                 scores: [
                     {
                         mainScore: aScoreMain.value,
@@ -100,9 +145,12 @@
                     }
                 ]
             };
+
+            if(playerAField.value) {
+                selectedMatch.sides[0].contestantId = playerAField.value;
+            }
         
             selectedMatch.sides[1] = {
-                contestantId: playerBField.value,
                 scores: [
                     {
                         mainScore: bScoreMain.value,
@@ -110,6 +158,10 @@
                     }
                 ]
             };
+
+            if(playerBField.value) {
+                selectedMatch.sides[1].contestantId = playerBField.value;
+            }
     
             if(!timeField.value) {
                 timeField.value = 'TBA';
@@ -130,8 +182,7 @@
             update();
         };
     
-        const myModal = new HystModal({
-            linkAttributeName: "data-hystmodal",
+        const bracketModal = new HystModal({
             beforeOpen: modalOpen,
             afterClose: modalClose
         });
@@ -139,7 +190,7 @@
         const matchClickHandler = (match) => {
             selectedMatch = _.cloneDeep(match);
     
-            myModal.open('#myModal');  
+            bracketModal.open('#bracketModal');  
         };
 
         const loadEvent = (index) => {
@@ -164,24 +215,82 @@
             }
         };
 
-        for(var i = 0; i < tournamentData.events.length; i++) {
-            const eventTab = document.createElement('input');
-
-            eventTab.type = 'button';
-            eventTab.value = tournamentData.events[i].name;
-            eventTab.dataset.index = i;
-
-            eventTabs.appendChild(eventTab);
-        }
+        addEventTabs();
 
         eventTabs.addEventListener('click', (event) => {
-            index = event.target.dataset.index;
+            index = parseInt(event.target.dataset.index);
             loadEvent(event.target.dataset.index);
+        });
+
+        optionButton.addEventListener('click', (event) => {
+            if(!optionMenu.classList.contains('active')) {
+                event.stopPropagation();
+            }
+
+            optionMenu.classList.toggle('active');
+
+            document.querySelector('.options.hidden')?.classList.remove('hidden');
+            
+            window.addEventListener("click", (event) => {
+                if(!optionButton.contains(event.target)) {
+                    optionMenu.classList.remove('active');
+                }
+            }, { once: true });
+        });        
+
+        addEvent.addEventListener('click', () => window.location.href = '/load.html?id=' + searchParams.get('id'));
+        
+        removeEvent.addEventListener('click', () => {
+            if(index) {
+                swal({
+                    title: 'Are you sure?',
+                    text: 'Once deleted, you cannot recover this event!',
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then(async (willDelete) => {
+                    if (willDelete) {
+                        tournamentData.events.splice(index, 1);
+
+                        index = -1;
+
+                        await update();
+                        
+                        new Noty({
+                            type: 'success',
+                            layout: 'topRight',
+                            theme: 'relax',
+                            text: 'Done!',
+                            closeWith: ['click', 'button'],
+                            timeout: 3000
+                        }).show();                        
+                    } else {
+                        new Noty({
+                            type: 'info',
+                            layout: 'topRight',
+                            theme: 'relax',
+                            text: 'Event not removed!',
+                            closeWith: ['click', 'button'],
+                            timeout: 3000
+                        }).show();
+                    }
+                });
+            }
         });
 
         index = 0;
         loadEvent(0);
     } catch(error) {
+        new Noty({
+            type: 'error',
+            layout: 'topRight',
+            theme: 'relax',
+            text: 'Error loading event!',
+            closeWith: ['click', 'button'],
+            timeout: 3000
+        }).show();
+
         console.log(error);
     }
 })();
