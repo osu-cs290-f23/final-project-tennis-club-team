@@ -1,6 +1,7 @@
 body {
   /* padding: 50px; */
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  /* font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; */
+  font-family: "Comfortaa", Arial, Helvetica, sans-serif;
   margin: 0;
 }
 
@@ -9,7 +10,9 @@ a {
 }
 
 .background{
-  background-color: #9CBCD9;
+  /* background-color: #9CBCD9; */
+  /* background-image: linear-gradient(180deg, #9CBCD9,rgba(81, 133, 182, 0.4) );  */
+  background-image: linear-gradient(90deg, #9CBCD9,rgba(81, 133, 182));
 }
 
 .navbar{
@@ -20,10 +23,117 @@ a {
 }
 
 #page-title{
+  /* animation: float 6s ease-in-out infinite; */
   text-align: center;
+  font-size: 40;
+  position: absolute;
+  margin-left: 200px;
+  margin-top: 10px;
+  color: #9CBCD9;
 }
 
 .logo{
+  display: block;
+  /* margin:auto; */
   width: 124.2px;
   height: 69px;
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-20px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
+@keyframes float-with-shadow {
+	0% {
+		box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+		transform: translatey(0px);
+	}
+	50% {
+		box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
+		transform: translatey(-20px);
+	}
+	100% {
+		box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+		transform: translatey(0px);
+	}
+}
+
+.create-bracket-button{
+  font-family: "Comfortaa";
+  display: block;
+  margin: auto;
+  width: 400px;
+  height: 75px;
+  font-size: 20;
+  background-color: #A3BF8F;
+  border-radius: 15px;
+  color: rgba(0,0,0,0.6);
+  border: none;
+  margin-bottom: 50px;
+}
+
+.choose-bracket-button.create-bracket-button{
+  position: static;
+  /* margin-right: 50px; */
+}
+
+#left-button{
+  position: absolute;
+  margin-left: 250px;
+}
+
+#right-button{
+  position: relative;
+  margin-right: 250px;
+}
+
+#create-tournament-beaver{
+  animation: float 6s ease-in-out infinite;
+  width: 200px;
+  margin: auto;
+}
+
+.create-bracket-button:hover{
+  /* width: 420px;
+  height: 80px;
+  font-size: 30;
+  color: white;
+  font-weight: 600; */
+  box-shadow: 0px 0px 50px rgba(81, 133, 182, 0.4);
+  color: rgba(0,0,0,1);
+}
+
+.beaver-pencil{
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100px;
+  height: auto;
+  margin-top: 15vh;
+  
+}
+
+#bracket{
+  position: absolute;
+  width: 300px;
+  height: auto;
+  margin-left: 280px;
+  /* animation: float 6s ease-in-out infinite; */
+}
+
+#pool{
+  position: absolute;
+  width: 200px;
+  height: 180px;
+  margin-left: 1370px;
+  margin-bottom: 300px;
+  /* animation: float 6s ease-in-out infinite; */
 }
