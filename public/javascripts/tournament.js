@@ -70,12 +70,14 @@
         };
 
         const update = async () => {
-            if(tournamentData.events[index].type !== 'pool') {
-                tournamentData.events[index].main = mainBracket.getAllData();
-            }
+            if(index !== -1) {
+                if(tournamentData.events[index].type !== 'pool') {
+                    tournamentData.events[index].main = mainBracket.getAllData();
+                }
 
-            if(tournamentData.events[index].type === 'double') {
-                tournamentData.events[index].back = backBracket.getAllData();
+                if(tournamentData.events[index].type === 'double') {
+                    tournamentData.events[index].back = backBracket.getAllData();
+                }
             }
     
             try {
@@ -93,6 +95,11 @@
                     closeWith: ['click', 'button'],
                     timeout: 3000
                 }).show();
+            }
+
+            //TODO: Alter this
+            if(index === -1) {
+                index = 0;
             }
 
             addEventTabs();    
@@ -246,7 +253,7 @@
                     if (willDelete) {
                         tournamentData.events.splice(index, 1);
 
-                        index = 0;
+                        index = -1;
 
                         await update();
                         
