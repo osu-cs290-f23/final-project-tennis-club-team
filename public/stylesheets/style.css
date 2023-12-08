@@ -124,6 +124,10 @@ a {
   
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 .button-area{
   margin-top: 300px;
 }
@@ -139,9 +143,5 @@ a {
   margin-left: 400px;
   border-radius: 15px;
   border: none;
-
-}
-
-#name-box:hover{
 
 }

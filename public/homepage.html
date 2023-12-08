@@ -8,7 +8,6 @@
 
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/hystmodal.min.css">
-    <script defer src="/javascripts/test.js"></script>
     <script defer src="/javascripts/hystmodal.min.js"></script>
   </head>
   <body class = "background">
@@ -17,7 +16,9 @@
         <div class = "navbar">
             <div> 
                 <h1 id="page-title">[BEAVER BRACKETS]</h1>
-                <img class = "logo" src = "tennis-beaver-2.png" alt = "Beaver Logo">
+                <a href="/">
+                  <img class = "logo" src = tennis-beaver-2.png alt = "Beaver Logo">
+                </a>
             </div>
         </div>
 
@@ -26,8 +27,8 @@
 
             <div>
               <img class = "beaver-pencil" src = "beaver_pencil.png" alt = "Beaver with Pencil">
-              <button type = "button" class = "create-bracket-button">CREATE A TOURNAMENT</button>
-              <button type = "button" class = "create-bracket-button">JOIN A TOURNAMENT</button>
+              <button type = "button" class = "create-bracket-button" onclick="window.location.href='/createTournament.html';">CREATE A TOURNAMENT</button>
+              <button type = "button" class = "create-bracket-button" onclick="window.location.href='/tournaments.html';">JOIN A TOURNAMENT</button>
             </div>
 
         </div>
