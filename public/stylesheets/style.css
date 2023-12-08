@@ -16,10 +16,14 @@ a {
 }
 
 .navbar{
-  background-color: #011C40;
+  /* background-color: #011C40; */
   width: 100vw;
   height: 69px;
 
+}
+
+.navbar-logo{
+  margin-left: 50px;
 }
 
 #page-title{
@@ -29,7 +33,8 @@ a {
   position: absolute;
   margin-left: 200px;
   margin-top: 10px;
-  color: #9CBCD9;
+  /* color: #9CBCD9; */
+  color: white;
 }
 
 
