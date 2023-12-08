@@ -38,7 +38,7 @@ a {
   width: 124.2px;
   height: 69px;
 }
-  
+
 @keyframes float {
 	0% {
 		transform: translatey(0px);
