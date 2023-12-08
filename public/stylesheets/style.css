@@ -78,6 +78,12 @@ a {
   color: rgba(0,0,0,0.6);
   border: none;
   margin-bottom: 50px;
+
+  max-width: 20%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+
 }
 
 .choose-bracket-button.create-bracket-button{
@@ -85,14 +91,13 @@ a {
   /* margin-right: 50px; */
 }
 
-#left-button{
-  position: absolute;
-  margin-left: 400px;
-}
 
 #right-button{
+  display: block;
+  margin: auto;
   position: relative;
-  margin-right: 400px;
+  margin-top: 100px;
+  font-size: 1em;
   letter-spacing: 3px;
   animation: float-with-shadow 2s ease-in-out infinite;
 }
@@ -137,10 +142,9 @@ button:hover {
   display: block;
   margin: auto;
   height: 75px;
-  width: 400px;
+  width: 600px;
+  max-width: 40%;
   font-size: 20;
-  position: absolute;
-  margin-left: 400px;
   border-radius: 15px;
   border: none;
 
