@@ -2,21 +2,35 @@
 (async () => {    
     const axios = require('axios/dist/browser/axios.cjs');
 
-    const tl = document.querySelector('#tournament-list');
+    const nameField = document.querySelector('#name-box');
+    const submitButton = document.querySelector('#right-button');
 
-    var data = await axios('/tournaments');
+    submitButton.addEventListener('click', async () => {
+        if(nameField.value) {
+            try {
+                const result = await axios.post('/tournaments/create', { name: nameField.value }, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-    for(const tourney of data.data) {
-        const tElement = document.createElement('div');
-        const tLink = document.createElement('a');
+                window.location.href = '/tournament.html?id=' + result.data;
 
-        tElement.classList.add('tournament');
-        tLink.href = '/tournament.html?id=' + tourney._id;    
-        tLink.innerText = tourney.name;
+                return;
+            } catch(error) {
+                console.log(error);
+            }
+        }
 
-        tElement.appendChild(tLink);
-        tl.appendChild(tElement);
-    }
+        new Noty({
+            type: 'error',
+            layout: 'topRight',
+            theme: 'relax',
+            text: 'Error creating tournament!',
+            closeWith: ['click', 'button'],
+            timeout: 3000
+        }).show();
+    });
 })();
 },{"axios/dist/browser/axios.cjs":2}],2:[function(require,module,exports){
 (function (global,Buffer){(function (){

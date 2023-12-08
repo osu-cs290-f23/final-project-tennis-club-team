@@ -1,8 +1,8 @@
-const axios = require('axios/dist/browser/axios.cjs');
-
-const tl = document.querySelector('#tournament-list');
-
 (async () => {    
+    const axios = require('axios/dist/browser/axios.cjs');
+
+    const tl = document.querySelector('#tournament-list');
+
     var data = await axios('/tournaments');
 
     for(const tourney of data.data) {
