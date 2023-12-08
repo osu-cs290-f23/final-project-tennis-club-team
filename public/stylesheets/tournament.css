@@ -127,3 +127,37 @@
     opacity: 0;
   }
 }
+
+.hystmodal__window {
+  border-radius: 4px;
+  padding: 10px;
+}
+
+.formitem {
+  margin-bottom: 5px;
+}
+
+.formitem input {
+  font-family: "Comfortaa";
+  margin: auto;
+  height: 50px;
+  max-width: 30%;
+  font-size: 20;
+  border-radius: 4px;
+}
+
+.formitem .score-input {
+  max-width: 20%;
+}
+
+.side-by-side {
+  display: inline-block;
+}
+
+.side-by-side input {
+  max-width: 80%;
+}
+
+h3 {
+  display: block;
+}
