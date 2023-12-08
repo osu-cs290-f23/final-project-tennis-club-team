@@ -1,6 +1,11 @@
 <html>
   <head>
     <title>Beaver Brackets</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/tournament.css">
     <link rel="stylesheet" href="/stylesheets/hystmodal.min.css">
@@ -11,28 +16,27 @@
     <script defer src="/javascripts/hystmodal.min.js"></script>
     <script defer src="/javascripts/tournament.js"></script>
   </head>
-  <body>
+  <body class="background">
     <div class = "navbar">
-      <div>  
-          <img class = "logo" src = tennis-beaver-2.png alt = "Beaver Logo">
-          <div class="select-menu">
-            <div class="select-btn">
-              <span class="sBtn-text">&#xFE19;</span>
-            </div>
-          
-            <ul class="options hidden">
-              <li class="option">
-                <span id="add-event" class="option-text">Add Event</span>
-              </li>
-              <li class="option">
-                <span id="remove-event" class="option-text">Remove Event</span>
-              </li>
-            </ul>
+        <h1 id="page-title">[BEAVER BRACKETS]</h1>
+        <img class = "logo" src = tennis-beaver-2.png alt = "Beaver Logo">
+        <div class="select-menu">
+          <div class="select-btn">
+            <span class="sBtn-text">&#xFE19;</span>
           </div>
-      </div>
+        
+          <ul class="options hidden">
+            <li class="option">
+              <span id="add-event" class="option-text">Add Event</span>
+            </li>
+            <li class="option">
+              <span id="remove-event" class="option-text">Remove Event</span>
+            </li>
+          </ul>
+        </div>
     </div>
 
-    <h1>BEAVER BRACKETS</h1>
+    <h1 id="event-title">BEAVER BRACKETS</h1>
 
     <!-- Container for event information to be placed -->
     <div id="event-container">

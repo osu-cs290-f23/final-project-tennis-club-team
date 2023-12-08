@@ -11,7 +11,10 @@
 
     //Define tournament search fields
     const url = document.URL;
-    const searchParams = new URLSearchParams(url.split('?')[1]);   
+    const searchParams = new URLSearchParams(url.split('?')[1]);  
+    
+    //Define event title
+    const eventTitle = document.querySelector('#event-title');
     
     //Define modal form fields
     const playerAField = document.querySelector('#a-name');
@@ -42,8 +45,13 @@
     try {
         var tournamentData = (await axios('/tournaments/' + searchParams.get('id'))).data;
 
+        const style = {
+            rootBorderColor: 'red'
+        };
+
         const options = (bracket) => {
             return {
+                ...style,
                 navButtonsPosition: 'overTitles',
                 useClassicalLayout: true,
                 onMatchClick: (match) => {
@@ -194,6 +202,8 @@
 
         const loadEvent = (index) => {
             const event = tournamentData.events[index];
+
+            eventTitle.textContent = event.name;
 
             backDraw.classList.add('hidden');
 
