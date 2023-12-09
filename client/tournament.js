@@ -2,6 +2,7 @@
     //Require dependencies here
     const axios = require('axios/dist/browser/axios.cjs');
     const bracketry = require('bracketry');
+    const grid = require('gridjs');
     var _ = require('lodash');
 
     //State variables
@@ -33,8 +34,13 @@
 
     //Define html data locations
     const backDraw = document.querySelector('#back-draw');
+    const mainDraw = document.querySelector('#main-draw');
     const mainWrapper = document.querySelector('#main-bracket');
     const backWrapper = document.querySelector('#back-bracket');
+    const poolPlay = document.querySelector('#pool-play');
+    const poolPlayWrapper = document.querySelector('#pool-play-wrapper');
+    const schedule = document.querySelector('#schedule');
+    const scheduleWrapper = document.querySelector('#schedule-wrapper');
     const eventTabs = document.querySelector('#event-tabs');
 
     //Define bracket object holder
@@ -206,18 +212,46 @@
             eventTabs.children[index].classList.add('open');
 
             const event = tournamentData.events[index];
-
+          
             eventTitle.textContent = tournamentData.name + ': ' + event.name;
 
+            poolPlay.classList.add('hidden');
+            mainDraw.classList.add('hidden');
             backDraw.classList.add('hidden');
 
-            if(!mainBracket) {
-                mainBracket = bracketry.createBracket(event.main, mainWrapper, options('main'));
-            } else {
-                mainBracket.replaceData(event.main);
+            // Change this to display the schedule by default
+            // if(!mainBracket) {
+            //     mainBracket = bracketry.createBracket(event.main, mainWrapper, options('main'));
+            // } else {
+            //     mainBracket.replaceData(event.main);
+            // }
+
+            // var table = document.createElement('table');
+            // var tableBody = document.createElement('tbody');
+            // var row = document.createElement('tr');
+            // var cell = document.createElement('td');
+            // var cellText = document.createTextNode('TBA');
+ 
+            // cell.appendChild(cellText);
+            // row.appendChild(cell);
+            // tableBody.appendChild(row);
+            // table.appendChild(tableBody);
+            // schedule.appendChild(table); 
+
+            // Change this so that all events that are not being displayed are removed
+            if(event.type === 'single') {
+                schedule.classList.add('hidden');
+                mainDraw.classList.remove('hidden');
+
+                if(!mainBracket) {
+                    mainBracket = bracketry.createBracket(event.main, mainWrapper, options('main'));
+                } else {
+                    mainBracket.replaceData(event.main);
+                }
             }
 
             if(event.type === 'double') {
+                schedule.classList.add('hidden');
                 backDraw.classList.remove('hidden');
 
                 if(!backBracket) {
@@ -225,6 +259,42 @@
                 } else {
                     backBracket.replaceData(event.back);
                 }
+            }
+
+            if(event.type === 'pool') {
+                schedule.classList.add('hidden');
+                poolPlay.classList.remove('hidden');
+
+                poolPlayWrapper.replaceChildren([]);
+
+                // Generate a table for each pool
+                for(var i = 0; i < event.count; i++) {
+                    // Generate a single table
+                    var poolTable = document.createElement('tbl');
+                    var poolTableBody = document.createElement('tbody');
+
+                    // Generate the rows for the table
+                    for (var j = 0; j < event.pools[i].teams.length+1; j++) { 
+                        var row = document.createElement('tr');
+
+                        // Generate cells for each match up
+                        for(var k = 0; k < event.pools[i].teams.length+1; k++) {
+                            var cell = document.createElement('td');
+                            if(j === 0 && k === 0)
+                                var cellText = document.createTextNode('');
+                            else if (j === 0 || k === 0)
+                                var cellText = document.createTextNode(event.pools[i].teams[Math.max(j,k)-1]);
+                            else
+                                var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
+                            
+                            cell.appendChild(cellText);
+                            row.appendChild(cell);
+                        }
+                        poolTableBody.appendChild(row);
+                    }
+                    poolTable.appendChild(poolTableBody);
+                    poolPlayWrapper.appendChild(poolTable);
+                }  
             }
         };
 
