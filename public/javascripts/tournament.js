@@ -48,7 +48,7 @@
 
         const style = {
             rootBorderColor: 'transparent',
-            rootFontFamily: 'Comfortaa'
+            rootFontFamily: 'Comfortaa',
         };
 
         const options = (bracket) => {

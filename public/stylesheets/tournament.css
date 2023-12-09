@@ -178,6 +178,9 @@ h3 {
   border-bottom: none;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-color: grey; 
 }
 
 #event-tabs input:hover {

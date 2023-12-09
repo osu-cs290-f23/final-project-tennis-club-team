@@ -12,7 +12,7 @@ a {
 .background{
   /* background-color: #9CBCD9; */
   /* background-image: linear-gradient(180deg, #9CBCD9,rgba(81, 133, 182, 0.4) );  */
-  background-image: linear-gradient(90deg, #9CBCD9,rgba(81, 133, 182));
+  background-image: linear-gradient(90deg, #9CBCD9,rgb(42, 113, 179));
 }
 
 .navbar{
@@ -168,7 +168,7 @@ button:hover {
   font-size: 2vmax;
   text-align: center;
   margin-top: 50px;
-  
+
 }
 
 .tournament button{
