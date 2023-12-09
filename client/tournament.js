@@ -69,6 +69,7 @@
                 const eventTab = document.createElement('input');
     
                 eventTab.type = 'button';
+                eventTab.title = tournamentData.events[i].name;
                 eventTab.value = tournamentData.events[i].name;
                 eventTab.dataset.index = i;
     
@@ -201,9 +202,11 @@
         };
 
         const loadEvent = (index) => {
+            eventTabs.children[index].classList.add('open');
+
             const event = tournamentData.events[index];
 
-            eventTitle.textContent = event.name;
+            eventTitle.textContent = tournamentData.name + ': ' + event.name;
 
             backDraw.classList.add('hidden');
 
@@ -227,6 +230,7 @@
         addEventTabs();
 
         eventTabs.addEventListener('click', (event) => {
+            eventTabs.children[index].classList.remove('open');
             index = parseInt(event.target.dataset.index);
             loadEvent(event.target.dataset.index);
         });

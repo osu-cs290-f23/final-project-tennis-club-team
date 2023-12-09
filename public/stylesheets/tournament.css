@@ -28,7 +28,6 @@
 
 .select-menu {
   max-width: 330px;
-  margin-right: 20px;
   margin-top: 10px;
   float: inline-end;
 }
@@ -160,4 +159,34 @@
 
 h3 {
   display: block;
+}
+
+#event-tabs {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  z-index: 10;
+}
+
+#event-tabs input {
+  font-family: "Comfortaa";
+  height: 40px;
+  font-size: 10;
+  background-color: #A3BF8F;
+  color: rgba(0,0,0,0.6);
+  max-width: 15%;
+  border-bottom: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+#event-tabs input:hover {
+  padding-top: 10px;
+  height: 50px;
+}
+
+#event-tabs .open {
+  padding-top: 10px;
+  height: 50px;
+  background-color: #bedea7;
 }
