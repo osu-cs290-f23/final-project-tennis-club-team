@@ -14,11 +14,16 @@
             const tLink = document.createElement('a');
             const rBtn = document.createElement('button');
 
+            const trash = document.createElement('i');
+            trash.classList.add('fa');
+            trash.classList.add('fa-trash-o');
+
+
             tElement.classList.add('tournament');
             tLink.href = '/tournament.html?id=' + tourney._id;    
             tLink.innerText = tourney.name;
 
-            rBtn.textContent = 'Delete';
+            // rBtn.textContent = 'Delete';
             rBtn.addEventListener('click', async () => {
                 swal({
                     title: 'Are you sure?',
@@ -63,6 +68,7 @@
 
             tElement.appendChild(tLink);
             tElement.appendChild(rBtn);
+            rBtn.appendChild(trash);
             tl.appendChild(tElement);
         }
     };

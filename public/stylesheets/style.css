@@ -34,7 +34,7 @@ a {
   margin-left: 200px;
   margin-top: 10px;
   /* color: #9CBCD9; */
-  color: white;
+  color: rgb(248, 246, 240);
 }
 
 
@@ -160,5 +160,21 @@ button:hover {
   max-width: 40%;
   font-size: 20;
   border-radius: 10px;
+  border: none;
+}
+
+
+.tournament{
+  font-size: 2vmax;
+  text-align: center;
+  margin-top: 50px;
+  
+}
+
+.tournament button{
+  font-size: 2vmin;
+  margin-left: 10px;
+  background-color: transparent;
+  border-radius: 5px;
   border: none;
 }

@@ -46,7 +46,8 @@
         var tournamentData = (await axios('/tournaments/' + searchParams.get('id'))).data;
 
         const style = {
-            rootBorderColor: 'red'
+            rootBorderColor: 'transparent',
+            rootFontFamily: 'Comfortaa'
         };
 
         const options = (bracket) => {
