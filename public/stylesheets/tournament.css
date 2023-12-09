@@ -168,6 +168,10 @@ h3 {
   z-index: 10;
 }
 
+.tournament-header{
+  padding: 0;
+}
+
 #event-tabs input {
   font-family: "Comfortaa";
   height: 40px;
