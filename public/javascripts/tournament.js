@@ -275,15 +275,6 @@
                             closeWith: ['click', 'button'],
                             timeout: 3000
                         }).show();                        
-                    } else {
-                        new Noty({
-                            type: 'info',
-                            layout: 'topRight',
-                            theme: 'relax',
-                            text: 'Event not removed!',
-                            closeWith: ['click', 'button'],
-                            timeout: 3000
-                        }).show();
                     }
                 });
             }

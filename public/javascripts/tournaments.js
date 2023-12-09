@@ -4,19 +4,72 @@
 
     const tl = document.querySelector('#tournament-list');
 
-    var data = await axios('/tournaments');
+    var data;
 
-    for(const tourney of data.data) {
-        const tElement = document.createElement('div');
-        const tLink = document.createElement('a');
+    const load = () => {
+        tl.replaceChildren([]);
 
-        tElement.classList.add('tournament');
-        tLink.href = '/tournament.html?id=' + tourney._id;    
-        tLink.innerText = tourney.name;
+        for(const tourney of data.data) {
+            const tElement = document.createElement('div');
+            const tLink = document.createElement('a');
+            const rBtn = document.createElement('button');
 
-        tElement.appendChild(tLink);
-        tl.appendChild(tElement);
-    }
+            tElement.classList.add('tournament');
+            tLink.href = '/tournament.html?id=' + tourney._id;    
+            tLink.innerText = tourney.name;
+
+            rBtn.textContent = 'Delete';
+            rBtn.addEventListener('click', async () => {
+                swal({
+                    title: 'Are you sure?',
+                    text: 'Once deleted, you cannot recover this tournament!',
+                    icon: 'warning',
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then(async (willDelete) => {
+                    if (willDelete) {
+                        try {
+                            data = await axios({
+                                method: 'delete',
+                                url: '/tournaments?id=' + tourney._id
+                            });
+
+                            load();
+                            
+                            new Noty({
+                                type: 'success',
+                                layout: 'topRight',
+                                theme: 'relax',
+                                text: 'Done!',
+                                closeWith: ['click', 'button'],
+                                timeout: 3000
+                            }).show();  
+                        } catch(error) {
+                            console.error('Error', error);
+
+                            new Noty({
+                                type: 'error',
+                                layout: 'topRight',
+                                theme: 'relax',
+                                text: 'Could not delete!',
+                                closeWith: ['click', 'button'],
+                                timeout: 3000
+                            }).show();  
+                        }           
+                    }
+                });
+            });
+
+            tElement.appendChild(tLink);
+            tElement.appendChild(rBtn);
+            tl.appendChild(tElement);
+        }
+    };
+
+    data = await axios('/tournaments');
+
+    load();
 })();
 },{"axios/dist/browser/axios.cjs":2}],2:[function(require,module,exports){
 (function (global,Buffer){(function (){
