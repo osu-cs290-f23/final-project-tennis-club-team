@@ -327,6 +327,8 @@
                     var poolTitle = document.createElement('p');
                     var poolTitleText = document.createTextNode('Pool ' + (i+1));
                     poolTitle.appendChild(poolTitleText);
+                    poolTitle.classList.add('pool-title');
+
 
                     // Generate the rows for the table
                     for (var j = 0; j < event.pools[i].teams.length+1; j++) { 
@@ -346,7 +348,9 @@
                                 var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
                             
                             cell.appendChild(cellText);
+                            cell.classList.add('cell-wrapper');
                             row.appendChild(cell);
+                            
                         }
                         poolTableBody.appendChild(row);
                     }
