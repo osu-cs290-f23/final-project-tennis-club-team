@@ -157,36 +157,6 @@
         };
     
         const modalClose = (modal) => {
-            if(!tournamentData.events[index].main.contestants[playerAField.value]) {
-                tournamentData.events[index].main.contestants[playerAField.value] = {
-                    entryStatus: '',
-                    players: [ { title: playerAField.value } ]
-                };
-            }
-
-            if(!tournamentData.events[index].main.contestants[playerBField.value]) {
-                tournamentData.events[index].main.contestants[playerBField.value] = {
-                    entryStatus: '',
-                    players: [ { title: playerBField.value } ]
-                };
-            }
-
-            if(tournamentData.events[index].type === 'double') {
-                if(!tournamentData.events[index].back.contestants[playerAField.value]) {
-                    tournamentData.events[index].back.contestants[playerAField.value] = {
-                        entryStatus: '',
-                        players: [ { title: playerAField.value } ]
-                    };
-                }
-
-                if(!tournamentData.events[index].back.contestants[playerBField.value]) {
-                    tournamentData.events[index].back.contestants[playerBField.value] = {
-                        entryStatus: '',
-                        players: [ { title: playerBField.value } ]
-                    };
-                }
-            }
-
             selectedMatch.sides[0] = {
                 scores: [
                     {
@@ -222,7 +192,51 @@
             }
     
             selectedMatch.matchStatus = timeField.value + ' | ' + placeField.value;
-        
+
+            if(selectedBracket === 'main') {
+                mainBracket.applyMatchesUpdates([selectedMatch]);
+            } else {
+                backBracket.applyMatchesUpdates([selectedMatch]);
+            }
+
+            if(tournamentData.events[index].type !== 'pool') {
+                tournamentData.events[index].main = mainBracket.getAllData();
+            }
+
+            if(tournamentData.events[index].type === 'double') {
+                tournamentData.events[index].back = backBracket.getAllData();
+            }
+
+            if(!tournamentData.events[index].main.contestants[playerAField.value]) {
+                tournamentData.events[index].main.contestants[playerAField.value] = {
+                    entryStatus: '',
+                    players: [ { title: playerAField.value } ]
+                };
+            }
+
+            if(!tournamentData.events[index].main.contestants[playerBField.value]) {
+                tournamentData.events[index].main.contestants[playerBField.value] = {
+                    entryStatus: '',
+                    players: [ { title: playerBField.value } ]
+                };
+            }
+
+            if(tournamentData.events[index].type === 'double') {
+                if(!tournamentData.events[index].back.contestants[playerAField.value]) {
+                    tournamentData.events[index].back.contestants[playerAField.value] = {
+                        entryStatus: '',
+                        players: [ { title: playerAField.value } ]
+                    };
+                }
+
+                if(!tournamentData.events[index].back.contestants[playerBField.value]) {
+                    tournamentData.events[index].back.contestants[playerBField.value] = {
+                        entryStatus: '',
+                        players: [ { title: playerBField.value } ]
+                    };
+                }
+            }
+
             update();
         };
     
