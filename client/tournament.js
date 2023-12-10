@@ -273,6 +273,10 @@
                     var poolTable = document.createElement('tbl');
                     var poolTableBody = document.createElement('tbody');
 
+                    var poolTitle = document.createElement('p');
+                    var poolTitleText = document.createTextNode('Pool ' + (i+1));
+                    poolTitle.appendChild(poolTitleText);
+
                     // Generate the rows for the table
                     for (var j = 0; j < event.pools[i].teams.length+1; j++) { 
                         var row = document.createElement('tr');
@@ -293,6 +297,7 @@
                         poolTableBody.appendChild(row);
                     }
                     poolTable.appendChild(poolTableBody);
+                    poolPlayWrapper.appendChild(poolTitle);
                     poolPlayWrapper.appendChild(poolTable);
                 }  
             }
