@@ -84,16 +84,6 @@
         };
 
         const update = async () => {
-            if(index !== -1) {
-                if(tournamentData.events[index].type !== 'pool') {
-                    tournamentData.events[index].main = mainBracket.getAllData();
-                }
-
-                if(tournamentData.events[index].type === 'double') {
-                    tournamentData.events[index].back = backBracket.getAllData();
-                }
-            }
-    
             try {
                 tournamentData = (await axios.post('/tournaments/' + searchParams.get('id') + '/update', tournamentData, {
                     headers: {
@@ -167,13 +157,34 @@
         };
     
         const modalClose = (modal) => {
-            tournamentData.events[index].main.contestants[playerAField.value] = playerAField.value;
-            tournamentData.events[index].main.contestants[playerBField.value] = playerBField.value;
-            console.log(tournamentData.events[index].main.contestants);
+            if(!tournamentData.events[index].main.contestants[playerAField.value]) {
+                tournamentData.events[index].main.contestants[playerAField.value] = {
+                    entryStatus: '',
+                    players: [ { title: playerAField.value } ]
+                };
+            }
+
+            if(!tournamentData.events[index].main.contestants[playerBField.value]) {
+                tournamentData.events[index].main.contestants[playerBField.value] = {
+                    entryStatus: '',
+                    players: [ { title: playerBField.value } ]
+                };
+            }
 
             if(tournamentData.events[index].type === 'double') {
-                tournamentData.events[index].back.contestants[playerAField.value] = playerAField.value;
-                tournamentData.events[index].back.contestants[playerBField.value] = playerBField.value;
+                if(!tournamentData.events[index].back.contestants[playerAField.value]) {
+                    tournamentData.events[index].back.contestants[playerAField.value] = {
+                        entryStatus: '',
+                        players: [ { title: playerAField.value } ]
+                    };
+                }
+
+                if(!tournamentData.events[index].back.contestants[playerBField.value]) {
+                    tournamentData.events[index].back.contestants[playerBField.value] = {
+                        entryStatus: '',
+                        players: [ { title: playerBField.value } ]
+                    };
+                }
             }
 
             selectedMatch.sides[0] = {
@@ -211,12 +222,7 @@
             }
     
             selectedMatch.matchStatus = timeField.value + ' | ' + placeField.value;
-    
-            if(selectedBracket === 'main') {
-                mainBracket.applyMatchesUpdates([selectedMatch]);
-            } else {
-                backBracket.applyMatchesUpdates([selectedMatch]);
-            }
+        
             update();
         };
     
@@ -228,7 +234,7 @@
         });
     
         const matchClickHandler = (match) => {
-            selectedMatch = _.cloneDeep(match);
+            selectedMatch = match;
     
             bracketModal.open('#bracketModal');  
         };
