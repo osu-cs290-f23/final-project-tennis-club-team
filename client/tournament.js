@@ -2,7 +2,6 @@
     //Require dependencies here
     const axios = require('axios/dist/browser/axios.cjs');
     const bracketry = require('bracketry');
-    const grid = require('gridjs');
     var _ = require('lodash');
 
     //State variables
