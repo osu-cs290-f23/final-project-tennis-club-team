@@ -131,7 +131,21 @@
         }
 
         const poolModalClose = (modal) => {
+            var pool = parseInt(selectedMatch.dataset.i);
+            var row = parseInt(selectedMatch.dataset.j);
+            var col = parseInt(selectedMatch.dataset.k);
+            var match1 = tournamentData.events[index].pools[pool].matches[row][col];
+            var match2 = tournamentData.events[index].pools[pool].matches[col][row];
+            var team = tournamentData.events[index].pools[pool].teams;
+            // Setting the players correctly
+            team[row] = playerAField.value;
+            team[col] = playerBField.value;
 
+            // Setting the scores correctly
+
+            // Setting the time and place correctly
+
+            update();
         }
 
         const modalOpen = (modal) => {
@@ -235,7 +249,6 @@
     
         const matchClickHandler = (match) => {
             selectedMatch = match;
-    
             bracketModal.open('#bracketModal');  
         };
 
@@ -247,10 +260,7 @@
 
         const poolClickHandler = (event) => {
             selectedMatch = event.target;
-
-            console.log('CLICKED');
             poolModal.open('#bracketModal');
-
         };
 
         const loadEvent = (index) => {
