@@ -121,6 +121,30 @@
             loadEvent(index);
         };
         
+        const poolModalOpen = (modal) => {
+            var pool = parseInt(selectedMatch.dataset.i);
+            var row = parseInt(selectedMatch.dataset.j);
+            var col = parseInt(selectedMatch.dataset.k);
+            var match1 = tournamentData.events[index].pools[pool].matches[row][col];
+            var match2 = tournamentData.events[index].pools[pool].matches[col][row];
+            var team = tournamentData.events[index].pools[pool].teams;
+            playerAField.value = team[row];
+            playerBField.value = team[col];
+
+            timeField.value = match1.time.split('|')[0].trim();
+            placeField.value = match1.time.split('|')[1].trim();
+    
+            aScoreMain.value = match1.score;
+            //aScoreSub.value = match2.score;
+    
+            bScoreMain.value = match2.score;
+            //bScoreSub.value = selectedMatch.sides?.[1]?.scores?.[0]?.subscore;
+        }
+
+        const poolModalClose = (modal) => {
+
+        }
+
         const modalOpen = (modal) => {
             playerAField.value = selectedMatch.sides[0]?.contestantId;
             playerBField.value = selectedMatch.sides[1]?.contestantId;
@@ -146,12 +170,13 @@
         const modalClose = (modal) => {
             tournamentData.events[index].main.contestants[playerAField.value] = playerAField.value;
             tournamentData.events[index].main.contestants[playerBField.value] = playerBField.value;
+            console.log(tournamentData.events[index].main.contestants);
 
             if(tournamentData.events[index].type === 'double') {
                 tournamentData.events[index].back.contestants[playerAField.value] = playerAField.value;
                 tournamentData.events[index].back.contestants[playerBField.value] = playerBField.value;
             }
-    
+
             selectedMatch.sides[0] = {
                 scores: [
                     {
@@ -193,10 +218,11 @@
             } else {
                 backBracket.applyMatchesUpdates([selectedMatch]);
             }
-    
             update();
         };
     
+
+        // Modal for brackets
         const bracketModal = new HystModal({
             beforeOpen: modalOpen,
             afterClose: modalClose
@@ -206,6 +232,20 @@
             selectedMatch = _.cloneDeep(match);
     
             bracketModal.open('#bracketModal');  
+        };
+
+        // Modal for pools
+        const poolModal = new HystModal({
+            beforeOpen: poolModalOpen,
+            afterClose: poolModalClose
+        });
+
+        const poolClickHandler = (event) => {
+            selectedMatch = event.target;
+
+            console.log('CLICKED');
+            poolModal.open('#bracketModal');
+
         };
 
         const loadEvent = (index) => {
@@ -218,25 +258,6 @@
             poolPlay.classList.add('hidden');
             mainDraw.classList.add('hidden');
             backDraw.classList.add('hidden');
-
-            // Change this to display the schedule by default
-            // if(!mainBracket) {
-            //     mainBracket = bracketry.createBracket(event.main, mainWrapper, options('main'));
-            // } else {
-            //     mainBracket.replaceData(event.main);
-            // }
-
-            // var table = document.createElement('table');
-            // var tableBody = document.createElement('tbody');
-            // var row = document.createElement('tr');
-            // var cell = document.createElement('td');
-            // var cellText = document.createTextNode('TBA');
- 
-            // cell.appendChild(cellText);
-            // row.appendChild(cell);
-            // tableBody.appendChild(row);
-            // table.appendChild(tableBody);
-            // schedule.appendChild(table); 
 
             // Change this so that all events that are not being displayed are removed
             if(event.type === 'single') {
@@ -283,7 +304,10 @@
 
                         // Generate cells for each match up
                         for(var k = 0; k < event.pools[i].teams.length+1; k++) {
-                            var cell = document.createElement('td');
+                            var cell = document.createElement('td')
+                            cell.dataset.i = i;
+                            cell.dataset.j = j-1;
+                            cell.dataset.k = k-1;
                             if(j === 0 && k === 0)
                                 var cellText = document.createTextNode('');
                             else if (j === 0 || k === 0)
@@ -299,6 +323,7 @@
                     poolTable.appendChild(poolTableBody);
                     poolPlayWrapper.appendChild(poolTitle);
                     poolPlayWrapper.appendChild(poolTable);
+                    poolPlayWrapper.addEventListener('click', poolClickHandler);
                 }  
             }
         };
