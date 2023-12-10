@@ -140,15 +140,28 @@
             var team = tournamentData.events[index].pools[pool].teams;
 
             // Setting the players correctly
-            team[row] = playerAField.value;
-            team[col] = playerBField.value;
+            if(playerAField.value)
+                team[row] = playerAField.value;
+
+            if(playerBField.value)
+                team[col] = playerBField.value;
 
             // Setting the scores correctly
-            match1.score = parseInt(aScoreMain.value);
-            match2.score = parseInt(bScoreMain.value);
+            if(aScoreMain.value)
+                match1.score = parseInt(aScoreMain.value);
+            
+            if(bScoreMain.value)    
+                match2.score = parseInt(bScoreMain.value);
 
             // Setting the time and place correctly
+            if(!timeField.value)
+                timeField.value = 'TBA'
 
+            if(!placeField.value)
+                placeField.value = 'TBA'
+
+            match1.time = timeField.value + ' | ' + placeField.value;
+            match2.time = match1.time;
 
             update();
         }
