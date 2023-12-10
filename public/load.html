@@ -1,14 +1,48 @@
 <html>
   <head>
     <title>Player Loader Test</title>
+    <link rel="stylesheet" href="/stylesheets/load.css">
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/noty.css">
     <link rel="stylesheet" href="/stylesheets/relax.css">
     <script defer src="/javascripts/noty.js"></script>
     <script defer src="./javascripts/load.js"></script>
   </head>
+  <div>
+    <aside class = "tournament-container">
+      <h2>Tournament Creator</h2>
+    </aside>
+    <div class = "event-name-container">
+      <input type="text" id="name" placeholder ="Event Name"/>
+    </div>
+    <div class = "elim1-container">
+      <p>Single Elimination</p>
+    </div>
+    <div class = "elim2-container">
+      <p>Double Elimination</p>
+    </div>
+    <div class = "pool-container">
+      <p>Pool Play</p>
+    </div>
+    <div class = "size4">
+      <p>4 Players</p>
+    </div>
+    <div class = "size8">
+      <p>8 Players</p>
+    </div>
+    <div class = "size16">
+      <p>16 Players</p>
+    </div>
+    <div class = "size32">
+      <p>32 Players</p>
+    </div>
+    <div class = "size64">
+      <p>64 Players</p>
+    </div>
+  </div>
   <body>
-    <form id="event-form">
+      <div class = "file-container">
+<!--     <form id="event-form">
       <p>Event Name</p>
       <input type="text" id="name" />
       <fieldset>
@@ -38,12 +72,18 @@
         <input type="text" id="player-name" />
         <button id="load-player">Add</button>
       </div>
-      <div>
+      <div> -->
         <input type="file" id="file-picker" accept=".csv,.xlsx" />
         <button id="load-players">Load</button>
       </div>
-      <div>
+      <div class = "submit-button">
         <input id="form-submit" type="submit"/>
+      </div>
+      <div class = "draw4">
+        <p><img src="https://cdn.discordapp.com/attachments/713225777855987712/1183193801913815060/skylarsexy-removebg-preview.png?ex=65877219&is=6574fd19&hm=a7346246c631fb54f4a93743cc18e9db4a28f47053404ed8eafa4dc8ad283256&" alt="A cute kitten" title="Hover text" /></p>
+      </div>
+      <div class = "draw8">
+        <p><img src="https://cdn.discordapp.com/attachments/713225777855987712/1183195671688392764/image.png?ex=658773d6&is=6574fed6&hm=9fdf31aae1945218e73098e5cc736c30da313f0d5013ce52c3f587f995f2b80e&" alt="A cute kitten" title="Hover text" /></p>
       </div>
     </form>
   </body>
