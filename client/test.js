@@ -13,7 +13,8 @@ const bScoreMain = document.querySelector('#b-score-main');
 const bScoreSub = document.querySelector('#b-score-sub');
 
 (async () => {
-    const wrapper = document.querySelector('#bracket');
+    const wrapper = document.querySelector('#main-bracket');
+    const backWrapper = document.querySelector('#back-bracket');
     var data = await axios('http://localhost:3000/tournaments/655aad5fc2bc1f4db1207ede');
 
     const update = async () => {
@@ -100,4 +101,5 @@ const bScoreSub = document.querySelector('#b-score-sub');
     };
 
     const bracket = bracketry.createBracket(data.data.events[15].main, wrapper, options);
+    const backBracket = bracketry.createBracket(data.data.events[15].main, backWrapper, options);
 })();

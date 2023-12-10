@@ -2,12 +2,12 @@ import './browser.js';
 
 import cookieParser from 'cookie-parser';
 import express from 'express';
+import favicon from 'serve-favicon';
 import logger from 'morgan';
 import path from 'path';
 
 import indexRouter from './routes/index.js';
 import toureyRouter from './routes/tour.js';
-import usersRouter from './routes/users.js';
 
 import { fileURLToPath } from 'url';
 
@@ -20,10 +20,11 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public/favicon', 'favicon.ico')))
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
 app.use('/tournaments', toureyRouter);
+
+app.use(express.static(path.join(__dirname, 'public')));
 
 export default app;

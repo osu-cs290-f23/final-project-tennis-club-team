@@ -2,6 +2,10 @@
   <head>
     <title>Player Loader Test</title>
     <link rel="stylesheet" href="/stylesheets/load.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/noty.css">
+    <link rel="stylesheet" href="/stylesheets/relax.css">
+    <script defer src="/javascripts/noty.js"></script>
     <script defer src="./javascripts/load.js"></script>
   </head>
   <div>
@@ -38,6 +42,37 @@
   </div>
   <body>
       <div class = "file-container">
+<!--     <form id="event-form">
+      <p>Event Name</p>
+      <input type="text" id="name" />
+      <fieldset>
+        <legend>Select a type</legend>    
+        <div>
+          <input type="radio" id="huey" name="drone" value="single" checked />
+          <label for="huey">Single Elimination</label>
+        </div>    
+        <div>
+          <input type="radio" id="dewey" name="drone" value="double" />
+          <label for="dewey">Double Elimination</label>
+        </div>
+        <div>
+          <input type="radio" id="don" name="drone" value="pool" />
+          <label for="don">Pool Play</label>
+        </div>
+      </fieldset>
+      <div>
+        <h2>Players:</h2>
+        <ul id="player-list">
+          <li>Player A</li>
+          <li>Player B</li>
+          <li>Player C</li>
+        </ul>
+      </div>
+      <div>
+        <input type="text" id="player-name" />
+        <button id="load-player">Add</button>
+      </div>
+      <div> -->
         <input type="file" id="file-picker" accept=".csv,.xlsx" />
         <button id="load-players">Load</button>
       </div>

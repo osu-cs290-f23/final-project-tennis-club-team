@@ -2,13 +2,34 @@
   <head>
     <title>Beaver Brackets</title>
     <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/tournament.css">
     <link rel="stylesheet" href="/stylesheets/hystmodal.min.css">
     <script defer src="/javascripts/test.js"></script>
     <script defer src="/javascripts/hystmodal.min.js"></script>
   </head>
   <body>
+    <div class = "navbar">
+      <div>  
+          <img class = "logo" src = tennis-beaver-2.png alt = "Beaver Logo">
+      </div>
+    </div>
     <h1>BEAVER BRACKETS</h1>
-    <div id="bracket"></div>
+    <!-- Container for event information to be placed -->
+    <div id="event-container">
+      <!-- <section class="sub-bracket">
+        <h2>Main Draw</h2>
+        <div id="main-bracket"></div>
+      </section>
+      <section class="sub-bracket">
+        <h2>Back Draw</h2>
+        <div id="back-bracket"></div>
+      </section> -->
+    </div>
+    <!-- Container for event tabs to be placed -->
+    <div id="event-tabs">
+      <!-- Contain buttons that flex to left -->
+    </div>
+    <!-- Modal for draw manipulation -->
     <div class="hystmodal" id="myModal" aria-hidden="true">
       <div class="hystmodal__wrap">
           <div class="hystmodal__window" role="dialog" aria-modal="true">
@@ -37,6 +58,7 @@
               </div>
           </div>
       </div>
+    </div>
   </div>
   </body>
 </html>
