@@ -137,13 +137,17 @@
             var match1 = tournamentData.events[index].pools[pool].matches[row][col];
             var match2 = tournamentData.events[index].pools[pool].matches[col][row];
             var team = tournamentData.events[index].pools[pool].teams;
+
             // Setting the players correctly
             team[row] = playerAField.value;
             team[col] = playerBField.value;
 
             // Setting the scores correctly
+            match1.score = parseInt(aScoreMain.value);
+            match2.score = parseInt(bScoreMain.value);
 
             // Setting the time and place correctly
+
 
             update();
         }
@@ -341,9 +345,12 @@
                                 var cellText = document.createTextNode('');
                             else if (j === 0 || k === 0)
                                 var cellText = document.createTextNode(event.pools[i].teams[Math.max(j,k)-1]);
-                            else
-                                var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
-                            
+                            else {
+                                if (event.pools[i].matches[j-1][k-1].score === 0)
+                                    var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
+                                else
+                                    var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].score);
+                            }                                
                             cell.appendChild(cellText);
                             row.appendChild(cell);
                         }
