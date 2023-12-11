@@ -386,9 +386,11 @@
         addEventTabs();
 
         eventTabs.addEventListener('click', (event) => {
-            eventTabs.children[index].classList.remove('open');
-            index = parseInt(event.target.dataset.index);
-            loadEvent(event.target.dataset.index);
+            if('index' in event.target.dataset) {
+                eventTabs.children[index].classList.remove('open');
+                index = parseInt(event.target.dataset.index);
+                loadEvent(event.target.dataset.index);
+            }
         });
 
         optionButton.addEventListener('click', (event) => {
