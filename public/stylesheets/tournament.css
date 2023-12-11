@@ -199,3 +199,22 @@ h3 {
   height: 50px;
   background-color: #bedea7;
 }
+
+#pool-play-wrapper{
+  text-align: center;
+  line-height: 2vh;
+  letter-spacing: 0.1vw;
+}
+
+.cell-wrapper{
+  padding: 15px;
+  padding-bottom: 5px;
+}
+
+.pool-title{
+  color: #B9BF04
+}
+
+#pool-play-designator{
+  margin-left: 3vw;
+}

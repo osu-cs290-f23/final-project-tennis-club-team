@@ -132,7 +132,38 @@
         }
 
         const poolModalClose = (modal) => {
+            var pool = parseInt(selectedMatch.dataset.i);
+            var row = parseInt(selectedMatch.dataset.j);
+            var col = parseInt(selectedMatch.dataset.k);
+            var match1 = tournamentData.events[index].pools[pool].matches[row][col];
+            var match2 = tournamentData.events[index].pools[pool].matches[col][row];
+            var team = tournamentData.events[index].pools[pool].teams;
 
+            // Setting the players correctly
+            if(playerAField.value)
+                team[row] = playerAField.value;
+
+            if(playerBField.value)
+                team[col] = playerBField.value;
+
+            // Setting the scores correctly
+            if(aScoreMain.value)
+                match1.score = parseInt(aScoreMain.value);
+            
+            if(bScoreMain.value)    
+                match2.score = parseInt(bScoreMain.value);
+
+            // Setting the time and place correctly
+            if(!timeField.value)
+                timeField.value = 'TBA'
+
+            if(!placeField.value)
+                placeField.value = 'TBA'
+
+            match1.time = timeField.value + ' | ' + placeField.value;
+            match2.time = match1.time;
+
+            update();
         }
 
         const modalOpen = (modal) => {
@@ -250,7 +281,6 @@
     
         const matchClickHandler = (match) => {
             selectedMatch = match;
-    
             bracketModal.open('#bracketModal');  
         };
 
@@ -262,10 +292,7 @@
 
         const poolClickHandler = (event) => {
             selectedMatch = event.target;
-
-            console.log('CLICKED');
             poolModal.open('#bracketModal');
-
         };
 
         const loadEvent = (index) => {
@@ -317,6 +344,8 @@
                     var poolTitle = document.createElement('p');
                     var poolTitleText = document.createTextNode('Pool ' + (i+1));
                     poolTitle.appendChild(poolTitleText);
+                    poolTitle.classList.add('pool-title');
+
 
                     // Generate the rows for the table
                     for (var j = 0; j < event.pools[i].teams.length+1; j++) { 
@@ -332,11 +361,16 @@
                                 var cellText = document.createTextNode('');
                             else if (j === 0 || k === 0)
                                 var cellText = document.createTextNode(event.pools[i].teams[Math.max(j,k)-1]);
-                            else
-                                var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
-                            
+                            else {
+                                if (event.pools[i].matches[j-1][k-1].score === 0)
+                                    var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
+                                else
+                                    var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].score);
+                            }                                
                             cell.appendChild(cellText);
+                            cell.classList.add('cell-wrapper');
                             row.appendChild(cell);
+                            
                         }
                         poolTableBody.appendChild(row);
                     }

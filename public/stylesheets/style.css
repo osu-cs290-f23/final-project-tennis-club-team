@@ -50,6 +50,18 @@ a {
 	}
 }
 
+@keyframes float-horizontally {
+	0% {
+		transform: translatex(0px);
+	}
+	50% {
+		transform: translatex(-20px);
+	}
+	100% {
+		transform: translatex(0px);
+	}
+}
+
 @keyframes float-with-shadow {
 	0% {
 		box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
