@@ -38,8 +38,6 @@ a {
   display: inline;
 }
 
-
-
 @keyframes float {
 	0% {
 		transform: translatey(0px);
@@ -78,7 +76,7 @@ a {
   height: 69px;
 }
 
-.create-bracket-button{
+.create-bracket-button {
   font-family: "Comfortaa";
   display: block;
   margin: auto;
@@ -95,7 +93,6 @@ a {
   overflow: hidden;
   text-overflow: ellipsis;
   word-wrap: break-word;
-
 }
 
 .choose-bracket-button.create-bracket-button{

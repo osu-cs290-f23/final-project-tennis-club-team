@@ -1,119 +1,152 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-const axios = require('axios/dist/browser/axios.cjs');
-var Sortable = require('@shopify/draggable').Sortable;
-var XLSX = require('xlsx');
+(async () => {
+    const axios = require('axios/dist/browser/axios.cjs');
+    var Sortable = require('@shopify/draggable').Sortable;
+    var XLSX = require('xlsx');
 
-const fp = document.querySelector('#file-picker');
-const pl = document.querySelector('#player-list');
-const pn = document.querySelector('#player-name');
-const lp = document.querySelector('#load-player');
-const lps = document.querySelector('#load-players');
-const ef = document.querySelector('#event-form');
-const fs = document.querySelector('#form-submit');
+    //Input elements
+    const fn = document.querySelector('#file-name');
+    const fp = document.querySelector('#file-picker');
+    const fw = document.querySelector('#file-wrapper');
+    const pl = document.querySelector('#player-list');
+    const ef = document.querySelector('#event-form');
+    const fs = document.querySelector('#form-submit');
 
-//Define tournament search fields
-const url = document.URL;
-const searchParams = new URLSearchParams(url.split('?')[1]);  
+    //Define tournament search fields
+    const url = document.URL;
+    const searchParams = new URLSearchParams(url.split('?')[1]);  
 
-const sortable = new Sortable(pl, {
-    draggable: 'li',
-});
-
-const addPlayer = (player) => {
-    const playerEntry = document.createElement('li');
-
-    for(const child of pl.children) {
-        if(child.textContent === player) {
-            alert(`A player with name ${player} is already in the draw!`);
-
-            return;
-        }
-    }
-
-    playerEntry.textContent = player;
-
-    pl.appendChild(playerEntry);
-}
-
-lp.addEventListener('click', async () => {
-    if(pn.value) {
-        addPlayer(pn.value);
-    }
-});
-
-lps.addEventListener('click', async () => {
-    const data = await new Promise((resolve, reject) => {
-        var reader = new FileReader();
-
-        reader.addEventListener('load', () => {
-            resolve(reader.result);
-        });
-
-        reader.addEventListener('error', () => {
-            reject('error');
-        });
-
-        reader.addEventListener('abort', () => {
-            reject('abort');
-        });
-
-        reader.readAsArrayBuffer(fp.files[0]);
-
-        setTimeout(() => {
-            reader.abort();
-        }, 5000);
+    const sortable = new Sortable(pl, {
+        draggable: 'li',
     });
 
-    const workbook = XLSX.read(data);
-    const players = workbook.Sheets[workbook.SheetNames[0]];
-    const range = XLSX.utils.decode_range(players['!ref']);
+    const addPlayer = (player) => {
+        const playerEntry = document.createElement('li');
 
-    if(range.s.c === 0 && range.e.c === 0 && range.s.r === 0) {
-        for(var i = range.s.r; i <= range.e.r; i++) {
-            addPlayer(players[XLSX.utils.encode_cell({ c: 0, r: i })].v);
+        for(const child of pl.children) {
+            if(child.textContent === player) {
+                new Noty({
+                    type: 'error',
+                    layout: 'topRight',
+                    theme: 'relax',
+                    text: `${player} is already in the draw!`,
+                    closeWith: ['click', 'button'],
+                    timeout: 2000
+                }).show();
+
+                return;
+            }
         }
+
+        playerEntry.textContent = player;
+
+        pl.appendChild(playerEntry);
     }
-});
 
-ef.addEventListener('submit', async (event) => {
-    event.stopPropagation();
-    event.preventDefault();
+    fw.addEventListener('click', () => { fp.click(); });
 
-    if(event.submitter === fs) {
-        const data = {
-            name: document.querySelector('#name').value,
-            type: document.querySelector('input[type="radio"]:checked').value,
-            players: Array.from(pl.children).map((player) => player.textContent)
-        };
-    
+    fp.addEventListener('change', async () => {
         try {
-            if(!searchParams.has('id')) {
-                throw 'No id specified!';
+            if(fp.files.length === 0) {
+                return;
             }
 
-            const result = await axios.post('/tournaments/' + searchParams.get('id') + '/addevent', data, {
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+            fn.textContent = fp.files[0].name;
+
+            const data = await new Promise((resolve, reject) => {
+                var reader = new FileReader();
+
+                reader.addEventListener('load', () => {
+                    resolve(reader.result);
+                });
+
+                reader.addEventListener('error', () => {
+                    reject('error');
+                });
+
+                reader.addEventListener('abort', () => {
+                    reject('abort');
+                });
+
+                reader.readAsArrayBuffer(fp.files[0]);
+
+                setTimeout(() => {
+                    reader.abort();
+                }, 5000);
             });
 
-            if(result.status !== 200) {
-                throw 'Could not send event!';
+            pl.replaceChildren([]);
+        
+            const workbook = XLSX.read(data);
+            const players = workbook.Sheets[workbook.SheetNames[0]];
+            const range = XLSX.utils.decode_range(players['!ref']);
+
+            if(range.s.c === 0 && range.e.c === 0 && range.s.r === 0) {
+                for(var i = range.s.r; i <= range.e.r; i++) {
+                    addPlayer(players[XLSX.utils.encode_cell({ c: 0, r: i })].v);
+                }
             }
 
-            window.location.href = '/tournament.html?id=' + searchParams.get('id');
+            new Noty({
+                type: 'success',
+                layout: 'topRight',
+                theme: 'relax',
+                text: 'Loaded players!',
+                closeWith: ['click', 'button'],
+                timeout: 3000
+            }).show()
         } catch(error) {
             new Noty({
                 type: 'error',
                 layout: 'topRight',
                 theme: 'relax',
-                text: 'Error creating event!',
+                text: 'Could not load players!',
                 closeWith: ['click', 'button'],
-                timeout: 3000
+                timeout: 2000
             }).show();
         }
-    }
-});
+    });
+
+    ef.addEventListener('submit', async (event) => {
+        event.stopPropagation();
+        event.preventDefault();
+
+        if(event.submitter === fs) {
+            const data = {
+                name: document.querySelector('#name').value,
+                type: document.querySelector('input[type="radio"]:checked').value,
+                players: Array.from(pl.children).map((player) => player.textContent)
+            };
+        
+            try {
+                if(!searchParams.has('id') || !data.name || !data.type || !data.players || !data.players.length) {
+                    throw 'Validation failed';
+                }
+
+                const result = await axios.post('/tournaments/' + searchParams.get('id') + '/addevent', data, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if(result.status !== 200) {
+                    throw 'Could not send event!';
+                }
+
+                window.location.href = '/tournament.html?id=' + searchParams.get('id');
+            } catch(error) {
+                new Noty({
+                    type: 'error',
+                    layout: 'topRight',
+                    theme: 'relax',
+                    text: 'Error creating event!',
+                    closeWith: ['click', 'button'],
+                    timeout: 3000
+                }).show();
+            }
+        }
+    });
+})();
 },{"@shopify/draggable":33,"axios/dist/browser/axios.cjs":41,"xlsx":48}],2:[function(require,module,exports){
 'use strict';
 
