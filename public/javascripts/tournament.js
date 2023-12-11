@@ -321,6 +321,7 @@
             if(event.type === 'double') {
                 schedule.classList.add('hidden');
                 backDraw.classList.remove('hidden');
+                mainDraw.classList.remove('hidden');
 
                 if(!backBracket) {
                     backBracket = bracketry.createBracket(event.back, backWrapper, options('back'));
