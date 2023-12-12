@@ -212,26 +212,34 @@ tbl {
   letter-spacing: 0.1vw;
 }
 
+tbl {
+  border-color: #000;
+  border-radius: 4px;
+  border-width: 2px;
+  border-style: solid;
+}
+
 .cell-wrapper{
+  align-items: center;
   line-height: 1.3em;
-  padding: 15px;
-  padding-bottom: 5px;
+  border-color: #000;
+  border-width: 1px;
+  padding: 13px;
+  padding-top: 10px;
+  padding-bottom: 6px;
+  border-style: solid;
 }
 
 .cell-wrapper:hover {
   cursor: pointer;
-  border-color: #000;
-  border-radius: 4px;
-  border-width: 2px;
-  padding: 13px;
-  padding-bottom: 3px;
-  border-style: solid;
+  border-color: #B9BF04;
 }
 
 .pool-title{
-  color: #B9BF04
+  color: #B9BF04;
+  font-size: 2em;
 }
 
 #pool-play-designator{
-  margin-left: 3vw;
+  text-align: center;
 }
