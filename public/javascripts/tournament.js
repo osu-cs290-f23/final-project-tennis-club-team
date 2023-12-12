@@ -82,6 +82,7 @@
     
                 eventTabs.appendChild(eventTab);
             }
+           
         };
 
         const update = async () => {
@@ -306,7 +307,7 @@
             mainDraw.classList.add('hidden');
             backDraw.classList.add('hidden');
 
-            // Change this so that all events that are not being displayed are removed
+            
             if(event.type === 'single') {
                 schedule.classList.add('hidden');
                 mainDraw.classList.remove('hidden');
@@ -354,20 +355,42 @@
 
                         // Generate cells for each match up
                         for(var k = 0; k < event.pools[i].teams.length+1; k++) {
+
                             var cell = document.createElement('td')
                             cell.dataset.i = i;
                             cell.dataset.j = j-1;
                             cell.dataset.k = k-1;
-                            if(j === 0 && k === 0)
+
+                            // Rendering cells in the table based on positions
+                            if (j === 0 && k === 0) { // Setting first cell of the table to be empty
                                 var cellText = document.createTextNode('');
-                            else if (j === 0 || k === 0)
+                            }
+                            else if(j - k === 0) { // Setting 'disabled' cells
+                                var cellText = document.createTextNode('');
+                                cell.style.backgroundColor = "black";
+                            }
+                            else if (j === 0 || k === 0) { // Setting the row/column headers to the teams/players
                                 var cellText = document.createTextNode(event.pools[i].teams[Math.max(j,k)-1]);
-                            else {
-                                if (event.pools[i].matches[j-1][k-1].score === 0)
+                            }
+                            else { // Setting the cells that are for the matchups
+                                if (event.pools[i].matches[j-1][k-1].score === 0) {
                                     var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
-                                else
+                                }
+                                else {
                                     var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].score);
-                            }                                
+                                }
+                            }
+                            
+                            // Setting 'disabled' cells for pools of 4
+                            if((event.pools[i].teams.length === 4) &&
+                                ((j === 4 && k === 1) ||
+                                (j === 3 && k === 2) ||
+                                (j === 2 && k === 3) ||
+                                (j === 1 && k === 4))) {
+                                    var cellText = document.createTextNode('');
+                                    cell.style.backgroundColor = "black";
+                            }
+
                             cell.appendChild(cellText);
                             cell.classList.add('cell-wrapper');
                             row.appendChild(cell);
