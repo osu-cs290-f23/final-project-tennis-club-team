@@ -12,6 +12,7 @@
     var selectedMatch = null;
     const scheduleInfo = new Map([]);
 
+
     //Define tournament search fields
     const url = document.URL;
     const searchParams = new URLSearchParams(url.split('?')[1]);  
@@ -281,7 +282,6 @@
             update();
         };
     
-
         // Modal for brackets
         const bracketModal = new HystModal({
             beforeOpen: modalOpen,
@@ -315,6 +315,44 @@
             if(index === -1) { // Rendering the Tournament Schedule
                 schedule.classList.remove('hidden');
                 eventTitle.textContent = tournamentData.name + ': Schedule';
+
+                // Compile list of all matchups in brackets and pools
+                const matchups = [];
+
+                for(const event of tournamentData.events) {
+                    if(event.type === 'pool') { // Adding all pool matchups
+
+                        for(var i = 0; i < event.count; i++) { // Iterate through all the pools
+                            if(event.pools[i].teams.length < 4) { // Add matchups for pools of 3
+                                matchups.push(event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1]);
+                                matchups.push(event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2]);
+                                matchups.push(event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[2]);
+                            } else { // Add matchups for pools of 4
+                                matchups.push(event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1]);
+                                matchups.push(event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2]);
+                                matchups.push(event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[3]);
+                                matchups.push(event.pools[i].teams[2] + ' vs ' + event.pools[i].teams[3]);
+                            }
+                        }
+                    } else if (event.type === 'single'){ // Adding bracket matches for single elim
+                        for(var i = 0; i < event.main.matches.length; i++) {
+                            matchups.push(event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId);
+                        }
+                    } else { // Adding bracket matchups for double elim
+                        for(var i = 0; i < event.main.matches.length; i++) {
+                            matchups.push(event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId);
+                        }
+                        for(var i = 0; i < event.back.matches.length; i++) {
+                            matchups.push(event.back.matches[i].sides?.[0]?.contestantId + ' vs ' + event.back.matches[i].sides?.[1]?.contestantId);
+                        }
+                    }
+                }
+
+                
+                console.log(matchups.length);
+                for(var i = 0; i < matchups.length; i++) {
+                    console.log(matchups[i]);
+                }
 
                 //TODO: Render schedule here
             } else {          
