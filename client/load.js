@@ -1,3 +1,5 @@
+// Loading players into an event
+
 (async () => {
     const axios = require('axios/dist/browser/axios.cjs');
     var Sortable = require('@shopify/draggable').Sortable;

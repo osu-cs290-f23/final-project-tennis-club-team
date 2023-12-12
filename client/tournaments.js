@@ -1,3 +1,5 @@
+// Tournament list page
+
 (async () => {    
     const axios = require('axios/dist/browser/axios.cjs');
 

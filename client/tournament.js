@@ -1,3 +1,5 @@
+// Viewing a single event
+
 (async () => {
     //Require dependencies here
     const axios = require('axios/dist/browser/axios.cjs');
@@ -8,6 +10,7 @@
     var index = 0;
     var selectedBracket = null;
     var selectedMatch = null;
+    const scheduleInfo = new Map([]);
 
     //Define tournament search fields
     const url = document.URL;
@@ -71,6 +74,15 @@
         const addEventTabs = () => {
             eventTabs.replaceChildren([]);
 
+            const eventTab = document.createElement('input');
+
+            eventTab.type = 'button';
+            eventTab.title = "Schedule";
+            eventTab.value = "Schedule";
+            eventTab.dataset.index = -1;
+
+            eventTabs.appendChild(eventTab);
+
             for(var i = 0; i < tournamentData.events.length; i++) {
                 const eventTab = document.createElement('input');
     
@@ -81,7 +93,6 @@
     
                 eventTabs.appendChild(eventTab);
             }
-           
         };
 
         const update = async () => {
@@ -162,6 +173,9 @@
 
             match1.time = timeField.value + ' | ' + placeField.value;
             match2.time = match1.time;
+
+            // Adding players, time, and place to schedule information
+            
 
             update();
         }
@@ -296,19 +310,21 @@
         };
 
         const loadEvent = (index) => {
-            eventTabs.children[index].classList.add('open');
+            eventTabs.children[index+1].classList.add('open');
 
-            const event = tournamentData.events[index];
-          
-            eventTitle.textContent = tournamentData.name + ': ' + event.name;
-
+            schedule.classList.add('hidden');            
             poolPlay.classList.add('hidden');
             mainDraw.classList.add('hidden');
             backDraw.classList.add('hidden');
 
-            
+            if(index === -1) { // Rendering the Tournament Schedule
+                schedule.classList.remove('hidden');
+            }
+          
+            const event = tournamentData.events[index];
+            eventTitle.textContent = tournamentData.name + ': ' + event.name;
+
             if(event.type === 'single') {
-                schedule.classList.add('hidden');
                 mainDraw.classList.remove('hidden');
 
                 if(!mainBracket) {
@@ -319,7 +335,6 @@
             }
 
             if(event.type === 'double') {
-                schedule.classList.add('hidden');
                 backDraw.classList.remove('hidden');
                 mainDraw.classList.remove('hidden');
 
@@ -331,7 +346,6 @@
             }
 
             if(event.type === 'pool') {
-                schedule.classList.add('hidden');
                 poolPlay.classList.remove('hidden');
 
                 poolPlayWrapper.replaceChildren([]);
@@ -409,9 +423,9 @@
 
         eventTabs.addEventListener('click', (event) => {
             if('index' in event.target.dataset) {
-                eventTabs.children[index].classList.remove('open');
+                eventTabs.children[index+1].classList.remove('open');
                 index = parseInt(event.target.dataset.index);
-                loadEvent(event.target.dataset.index);
+                loadEvent(index);
             }
         });
 
@@ -463,8 +477,8 @@
             }
         });
 
-        index = 0;
-        loadEvent(0);
+        index = -1;
+        loadEvent(-1);
     } catch(error) {
         new Noty({
             type: 'error',
