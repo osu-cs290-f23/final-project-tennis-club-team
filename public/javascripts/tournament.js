@@ -114,11 +114,6 @@
                 }).show();
             }
 
-            //TODO: Alter this
-            if(index === -1) {
-                index = 0;
-            }
-
             addEventTabs();    
             loadEvent(index);
         };
@@ -320,103 +315,105 @@
 
             if(index === -1) { // Rendering the Tournament Schedule
                 schedule.classList.remove('hidden');
-            }
-          
-            const event = tournamentData.events[index];
-            eventTitle.textContent = tournamentData.name + ': ' + event.name;
 
-            if(event.type === 'single') {
-                mainDraw.classList.remove('hidden');
+                //TODO: Render schedule here
+            } else {          
+                const event = tournamentData.events[index];
+                eventTitle.textContent = tournamentData.name + ': ' + event.name;
 
-                if(!mainBracket) {
-                    mainBracket = bracketry.createBracket(event.main, mainWrapper, options('main'));
-                } else {
-                    mainBracket.replaceData(event.main);
+                if(event.type === 'single') {
+                    mainDraw.classList.remove('hidden');
+
+                    if(!mainBracket) {
+                        mainBracket = bracketry.createBracket(event.main, mainWrapper, options('main'));
+                    } else {
+                        mainBracket.replaceData(event.main);
+                    }
                 }
-            }
 
-            if(event.type === 'double') {
-                backDraw.classList.remove('hidden');
-                mainDraw.classList.remove('hidden');
+                if(event.type === 'double') {
+                    backDraw.classList.remove('hidden');
+                    mainDraw.classList.remove('hidden');
 
-                if(!backBracket) {
-                    backBracket = bracketry.createBracket(event.back, backWrapper, options('back'));
-                } else {
-                    backBracket.replaceData(event.back);
+                    if(!backBracket) {
+                        backBracket = bracketry.createBracket(event.back, backWrapper, options('back'));
+                    } else {
+                        backBracket.replaceData(event.back);
+                    }
                 }
-            }
 
-            if(event.type === 'pool') {
-                poolPlay.classList.remove('hidden');
+                if(event.type === 'pool') {
+                    poolPlay.classList.remove('hidden');
 
-                poolPlayWrapper.replaceChildren([]);
+                    poolPlayWrapper.replaceChildren([]);
 
-                // Generate a table for each pool
-                for(var i = 0; i < event.count; i++) {
-                    // Generate a single table
-                    var poolTable = document.createElement('tbl');
-                    var poolTableBody = document.createElement('tbody');
+                    // Generate a table for each pool
+                    for(var i = 0; i < event.count; i++) {
+                        // Generate a single table
+                        var poolTable = document.createElement('tbl');
+                        var poolTableBody = document.createElement('tbody');
 
-                    var poolTitle = document.createElement('p');
-                    var poolTitleText = document.createTextNode('Pool ' + (i+1));
-                    poolTitle.appendChild(poolTitleText);
-                    poolTitle.classList.add('pool-title');
+                        var poolTitle = document.createElement('p');
+                        var poolTitleText = document.createTextNode('Pool ' + (i+1));
+                        poolTitle.appendChild(poolTitleText);
+                        poolTitle.classList.add('pool-title');
 
 
-                    // Generate the rows for the table
-                    for (var j = 0; j < event.pools[i].teams.length+1; j++) { 
-                        var row = document.createElement('tr');
+                        // Generate the rows for the table
+                        for (var j = 0; j < event.pools[i].teams.length+1; j++) { 
+                            var row = document.createElement('tr');
 
-                        // Generate cells for each match up
-                        for(var k = 0; k < event.pools[i].teams.length+1; k++) {
+                            // Generate cells for each match up
+                            for(var k = 0; k < event.pools[i].teams.length+1; k++) {
 
-                            var cell = document.createElement('td')
-                            cell.dataset.i = i;
-                            cell.dataset.j = j-1;
-                            cell.dataset.k = k-1;
+                                var cell = document.createElement('td')
+                                cell.dataset.i = i;
+                                cell.dataset.j = j-1;
+                                cell.dataset.k = k-1;
 
-                            // Rendering cells in the table based on positions
-                            if (j === 0 && k === 0) { // Setting first cell of the table to be empty
-                                var cellText = document.createTextNode('');
-                            }
-                            else if(j - k === 0) { // Setting 'disabled' cells
-                                var cellText = document.createTextNode('');
-                                cell.style.backgroundColor = "black";
-                            }
-                            else if (j === 0 || k === 0) { // Setting the row/column headers to the teams/players
-                                var cellText = document.createTextNode(event.pools[i].teams[Math.max(j,k)-1]);
-                            }
-                            else { // Setting the cells that are for the matchups
-                                if (event.pools[i].matches[j-1][k-1].score === 0) {
-                                    var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
+                                // Rendering cells in the table based on positions
+                                if (j === 0 && k === 0) { // Setting first cell of the table to be empty
+                                    var cellText = document.createTextNode('');
                                 }
-                                else {
-                                    var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].score);
-                                }
-                            }
-                            
-                            // Setting 'disabled' cells for pools of 4
-                            if((event.pools[i].teams.length === 4) &&
-                                ((j === 4 && k === 1) ||
-                                (j === 3 && k === 2) ||
-                                (j === 2 && k === 3) ||
-                                (j === 1 && k === 4))) {
+                                else if(j - k === 0) { // Setting 'disabled' cells
                                     var cellText = document.createTextNode('');
                                     cell.style.backgroundColor = "black";
-                            }
+                                }
+                                else if (j === 0 || k === 0) { // Setting the row/column headers to the teams/players
+                                    var cellText = document.createTextNode(event.pools[i].teams[Math.max(j,k)-1]);
+                                }
+                                else { // Setting the cells that are for the matchups
+                                    if (event.pools[i].matches[j-1][k-1].score === 0) {
+                                        var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
+                                    }
+                                    else {
+                                        var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].score);
+                                    }
+                                }
+                                
+                                // Setting 'disabled' cells for pools of 4
+                                if((event.pools[i].teams.length === 4) &&
+                                    ((j === 4 && k === 1) ||
+                                    (j === 3 && k === 2) ||
+                                    (j === 2 && k === 3) ||
+                                    (j === 1 && k === 4))) {
+                                        var cellText = document.createTextNode('');
+                                        cell.style.backgroundColor = "black";
+                                }
 
-                            cell.appendChild(cellText);
-                            cell.classList.add('cell-wrapper');
-                            row.appendChild(cell);
-                            
+                                cell.appendChild(cellText);
+                                cell.classList.add('cell-wrapper');
+                                row.appendChild(cell);
+                                
+                            }
+                            poolTableBody.appendChild(row);
                         }
-                        poolTableBody.appendChild(row);
-                    }
-                    poolTable.appendChild(poolTableBody);
-                    poolPlayWrapper.appendChild(poolTitle);
-                    poolPlayWrapper.appendChild(poolTable);
-                    poolPlayWrapper.addEventListener('click', poolClickHandler);
-                }  
+                        poolTable.appendChild(poolTableBody);
+                        poolPlayWrapper.appendChild(poolTitle);
+                        poolPlayWrapper.appendChild(poolTable);
+                        poolPlayWrapper.addEventListener('click', poolClickHandler);
+                    }  
+                }
             }
         };
 
@@ -449,7 +446,7 @@
         addEvent.addEventListener('click', () => window.location.href = '/load.html?id=' + searchParams.get('id'));
         
         removeEvent.addEventListener('click', () => {
-            if(index) {
+            if(index !== -1) {
                 swal({
                     title: 'Are you sure?',
                     text: 'Once deleted, you cannot recover this event!',
