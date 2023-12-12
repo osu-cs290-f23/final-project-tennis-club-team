@@ -441,7 +441,9 @@
                                 }
 
                                 cell.appendChild(cellText);
+
                                 cell.classList.add('cell-wrapper');
+
                                 row.appendChild(cell);
                                 
                             }

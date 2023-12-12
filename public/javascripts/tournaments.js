@@ -19,6 +19,7 @@
             const trash = document.createElement('i');
             trash.classList.add('fa');
             trash.classList.add('fa-trash-o');
+            trash.classList.add('trash-resize');
 
 
             tElement.classList.add('tournament');
