@@ -7,6 +7,12 @@
   font-size: 20;
   border-radius: 10px;
   border: none;
+  border: 1px solid black;
+  outline: none;
+}
+
+#event-legend{
+  border-radius: 10px;
 }
 
 span {
@@ -52,6 +58,7 @@ fieldset input {
 }
 
 .type-container:hover .type-content {
+  color: rgba(0, 0, 0, 1);
   background-color: #bedea7;
 }
 

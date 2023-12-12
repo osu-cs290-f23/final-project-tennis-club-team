@@ -182,7 +182,8 @@ button:hover {
   max-width: 40%;
   font-size: 20;
   border-radius: 10px;
-  border: none;
+  border: 1px solid black;
+  outline: none;
 }
 
 

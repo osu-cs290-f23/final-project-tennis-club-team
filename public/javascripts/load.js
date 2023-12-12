@@ -716,7 +716,7 @@ function applyUserSelect(element, value) {
 exports.default = Draggable;
 exports.defaultOptions = defaultOptions;
 
-},{"../shared/utils/closest/closest.cjs":36,"./DragEvent/DragEvent.cjs":2,"./DraggableEvent/DraggableEvent.cjs":4,"./Emitter/Emitter.cjs":5,"./Plugins/Announcement/Announcement.cjs":6,"./Plugins/Focusable/Focusable.cjs":7,"./Plugins/Mirror/Mirror.cjs":8,"./Plugins/Scrollable/Scrollable.cjs":10,"./Sensors/MouseSensor/MouseSensor.cjs":13,"./Sensors/SensorEvent/SensorEvent.cjs":14,"./Sensors/TouchSensor/TouchSensor.cjs":16}],4:[function(require,module,exports){
+},{"../shared/utils/closest/closest.cjs":36,"./DragEvent/DragEvent.cjs":2,"./DraggableEvent/DraggableEvent.cjs":4,"./Emitter/Emitter.cjs":5,"./Plugins/Announcement/Announcement.cjs":6,"./Plugins/Focusable/Focusable.cjs":7,"./Plugins/Mirror/Mirror.cjs":8,"./Plugins/Scrollable/Scrollable.cjs":10,"./Sensors/MouseSensor/MouseSensor.cjs":13,"./Sensors/SensorEvent/SensorEvent.cjs":15,"./Sensors/TouchSensor/TouchSensor.cjs":16}],4:[function(require,module,exports){
 'use strict';
 
 var AbstractEvent = require('../../shared/AbstractEvent/AbstractEvent.cjs');
@@ -1952,7 +1952,7 @@ class DragSensor extends Sensor.default {
 
 exports.default = DragSensor;
 
-},{"../../../shared/utils/closest/closest.cjs":36,"../Sensor/Sensor.cjs":15,"../SensorEvent/SensorEvent.cjs":14}],12:[function(require,module,exports){
+},{"../../../shared/utils/closest/closest.cjs":36,"../Sensor/Sensor.cjs":14,"../SensorEvent/SensorEvent.cjs":15}],12:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -2115,7 +2115,7 @@ class ForceTouchSensor extends Sensor.default {
 
 exports.default = ForceTouchSensor;
 
-},{"../../../shared/utils/closest/closest.cjs":36,"../Sensor/Sensor.cjs":15,"../SensorEvent/SensorEvent.cjs":14}],13:[function(require,module,exports){
+},{"../../../shared/utils/closest/closest.cjs":36,"../Sensor/Sensor.cjs":14,"../SensorEvent/SensorEvent.cjs":15}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -2302,61 +2302,7 @@ function preventNativeDragStart(event) {
 
 exports.default = MouseSensor;
 
-},{"../../../shared/utils/closest/closest.cjs":36,"../../../shared/utils/distance/distance.cjs":38,"../Sensor/Sensor.cjs":15,"../SensorEvent/SensorEvent.cjs":14}],14:[function(require,module,exports){
-'use strict';
-
-var AbstractEvent = require('../../../shared/AbstractEvent/AbstractEvent.cjs');
-
-class SensorEvent extends AbstractEvent.AbstractEvent {
-
-  get originalEvent() {
-    return this.data.originalEvent;
-  }
-
-  get clientX() {
-    return this.data.clientX;
-  }
-
-  get clientY() {
-    return this.data.clientY;
-  }
-
-  get target() {
-    return this.data.target;
-  }
-
-  get container() {
-    return this.data.container;
-  }
-
-  get originalSource() {
-    return this.data.originalSource;
-  }
-
-  get pressure() {
-    return this.data.pressure;
-  }
-}
-
-class DragStartSensorEvent extends SensorEvent {}
-
-DragStartSensorEvent.type = 'drag:start';
-class DragMoveSensorEvent extends SensorEvent {}
-
-DragMoveSensorEvent.type = 'drag:move';
-class DragStopSensorEvent extends SensorEvent {}
-
-DragStopSensorEvent.type = 'drag:stop';
-class DragPressureSensorEvent extends SensorEvent {}
-DragPressureSensorEvent.type = 'drag:pressure';
-
-exports.DragMoveSensorEvent = DragMoveSensorEvent;
-exports.DragPressureSensorEvent = DragPressureSensorEvent;
-exports.DragStartSensorEvent = DragStartSensorEvent;
-exports.DragStopSensorEvent = DragStopSensorEvent;
-exports.SensorEvent = SensorEvent;
-
-},{"../../../shared/AbstractEvent/AbstractEvent.cjs":34}],15:[function(require,module,exports){
+},{"../../../shared/utils/closest/closest.cjs":36,"../../../shared/utils/distance/distance.cjs":38,"../Sensor/Sensor.cjs":14,"../SensorEvent/SensorEvent.cjs":15}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -2443,7 +2389,61 @@ function calcDelay(optionsDelay) {
 
 exports.default = Sensor;
 
-},{}],16:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
+'use strict';
+
+var AbstractEvent = require('../../../shared/AbstractEvent/AbstractEvent.cjs');
+
+class SensorEvent extends AbstractEvent.AbstractEvent {
+
+  get originalEvent() {
+    return this.data.originalEvent;
+  }
+
+  get clientX() {
+    return this.data.clientX;
+  }
+
+  get clientY() {
+    return this.data.clientY;
+  }
+
+  get target() {
+    return this.data.target;
+  }
+
+  get container() {
+    return this.data.container;
+  }
+
+  get originalSource() {
+    return this.data.originalSource;
+  }
+
+  get pressure() {
+    return this.data.pressure;
+  }
+}
+
+class DragStartSensorEvent extends SensorEvent {}
+
+DragStartSensorEvent.type = 'drag:start';
+class DragMoveSensorEvent extends SensorEvent {}
+
+DragMoveSensorEvent.type = 'drag:move';
+class DragStopSensorEvent extends SensorEvent {}
+
+DragStopSensorEvent.type = 'drag:stop';
+class DragPressureSensorEvent extends SensorEvent {}
+DragPressureSensorEvent.type = 'drag:pressure';
+
+exports.DragMoveSensorEvent = DragMoveSensorEvent;
+exports.DragPressureSensorEvent = DragPressureSensorEvent;
+exports.DragStartSensorEvent = DragStartSensorEvent;
+exports.DragStopSensorEvent = DragStopSensorEvent;
+exports.SensorEvent = SensorEvent;
+
+},{"../../../shared/AbstractEvent/AbstractEvent.cjs":34}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -2650,7 +2650,7 @@ function onContextMenu(event) {
 
 exports.default = TouchSensor;
 
-},{"../../../shared/utils/closest/closest.cjs":36,"../../../shared/utils/distance/distance.cjs":38,"../../../shared/utils/touchCoords/touchCoords.cjs":40,"../Sensor/Sensor.cjs":15,"../SensorEvent/SensorEvent.cjs":14}],17:[function(require,module,exports){
+},{"../../../shared/utils/closest/closest.cjs":36,"../../../shared/utils/distance/distance.cjs":38,"../../../shared/utils/touchCoords/touchCoords.cjs":40,"../Sensor/Sensor.cjs":14,"../SensorEvent/SensorEvent.cjs":15}],17:[function(require,module,exports){
 'use strict';
 
 var Sensor = require('./Sensor/Sensor.cjs');
@@ -2673,7 +2673,7 @@ exports.DragStartSensorEvent = SensorEvent.DragStartSensorEvent;
 exports.DragStopSensorEvent = SensorEvent.DragStopSensorEvent;
 exports.SensorEvent = SensorEvent.SensorEvent;
 
-},{"./DragSensor/DragSensor.cjs":11,"./ForceTouchSensor/ForceTouchSensor.cjs":12,"./MouseSensor/MouseSensor.cjs":13,"./Sensor/Sensor.cjs":15,"./SensorEvent/SensorEvent.cjs":14,"./TouchSensor/TouchSensor.cjs":16}],18:[function(require,module,exports){
+},{"./DragSensor/DragSensor.cjs":11,"./ForceTouchSensor/ForceTouchSensor.cjs":12,"./MouseSensor/MouseSensor.cjs":13,"./Sensor/Sensor.cjs":14,"./SensorEvent/SensorEvent.cjs":15,"./TouchSensor/TouchSensor.cjs":16}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -2872,7 +2872,7 @@ class Droppable extends Draggable.default {
 
 exports.default = Droppable;
 
-},{"../Draggable/DragEvent/DragEvent.cjs":2,"../Draggable/Draggable.cjs":3,"../Draggable/DraggableEvent/DraggableEvent.cjs":4,"../Draggable/Plugins/Announcement/Announcement.cjs":6,"../Draggable/Plugins/Mirror/MirrorEvent/MirrorEvent.cjs":9,"../Draggable/Sensors/SensorEvent/SensorEvent.cjs":14,"../Draggable/Sensors/TouchSensor/TouchSensor.cjs":16,"../shared/utils/closest/closest.cjs":36,"./DroppableEvent/DroppableEvent.cjs":19}],19:[function(require,module,exports){
+},{"../Draggable/DragEvent/DragEvent.cjs":2,"../Draggable/Draggable.cjs":3,"../Draggable/DraggableEvent/DraggableEvent.cjs":4,"../Draggable/Plugins/Announcement/Announcement.cjs":6,"../Draggable/Plugins/Mirror/MirrorEvent/MirrorEvent.cjs":9,"../Draggable/Sensors/SensorEvent/SensorEvent.cjs":15,"../Draggable/Sensors/TouchSensor/TouchSensor.cjs":16,"../shared/utils/closest/closest.cjs":36,"./DroppableEvent/DroppableEvent.cjs":19}],19:[function(require,module,exports){
 'use strict';
 
 var AbstractEvent = require('../../shared/AbstractEvent/AbstractEvent.cjs');
@@ -3810,7 +3810,7 @@ function moveOutsideContainer(source, over, overContainer) {
 
 exports.default = Sortable;
 
-},{"../Draggable/DragEvent/DragEvent.cjs":2,"../Draggable/Draggable.cjs":3,"../Draggable/DraggableEvent/DraggableEvent.cjs":4,"../Draggable/Plugins/Announcement/Announcement.cjs":6,"../Draggable/Plugins/Mirror/MirrorEvent/MirrorEvent.cjs":9,"../Draggable/Sensors/SensorEvent/SensorEvent.cjs":14,"../Draggable/Sensors/TouchSensor/TouchSensor.cjs":16,"./SortableEvent/SortableEvent.cjs":29}],29:[function(require,module,exports){
+},{"../Draggable/DragEvent/DragEvent.cjs":2,"../Draggable/Draggable.cjs":3,"../Draggable/DraggableEvent/DraggableEvent.cjs":4,"../Draggable/Plugins/Announcement/Announcement.cjs":6,"../Draggable/Plugins/Mirror/MirrorEvent/MirrorEvent.cjs":9,"../Draggable/Sensors/SensorEvent/SensorEvent.cjs":15,"../Draggable/Sensors/TouchSensor/TouchSensor.cjs":16,"./SortableEvent/SortableEvent.cjs":29}],29:[function(require,module,exports){
 'use strict';
 
 var AbstractEvent = require('../../shared/AbstractEvent/AbstractEvent.cjs');
@@ -4023,7 +4023,7 @@ function swap(source, over) {
 
 exports.default = Swappable;
 
-},{"../Draggable/DragEvent/DragEvent.cjs":2,"../Draggable/Draggable.cjs":3,"../Draggable/DraggableEvent/DraggableEvent.cjs":4,"../Draggable/Plugins/Announcement/Announcement.cjs":6,"../Draggable/Plugins/Mirror/MirrorEvent/MirrorEvent.cjs":9,"../Draggable/Sensors/SensorEvent/SensorEvent.cjs":14,"../Draggable/Sensors/TouchSensor/TouchSensor.cjs":16,"./SwappableEvent/SwappableEvent.cjs":31}],31:[function(require,module,exports){
+},{"../Draggable/DragEvent/DragEvent.cjs":2,"../Draggable/Draggable.cjs":3,"../Draggable/DraggableEvent/DraggableEvent.cjs":4,"../Draggable/Plugins/Announcement/Announcement.cjs":6,"../Draggable/Plugins/Mirror/MirrorEvent/MirrorEvent.cjs":9,"../Draggable/Sensors/SensorEvent/SensorEvent.cjs":15,"../Draggable/Sensors/TouchSensor/TouchSensor.cjs":16,"./SwappableEvent/SwappableEvent.cjs":31}],31:[function(require,module,exports){
 'use strict';
 
 var AbstractEvent = require('../../shared/AbstractEvent/AbstractEvent.cjs');
