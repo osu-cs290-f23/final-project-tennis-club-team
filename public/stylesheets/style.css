@@ -9,6 +9,18 @@ a {
   color: #011C40;
 }
 
+#tournament-list {
+  margin-bottom: 5em;
+}
+
+#tournament-list a {
+  font-size: 1.6em;
+}
+
+.trash-resize {
+  font-size: 4em;
+}
+
 .background{
   /* background-color: #9CBCD9; */
   /* background-image: linear-gradient(180deg, #9CBCD9,rgba(81, 133, 182, 0.4) );  */
