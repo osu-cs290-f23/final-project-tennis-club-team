@@ -314,6 +314,7 @@
 
             if(index === -1) { // Rendering the Tournament Schedule
                 schedule.classList.remove('hidden');
+                eventTitle.textContent = tournamentData.name + ': Schedule';
 
                 //TODO: Render schedule here
             } else {          
