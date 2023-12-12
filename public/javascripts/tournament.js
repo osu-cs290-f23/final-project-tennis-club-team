@@ -336,6 +336,12 @@
                     backDraw.classList.remove('hidden');
                     mainDraw.classList.remove('hidden');
 
+                    if(!mainBracket) {
+                        mainBracket = bracketry.createBracket(event.main, mainWrapper, options('main'));
+                    } else {
+                        mainBracket.replaceData(event.main);
+                    }
+
                     if(!backBracket) {
                         backBracket = bracketry.createBracket(event.back, backWrapper, options('back'));
                     } else {
