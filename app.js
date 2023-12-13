@@ -27,4 +27,8 @@ app.use('/tournaments', toureyRouter);
 
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('*', function(req, res){
+    res.status(404).sendFile(__dirname + "/public/404.html")
+});
+
 export default app;

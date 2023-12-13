@@ -105,17 +105,20 @@ fieldset input {
     transform: translatey(0px);
 	}
 	25% {
-		transform: translatex(-350px) translatey(50px);
-    /* transform: ; */
+		transform: translatex(-350px) translatey(50px) rotateZ(-180deg);
 	}
 	50% {
-		transform: translatex(-500px) rotateZ(180deg);
+		transform: translatex(-500px) translatey(0px) rotateZ(-360deg);
 
 	}
 
   75%{
-    transform: translatex(-150px) translatey(50px) rotateZ(180deg);
+    transform: translatex(-150px) translatey(50px);
     
+  }
+
+  100%{
+    transform: translateX(0px) translateY(0px) rotateZ(360deg)
   }
 }
 
@@ -128,7 +131,7 @@ fieldset input {
 }
 
 .moving{
-  animation: float-horizontally 3s ease-in-out infinite;
+  animation: float-horizontally 6s ease-in-out infinite;
 }
 
 .ball{
