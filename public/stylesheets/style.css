@@ -233,16 +233,63 @@ button:hover {
   }
 }
 
+@keyframes moonball-horizontally {
+	0% {
+		transform: translatex(0px);
+    transform: translatey(0px);
+	}
+	10% {
+		transform: translatex(-100px) translatey(-250px) rotateZ(-180deg);
+	}
+
+  15% {
+		transform: translatex(-150px) translatey(-300px) rotateZ(-270deg);
+	}
+
+  20%{
+    transform: translatex(-250px) translatey(-350px) rotateZ(-300deg);
+  }
+
+  25%{
+    transform: translatex(-350px) translatey(-300px) rotateZ(-330deg);
+  }
+
+  30%{
+    transform: translatex(-400px) translatey(-250px) rotateZ(-360deg);
+  }
+
+	37.5% {
+    /* this is when it gets to the left beaver */
+		transform: translatex(-500px) translatey(0px) rotateZ(-360deg);
+
+	}
+
+  70%{
+    transform: translatex(-150px) translatey(50px);
+    
+  }
+
+  100%{
+    transform: translateX(0px) translateY(0px) rotateZ(360deg)
+  }
+}
+
 
 .beaver{
   width: 200px;
   height: auto;
-  animation: float 4s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 
 }
 
 .moving{
-  animation: float-horizontally 6s ease-in-out infinite;
+  animation-delay: -5s;
+  animation: float-horizontally 5s linear infinite;
+}
+
+.moonball{
+  animation-delay: -5s;
+  animation: moonball-horizontally 5s linear infinite;
 }
 
 .ball{
