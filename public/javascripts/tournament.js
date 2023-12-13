@@ -348,13 +348,7 @@
                         }
                     }
                 }
-
                 
-                console.log(matchups.length);
-                for(var i = 0; i < matchups.length; i++) {
-                    console.log(matchups[i]);
-                }
-
                 //TODO: Render schedule here
             } else {          
                 const event = tournamentData.events[index];
