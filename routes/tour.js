@@ -46,7 +46,7 @@ router.get('/:id', async (req, res, next) => {
     } catch(error) {
         console.error(error);
 
-        res.status(501).send(error);
+        res.status(401).send(error);
     }
 });
 

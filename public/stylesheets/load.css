@@ -7,6 +7,12 @@
   font-size: 20;
   border-radius: 10px;
   border: none;
+  border: 1px solid black;
+  outline: none;
+}
+
+#event-legend{
+  border-radius: 10px;
 }
 
 span {
@@ -52,6 +58,7 @@ fieldset input {
 }
 
 .type-container:hover .type-content {
+  color: rgba(0, 0, 0, 1);
   background-color: #bedea7;
 }
 
@@ -78,4 +85,66 @@ fieldset input {
 #file-wrapper {
   margin-top: 20px;
   cursor: pointer;
+}
+
+@keyframes float {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-20px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
+@keyframes float-horizontally {
+	0% {
+		transform: translatex(0px);
+    transform: translatey(0px);
+	}
+	25% {
+		transform: translatex(-350px) translatey(50px) rotateZ(-180deg);
+	}
+	50% {
+		transform: translatex(-500px) translatey(0px) rotateZ(-360deg);
+
+	}
+
+  75%{
+    transform: translatex(-150px) translatey(50px);
+    
+  }
+
+  100%{
+    transform: translateX(0px) translateY(0px) rotateZ(360deg)
+  }
+}
+
+
+.beaver{
+  width: 200px;
+  height: auto;
+  animation: float 4s ease-in-out infinite;
+
+}
+
+.moving{
+  animation: float-horizontally 6s ease-in-out infinite;
+}
+
+.ball{
+  position: absolute;
+  margin-left: 500px;
+  width: 50px;
+  height: auto;
+  z-index: 1000;
+}
+
+.tennis-match{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
 }

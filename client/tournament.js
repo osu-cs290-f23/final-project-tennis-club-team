@@ -53,6 +53,7 @@
     //Fetch tournament data
     try {
         var tournamentData = (await axios('/tournaments/' + searchParams.get('id'))).data;
+        console.log("tournament data: ", tournamentData);
 
         const style = {
             rootBorderColor: 'transparent',
@@ -518,15 +519,16 @@
         index = -1;
         loadEvent(-1);
     } catch(error) {
-        new Noty({
-            type: 'error',
-            layout: 'topRight',
-            theme: 'relax',
-            text: 'Error loading event!',
-            closeWith: ['click', 'button'],
-            timeout: 3000
-        }).show();
+        // new Noty({
+        //     type: 'error',
+        //     layout: 'topRight',
+        //     theme: 'relax',
+        //     text: 'Error loading event!',
+        //     closeWith: ['click', 'button'],
+        //     timeout: 3000
+        // }).show();
+        window.location.href="/404.html";
 
-        console.log(error);
+        // console.log(error);
     }
 })();

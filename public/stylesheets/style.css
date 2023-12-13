@@ -139,7 +139,7 @@ a {
 }
 
 #create-tournament-beaver{
-  animation: float 6s ease-in-out infinite;
+  /* animation: float 6s ease-in-out infinite; */
   width: 132px;
   margin: auto;
   margin-top: 50px;
@@ -182,19 +182,19 @@ button:hover {
   max-width: 40%;
   font-size: 20;
   border-radius: 10px;
-  border: none;
+  border: 1px solid black;
+  outline: none;
 }
 
 
 .tournament{
-  font-size: 2vmax;
+  font-size: 1vmax;
   text-align: center;
   margin-top: 50px;
-
 }
 
 .tournament button{
-  font-size: 2vmin;
+  font-size: 1vmin;
   margin-left: 10px;
   background-color: transparent;
   border-radius: 5px;
@@ -202,3 +202,58 @@ button:hover {
 }
 
 
+@keyframes float-horizontally {
+	0% {
+		transform: translatex(0px);
+    transform: translatey(0px);
+	}
+	25% {
+		transform: translatex(-350px) translatey(50px) rotateZ(-180deg);
+	}
+	50% {
+		transform: translatex(-500px) translatey(0px) rotateZ(-360deg);
+
+	}
+
+  75%{
+    transform: translatex(-150px) translatey(50px);
+    
+  }
+
+  100%{
+    transform: translateX(0px) translateY(0px) rotateZ(360deg)
+  }
+}
+
+
+.beaver{
+  width: 200px;
+  height: auto;
+  animation: float 4s ease-in-out infinite;
+
+}
+
+.moving{
+  animation: float-horizontally 6s ease-in-out infinite;
+}
+
+.ball{
+  position: absolute;
+  margin-left: 500px;
+  width: 50px;
+  height: auto;
+  z-index: 1000;
+}
+
+.tennis-match{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+
+}
+
+#text404{
+  font-size: 3vmax;
+  text-align: center;
+  margin-bottom: 50px;
+}
