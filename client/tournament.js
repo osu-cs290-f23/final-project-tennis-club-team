@@ -10,8 +10,6 @@
     var index = 0;
     var selectedBracket = null;
     var selectedMatch = null;
-    const scheduleInfo = new Map([]);
-
 
     //Define tournament search fields
     const url = document.URL;
@@ -325,31 +323,205 @@
 
                         for(var i = 0; i < event.count; i++) { // Iterate through all the pools
                             if(event.pools[i].teams.length < 4) { // Add matchups for pools of 3
-                                matchups.push(event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1]);
-                                matchups.push(event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2]);
-                                matchups.push(event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[2]);
+                                matchups.push({
+                                    matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
+                                    time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
+                                    place: event.pools[i].matches[0][1].time.split('|')[1].trim()
+                                });
+                                matchups.push({
+                                    matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
+                                    time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
+                                    place: event.pools[i].matches[0][2].time.split('|')[1].trim()
+                                });
+                                matchups.push({
+                                    matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[2],
+                                    time: event.pools[i].matches[1][2].time.split('|')[0].trim(),
+                                    place: event.pools[i].matches[1][2].time.split('|')[1].trim()
+                                });
                             } else { // Add matchups for pools of 4
-                                matchups.push(event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1]);
-                                matchups.push(event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2]);
-                                matchups.push(event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[3]);
-                                matchups.push(event.pools[i].teams[2] + ' vs ' + event.pools[i].teams[3]);
+                                matchups.push({
+                                    matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
+                                    time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
+                                    place: event.pools[i].matches[0][1].time.split('|')[1].trim()
+                                });
+                                matchups.push({
+                                    matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
+                                    time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
+                                    place: event.pools[i].matches[0][2].time.split('|')[1].trim()
+                                });
+                                matchups.push({
+                                    matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[3],
+                                    time: event.pools[i].matches[1][3].time.split('|')[0].trim(),
+                                    place: event.pools[i].matches[1][3].time.split('|')[1].trim()
+                                });
+                                matchups.push({
+                                    matchup: event.pools[i].teams[2] + ' vs ' + event.pools[i].teams[3],
+                                    time: event.pools[i].matches[2][3].time.split('|')[0].trim(),
+                                    place: event.pools[i].matches[2][3].time.split('|')[1].trim()
+                                });
                             }
                         }
                     } else if (event.type === 'single'){ // Adding bracket matches for single elim
                         for(var i = 0; i < event.main.matches.length; i++) {
-                            matchups.push(event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId);
+                            matchups.push({
+                                matchup: event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId,
+                                time: event.main.matches[i].matchStatus.split('|')[0].trim(),
+                                place: event.main.matches[i].matchStatus.split('|')[1].trim(),
+                            });
                         }
                     } else { // Adding bracket matchups for double elim
                         for(var i = 0; i < event.main.matches.length; i++) {
-                            matchups.push(event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId);
+                            matchups.push({
+                                matchup: event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId,
+                                time: event.main.matches[i].matchStatus.split('|')[0].trim(),
+                                place: event.main.matches[i].matchStatus.split('|')[1].trim(),
+                            });
                         }
                         for(var i = 0; i < event.back.matches.length; i++) {
-                            matchups.push(event.back.matches[i].sides?.[0]?.contestantId + ' vs ' + event.back.matches[i].sides?.[1]?.contestantId);
+                            matchups.push({
+                                matchup: event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId,
+                                time: event.main.matches[i].matchStatus.split('|')[0].trim(),
+                                place: event.main.matches[i].matchStatus.split('|')[1].trim(),
+                            });
                         }
                     }
                 }
+
+                var site = new Map();
+                for(var i = 0; i < matchups.length; i++) {
+                    if(matchups[i].time.includes(',') &&
+                        matchups[i].place.includes(',')) {
+                                
+                        if (!site.has(matchups[i].place.split(',')[0].trim())) {
+                            site.set(matchups[i].place.split(',')[0].trim(), new Map());
+                        }
+
+                        let dayMap = site.get(matchups[i].place.split(',')[0].trim());
+
+                            if(!dayMap.has(matchups[i].time.split(',')[0].trim() + ', ' + matchups[i].place.split(',')[1].trim())) {
+                                dayMap.set(matchups[i].time.split(',')[0].trim() + ', ' + matchups[i].place.split(',')[1].trim(), new Map());
+                            }
+
+                            let timeMap = dayMap.get(
+                                matchups[i].time.split(',')[0].trim() + ', ' + matchups[i].place.split(',')[1].trim()
+                            );
+            
+                            if(!timeMap.has(matchups[i].time.split(',')[1].trim())) {
+                                timeMap.set(matchups[i].time.split(',')[1].trim(), matchups[i].matchup);
+                            }
+                    }                    
+                }
+
+                console.log(site);
+
                 
-                //TODO: Render schedule here
+
+                // Render the damn table now
+                scheduleWrapper.replaceChildren([]);
+                for (let [key, dayMap] of site) {
+                    console.log('Site: ', key);
+
+                    let siteTitle = document.createElement('h1');
+                    let siteName = document.createTextNode(key);
+                    siteTitle.appendChild(siteName);
+
+                    scheduleWrapper.appendChild(siteTitle); 
+
+                    var dayTracker = new Set();
+
+                    for(let [key, timeMap] of dayMap) {
+                        if (dayTracker.has(key.split(',')[0].trim())) continue;
+                        let dayTitle = document.createElement('h1');
+                        let dayName = document.createTextNode(key.split(',')[0].trim());
+                        dayTitle.appendChild(dayName);
+
+                        dayTracker.add(key.split(',')[0].trim());
+
+                        let table = document.createElement('tbl');
+                        let tableBody = document.createElement('tbody');
+                        let headerRow = document.createElement('tr');
+
+                        let courts = [];
+                        let times = []; 
+                        
+                        for(let [tkey, value] of dayMap) {
+                           if(key.split(',')[0].trim() !== tkey.split(',')[0].trim()) continue;                             
+
+                            courts.push(tkey.split(',')[1].trim());
+
+                            let timeMap = dayMap.get(tkey);
+                            for(let [rkey, value] of timeMap) {
+                                if(!times.includes(rkey)) {
+                                    times.push(rkey);
+                                }
+                            }
+                        }
+                        
+                        courts.sort();
+                        times.sort((a, b) => {
+                            console.log(new Date(a));
+                            if(new Date(a) < new Date(b)) return -1;
+                            if(new Date(a) > new Date(b)) return 1;
+                            return 0;
+                        });
+
+                        for(let i = 0; i <= courts.length; i++) {
+                            let cell = document.createElement('td');
+                            if(i === 0) {
+                                let cText = document.createTextNode(' ');
+                                cell.appendChild(cText);
+                                cell.classList.add('cell-wrapper');
+                                headerRow.appendChild(cell);
+                            } else {
+                                let cText = document.createTextNode(courts[i-1]);
+                                cell.appendChild(cText);
+                                cell.classList.add('cell-wrapper');
+                                headerRow.appendChild(cell);
+                            }
+                            
+                        }
+
+                        tableBody.appendChild(headerRow);
+
+                        for(let i = 0; i < times.length; i++) {
+                            let row = document.createElement('tr');
+                            let cell = document.createElement('td');
+                            let cText = document.createTextNode(times[i]);
+                            cell.appendChild(cText);
+                            cell.classList.add('cell-wrapper');
+                            row.appendChild(cell);
+                            for(let j = 0; j < courts.length; j++) {
+                                let cValue = ' ';
+                                for (let [key, dayMap] of site) {
+                                    for (let [key, timeMap] of dayMap) {
+                                        if (key.split(',')[1].trim() === courts[j]) {
+                                            if (timeMap.has(times[i])) {
+                                                cValue = timeMap.get(times[i]);
+                                            }
+                                        }
+                                    }
+                                }
+                                let cell = document.createElement('td');
+                                let cText = document.createTextNode(cValue);
+                                cell.appendChild(cText);
+                                cell.classList.add('cell-wrapper');
+                                row.appendChild(cell);
+                            } 
+                            tableBody.appendChild(row);
+                        }
+
+                        table.appendChild(tableBody);
+                        scheduleWrapper.appendChild(dayTitle);
+                        scheduleWrapper.appendChild(table);
+                    }
+
+                    
+                }
+                // New header for each site
+                
+                
+
+
             } else {          
                 const event = tournamentData.events[index];
                 eventTitle.textContent = tournamentData.name + ': ' + event.name;
@@ -527,8 +699,9 @@
         //     closeWith: ['click', 'button'],
         //     timeout: 3000
         // }).show();
-        window.location.href="/404.html";
+        console.log(error);
 
-        // console.log(error);
+        //window.location.href="/404.html";
+
     }
 })();
