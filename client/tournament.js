@@ -176,9 +176,13 @@
             // Setting the scores correctly
             if(aScoreMain.value)
                 match1.score = parseInt(aScoreMain.value);
+            else 
+                match1.score = 0;
             
             if(bScoreMain.value)    
                 match2.score = parseInt(bScoreMain.value);
+            else
+                match2.score = 0
 
             // Setting the time and place correctly
             if(!timeField.value)
