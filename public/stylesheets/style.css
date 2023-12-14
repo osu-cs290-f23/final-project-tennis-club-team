@@ -62,7 +62,7 @@ a {
 	}
 }
 
-@keyframes float-horizontally {
+/* @keyframes float-horizontally {
 	0% {
 		transform: translatex(0px);
 	}
@@ -72,7 +72,7 @@ a {
 	100% {
 		transform: translatex(0px);
 	}
-}
+} */
 
 @keyframes float-with-shadow {
 	0% {
@@ -208,20 +208,19 @@ button:hover {
     transform: translatey(0px);
 	}
 	25% {
-		transform: translatex(-350px) translatey(50px) rotateZ(-180deg);
+		transform: translatex(calc(1vw * -14)) translatey(calc(1vh * 6)) rotateZ(-180deg);
 	}
 	50% {
-		transform: translatex(-500px) translatey(0px) rotateZ(-360deg);
-
+		transform: translatex(calc(1vw * -28)) translatey(0px) rotateZ(-360deg);
 	}
 
   75%{
-    transform: translatex(-150px) translatey(50px);
+    transform: translatex(calc(1vw * -14)) translatey(calc(1vh * 6));
     
   }
 
   100%{
-    transform: translateX(0px) translateY(0px) rotateZ(360deg)
+    transform: translateX(0px) translateY(0) rotateZ(360deg)
   }
 }
 
@@ -239,7 +238,7 @@ button:hover {
 
 .ball{
   position: absolute;
-  margin-left: 500px;
+  margin-left: 28%;
   width: 50px;
   height: auto;
   z-index: 1000;
