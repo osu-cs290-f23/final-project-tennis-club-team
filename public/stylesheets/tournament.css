@@ -23,6 +23,10 @@ h2 {
   margin: 0 auto;
 }
 
+#pool-play.hidden {
+  display: none;
+}
+
 .hidden {
   display: none;
 }
