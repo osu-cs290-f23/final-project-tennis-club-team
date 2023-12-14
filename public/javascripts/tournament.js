@@ -432,20 +432,19 @@
                     }                    
                 }
 
-                console.log(site);
-
-                
-
                 // Render the damn table now
                 scheduleWrapper.replaceChildren([]);
-                for (let [key, dayMap] of site) {
-                    console.log('Site: ', key);
 
+                for (let [key, dayMap] of site) {
+                    let siteSection = document.createElement('section');
                     let siteTitle = document.createElement('h1');
                     let siteName = document.createTextNode(key);
+
+                    siteTitle.classList.add('pool-title');
                     siteTitle.appendChild(siteName);
 
-                    scheduleWrapper.appendChild(siteTitle); 
+                    siteSection.classList.add('schedule-group');
+                    siteSection.appendChild(siteTitle); 
 
                     var dayTracker = new Set();
 
@@ -479,10 +478,15 @@
                         
                         courts.sort();
                         times.sort((a, b) => {
-                            console.log(new Date(a));
-                            if(new Date(a) < new Date(b)) return -1;
-                            if(new Date(a) > new Date(b)) return 1;
-                            return 0;
+                            let aD = new Date();
+                            let bD = new Date();
+
+                            aD.setHours(parseInt(a.split(':')[0]) + 12 * a.toLocaleLowerCase().endsWith('PM'), parseInt(a.split(':')[1].substring(0, 2)));
+                            bD.setHours(parseInt(b.split(':')[0]) + 12 * b.toLocaleLowerCase().endsWith('PM'), parseInt(b.split(':')[1].substring(0, 2)));
+
+                            if(aD < bD) return -1;
+                            else if(aD > bD) return 1;
+                            else return 0;
                         });
 
                         for(let i = 0; i <= courts.length; i++) {
@@ -529,19 +533,14 @@
                             } 
                             tableBody.appendChild(row);
                         }
-
+                        
                         table.appendChild(tableBody);
-                        scheduleWrapper.appendChild(dayTitle);
-                        scheduleWrapper.appendChild(table);
+                        siteSection.appendChild(dayTitle);
+                        siteSection.appendChild(table);
                     }
 
-                    
+                    scheduleWrapper.appendChild(siteSection);
                 }
-                // New header for each site
-                
-                
-
-
             } else {          
                 const event = tournamentData.events[index];
                 eventTitle.textContent = tournamentData.name + ': ' + event.name;

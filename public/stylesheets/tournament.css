@@ -199,6 +199,20 @@ h3 {
   border-color: grey; 
 }
 
+#schedule-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.schedule-group {
+  border-bottom-color: #000;
+  border-bottom-width: 2px;
+  border-bottom-style: solid;
+  padding-bottom: 15px;
+}
+
 #event-tabs input:hover {
   cursor: pointer;
   padding-top: 10px;
