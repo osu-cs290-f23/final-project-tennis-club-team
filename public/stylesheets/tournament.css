@@ -23,6 +23,10 @@ h2 {
   margin: 0 auto;
 }
 
+#pool-play.hidden {
+  display: none;
+}
+
 .hidden {
   display: none;
 }
@@ -176,11 +180,6 @@ h3 {
   align-items: end;
 }
 
-tbl {
-  display: inline-block;
-  max-width: 90%;
-}
-
 .tournament-header{
   padding: 0;
 }
@@ -212,7 +211,20 @@ tbl {
   background-color: #bedea7;
 }
 
+#pool-play {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
 #pool-play-wrapper{
+  text-align: center;
+  line-height: 2vh;
+  letter-spacing: 0.1vw;
+}
+
+#leaderboard-wrapper{
   text-align: center;
   line-height: 2vh;
   letter-spacing: 0.1vw;
@@ -223,6 +235,7 @@ tbl {
   border-radius: 4px;
   border-width: 2px;
   border-style: solid;
+  display: inline-block;
 }
 
 .cell-wrapper{
@@ -242,6 +255,11 @@ tbl {
 }
 
 .pool-title{
+  color: #B9BF04;
+  font-size: 2em;
+}
+
+.leaderboards-title{
   color: #B9BF04;
   font-size: 2em;
 }
