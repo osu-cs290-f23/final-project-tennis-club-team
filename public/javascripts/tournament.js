@@ -481,8 +481,8 @@
                             let aD = new Date();
                             let bD = new Date();
 
-                            aD.setHours(parseInt(a.split(':')[0]) + 12 * a.toLocaleLowerCase().endsWith('PM'), parseInt(a.split(':')[1].substring(0, 2)));
-                            bD.setHours(parseInt(b.split(':')[0]) + 12 * b.toLocaleLowerCase().endsWith('PM'), parseInt(b.split(':')[1].substring(0, 2)));
+                            aD.setHours(parseInt(a.split(':')[0]) + 12 * a.toLocaleLowerCase().endsWith('pm'), parseInt(a.split(':')[1].substring(0, 2)));
+                            bD.setHours(parseInt(b.split(':')[0]) + 12 * b.toLocaleLowerCase().endsWith('pm'), parseInt(b.split(':')[1].substring(0, 2)));
 
                             if(aD < bD) return -1;
                             else if(aD > bD) return 1;
