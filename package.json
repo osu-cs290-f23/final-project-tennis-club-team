@@ -24,6 +24,7 @@
     "nodemon": "^3.0.2",
     "noty": "^3.2.0-beta-deprecated",
     "serve-favicon": "^2.5.0",
+    "socket.io": "^4.7.2",
     "watchify": "^4.0.0",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
   }

@@ -4,7 +4,8 @@
     //Require dependencies here
     const axios = require('axios/dist/browser/axios.cjs');
     const bracketry = require('bracketry');
-    var _ = require('lodash');
+    const _ = require('lodash');
+    const socket = io();
 
     //State variables
     var index = 0;
@@ -39,6 +40,7 @@
     const mainWrapper = document.querySelector('#main-bracket');
     const backWrapper = document.querySelector('#back-bracket');
     const poolPlay = document.querySelector('#pool-play');
+    const Leaderboard = document.querySelector('#leaderboard-wrapper');
     const poolPlayWrapper = document.querySelector('#pool-play-wrapper');
     const schedule = document.querySelector('#schedule');
     const scheduleWrapper = document.querySelector('#schedule-wrapper');
@@ -52,7 +54,23 @@
     try {
         var tournamentData = (await axios('/tournaments/' + searchParams.get('id'))).data;
         console.log("tournament data: ", tournamentData);
+        socket.on('update',async (msg) => {
+            try {
+                tournamentData = (await axios('/tournaments/' + searchParams.get('id'))).data;
+            } catch(error) {
+                new Noty({
+                    type: 'error',
+                    layout: 'topRight',
+                    theme: 'relax',
+                    text: 'Error updating event!',
+                    closeWith: ['click', 'button'],
+                    timeout: 3000
+                }).show();
+            }
 
+            addEventTabs();    
+            loadEvent(index);
+        });
         const style = {
             rootBorderColor: 'transparent',
             rootFontFamily: 'Comfortaa',
@@ -102,6 +120,7 @@
                         'Content-Type': 'application/json'
                     }
                 })).data;
+                socket.emit('update','update')
             } catch(error) {
                 new Noty({
                     type: 'error',
@@ -113,8 +132,8 @@
                 }).show();
             }
 
-            addEventTabs();    
-            loadEvent(index);
+            // addEventTabs();    
+            // loadEvent(index);
         };
         
         const poolModalOpen = (modal) => {
@@ -594,7 +613,7 @@
                                     var cellText = document.createTextNode(event.pools[i].teams[Math.max(j,k)-1]);
                                 }
                                 else { // Setting the cells that are for the matchups
-                                    if (event.pools[i].matches[j-1][k-1].score === 0) {
+                                    if (event.pools[i].matches[j-1][k-1].score === 0 && event.pools[i].matches[k-1][j-1].score === 0) {
                                         var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
                                     }
                                     else {
@@ -617,7 +636,6 @@
                                 cell.classList.add('cell-wrapper');
 
                                 row.appendChild(cell);
-                                
                             }
                             poolTableBody.appendChild(row);
                         }
@@ -626,6 +644,90 @@
                         poolPlayWrapper.appendChild(poolTable);
                         poolPlayWrapper.addEventListener('click', poolClickHandler);
                     }  
+
+                    const playermap = new Map();
+
+                    for(var k = 0; k < event.teams.length; k++){
+                      playermap.set(event.teams[k], {
+                        won: 0, 
+                        loss: 0
+                      })
+                    }
+                    console.log(playermap)
+                    for(const pool of event.pools)
+                    {
+                      for(var i = 0; i < pool.teams.length; i++){
+                        for(var j = 0; j < pool.teams.length; j++){
+                          playermap.get(pool.teams[i]).won += pool.matches[i][j].score
+                          playermap.get(pool.teams[j]).loss += pool.matches[i][j].score
+                          }
+                      }
+                    }
+                    
+                    const RankedArray = Array.from(playermap.entries()).toSorted((a,b)=> {
+                        if(a[1].won + a[1].loss === 0) {
+                            return 1;
+                        }
+
+                        if(b[1].won + b[1].loss === 0) {
+                            return -1;
+                        } 
+
+                        return b[1].won * (a[1].won + a[1].loss) - a[1].won * (b[1].won + b[1].loss);
+                    })                    
+
+                    console.log(RankedArray)
+
+                    Leaderboard.replaceChildren([])
+
+                    var poolTable = document.createElement('tbl');
+                    var poolTableBody = document.createElement('tbody');
+
+                    var poolTitle = document.createElement('p');
+                    var poolTitleText = document.createTextNode('Leaderboards');
+                    poolTitle.appendChild(poolTitleText);
+                    poolTitle.classList.add('leaderboards-title');
+
+                    var header = document.createElement('tr');
+                    var rHeader = document.createElement('td')
+                    var nHeader = document.createElement('td')
+                    var kHeader = document.createElement('td')
+                    rHeader.textContent = 'Rank';
+                    nHeader.textContent = 'Team'
+                    kHeader.textContent = 'Win-%'
+                    
+                    rHeader.classList.add("cell-wrapper")
+                    nHeader.classList.add("cell-wrapper")
+                    kHeader.classList.add("cell-wrapper")
+
+                    header.appendChild(rHeader)
+                    header.appendChild(nHeader)
+                    header.appendChild(kHeader)
+                    poolTableBody.appendChild(header)
+                    
+
+                    for(var i = 0; i < RankedArray.length; i++){
+                        var row = document.createElement('tr');
+                        var ratio = document.createElement('td')
+                        var name = document.createElement('td')
+                        var rank = document.createElement('td')
+                        rank.textContent = i+1;
+                        name.textContent = RankedArray[i][0]
+                        ratio.textContent = new Intl.NumberFormat('en-IN', { maximumSignificantDigits: 3 }).format(RankedArray[i][1].won * 100 / (RankedArray[i][1].won + RankedArray[i][1].loss))  + '%'
+                        
+                        row.appendChild(rank)
+                        row.appendChild(name)
+                        row.appendChild(ratio)
+                        poolTableBody.appendChild(row)
+                        rank.classList.add("cell-wrapper")
+                        name.classList.add("cell-wrapper")
+                        ratio.classList.add("cell-wrapper")
+                    }
+
+                    cell.classList.add('leaderboard-wrapper');
+                    poolTable.appendChild(poolTableBody);
+                    Leaderboard.appendChild(poolTitle);
+                    Leaderboard.appendChild(poolTable);
                 }
             }
         };
