@@ -441,7 +441,7 @@
                                     var cellText = document.createTextNode(event.pools[i].teams[Math.max(j,k)-1]);
                                 }
                                 else { // Setting the cells that are for the matchups
-                                    if (event.pools[i].matches[j-1][k-1].score === 0) {
+                                    if (event.pools[i].matches[j-1][k-1].score === 0 && event.pools[i].matches[k-1][j-1].score === 0) {
                                         var cellText = document.createTextNode(event.pools[i].matches[j-1][k-1].time);
                                     }
                                     else {
