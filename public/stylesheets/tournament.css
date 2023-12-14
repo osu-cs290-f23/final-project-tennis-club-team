@@ -1,5 +1,5 @@
 h2 {
-  color: #B9BF04;
+  color: #000000;
   font-size: 2em;
 }
 
@@ -265,16 +265,20 @@ tbl {
 
 .cell-wrapper:hover {
   cursor: pointer;
-  border-color: #B9BF04;
+  border-color: #DC4405;
+  border-width: 2px;
+  padding: 11.5px;
+  padding-top: 8.5px;
+  padding-bottom: 4.5px;
 }
 
 .pool-title{
-  color: #B9BF04;
+  color: #000000;
   font-size: 2em;
 }
 
 .leaderboards-title{
-  color: #B9BF04;
+  color: #000000;
   font-size: 2em;
 }
 

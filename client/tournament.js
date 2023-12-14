@@ -72,7 +72,9 @@
             loadEvent(index);
         });
         const style = {
-            rootBorderColor: 'transparent',
+            wrapperBorderColor: 'transparent',
+            roundTitlesBorderColor: 'transparent',
+            hoveredMatchBorderColor: '#DC4405',
             rootFontFamily: 'Comfortaa',
         };
 
@@ -398,9 +400,9 @@
                         }
                         for(var i = 0; i < event.back.matches.length; i++) {
                             matchups.push({
-                                matchup: event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId,
-                                time: event.main.matches[i].matchStatus.split('|')[0].trim(),
-                                place: event.main.matches[i].matchStatus.split('|')[1].trim(),
+                                matchup: event.back.matches[i].sides?.[0]?.contestantId + ' vs ' + event.back.matches[i].sides?.[1]?.contestantId,
+                                time: event.back.matches[i].matchStatus.split('|')[0].trim(),
+                                place: event.back.matches[i].matchStatus.split('|')[1].trim(),
                             });
                         }
                     }
@@ -683,7 +685,7 @@
                     var poolTableBody = document.createElement('tbody');
 
                     var poolTitle = document.createElement('p');
-                    var poolTitleText = document.createTextNode('Leaderboards');
+                    var poolTitleText = document.createTextNode('Leaderboard');
                     poolTitle.appendChild(poolTitleText);
                     poolTitle.classList.add('leaderboards-title');
 
@@ -792,17 +794,8 @@
         index = -1;
         loadEvent(-1);
     } catch(error) {
-        // new Noty({
-        //     type: 'error',
-        //     layout: 'topRight',
-        //     theme: 'relax',
-        //     text: 'Error loading event!',
-        //     closeWith: ['click', 'button'],
-        //     timeout: 3000
-        // }).show();
         console.log(error);
 
-        //window.location.href="/404.html";
-
+        window.location.href="/404.html";
     }
 })();
