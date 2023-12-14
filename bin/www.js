@@ -6,6 +6,7 @@
 
 import app from '../app.js';
 import http from 'http';
+import {Server} from 'socket.io'
 
 /**
  * Get port from environment and store in Express.
@@ -27,6 +28,22 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+/**
+ * Create attack websocket to http server
+ */
+
+var io = new Server(server);
+
+/**
+ * Listen for connections and relay updates to clients
+ */
+
+io.on('connection', (socket) => {
+  console.log('A user connected!');
+
+  socket.on('update', (msg) => io.emit('update', msg));
+});
 
 /**
  * Normalize a port into a number, string, or false.

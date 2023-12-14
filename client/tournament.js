@@ -4,7 +4,8 @@
     //Require dependencies here
     const axios = require('axios/dist/browser/axios.cjs');
     const bracketry = require('bracketry');
-    var _ = require('lodash');
+    const _ = require('lodash');
+    const socket = io();
 
     //State variables
     var index = 0;
@@ -55,7 +56,23 @@
     try {
         var tournamentData = (await axios('/tournaments/' + searchParams.get('id'))).data;
         console.log("tournament data: ", tournamentData);
+        socket.on('update',async (msg) => {
+            try {
+                tournamentData = (await axios('/tournaments/' + searchParams.get('id'))).data;
+            } catch(error) {
+                new Noty({
+                    type: 'error',
+                    layout: 'topRight',
+                    theme: 'relax',
+                    text: 'Error updating event!',
+                    closeWith: ['click', 'button'],
+                    timeout: 3000
+                }).show();
+            }
 
+            addEventTabs();    
+            loadEvent(index);
+        });
         const style = {
             rootBorderColor: 'transparent',
             rootFontFamily: 'Comfortaa',
@@ -105,6 +122,7 @@
                         'Content-Type': 'application/json'
                     }
                 })).data;
+                socket.emit('update','update')
             } catch(error) {
                 new Noty({
                     type: 'error',
@@ -116,8 +134,8 @@
                 }).show();
             }
 
-            addEventTabs();    
-            loadEvent(index);
+            // addEventTabs();    
+            // loadEvent(index);
         };
         
         const poolModalOpen = (modal) => {
