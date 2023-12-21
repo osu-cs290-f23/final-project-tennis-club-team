@@ -1,0 +1,41 @@
+<html>
+  <head>
+    <title>Login</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
+
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <link rel="stylesheet" href="/stylesheets/load.css">
+    <link rel="stylesheet" href="/stylesheets/noty.css">
+    <link rel="stylesheet" href="/stylesheets/relax.css">
+    <script defer src="/javascripts/noty.js"></script>
+  </head>
+  <body class="background">
+
+    <div class = "navbar">
+      <div> 
+        <a href="/">
+          <h1 id="page-title">[BEAVER BRACKETS]</h1>
+
+          <img class = "logo navbar-logo" src = tennis-beaver-2.png alt = "Beaver Logo">
+        </a>
+      </div>
+    </div>
+
+    <form action="/login" method="post">
+        <div>
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" autocomplete="username" required />
+        </div>
+        <div>
+            <label for="current-password">Password</label>
+            <input id="current-password" name="password" type="password" autocomplete="current-password" required />
+        </div>
+        <div>
+            <button type="submit">Sign in</button>
+        </div>
+    </form>
+
+  </body>
+</html>
