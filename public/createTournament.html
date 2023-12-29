@@ -15,9 +15,9 @@
     <script defer src="/javascripts/hystmodal.min.js"></script>
     <script defer src="/javascripts/create.js"></script>
   </head>
-  <body class = "background">
+  <body class = "test-background">
 
-    <div class = "background">
+    <div class = "test-background">
         <div class = "navbar">
             <div>  
                 <a href="/">
@@ -30,10 +30,13 @@
         <div class = "body-content"> 
               
             <div class = "button-area"> 
-              <img class = "beaver-pencil" id = "create-tournament-beaver" src = "beaver_pencil.png" alt = "Beaver with Pencil">
+              <img  id = "create-tournament-beaver" src = "beaver_pencil.png" alt = "Beaver with Pencil">
 
-              <input id="name-box" type="text" placeholder="Enter a tournament name.">
-              <button type = "button" class = "create-bracket-button choose-bracket-button" id = "right-button">CREATE TOURNAMENT</button>
+              <div id = "create-tournament-box">
+                <input id="name-box" type="text" placeholder="Enter a tournament name.">
+                <button type = "button" class = "create-bracket-button choose-bracket-button" id = "right-button">CREATE TOURNAMENT</button>
+              </div>
+              
             </div>
             
         </div>

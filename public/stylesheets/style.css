@@ -24,14 +24,16 @@ a {
 .background{
   /* background-color: #9CBCD9; */
   /* background-image: linear-gradient(180deg, #9CBCD9,rgba(81, 133, 182, 0.4) );  */
-  /* background-image: linear-gradient(90deg, #9CBCD9,rgb(42, 113, 179)); */
-  background-color: rgb(249, 249, 249);
+  background-image: linear-gradient(90deg, #9CBCD9,rgb(42, 113, 179));
+  /* background-color: rgb(249, 249, 249); */
 }
 
 .navbar{
-  background-color: #000000;
+  /* background-color: #000000; */
+  background-color: rgb(74, 111, 165);
   width: 100%;
   height: 69px;
+  box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 3px;
 
 }
 
@@ -55,7 +57,8 @@ a {
   margin-top: 10px;
   /* color: #9CBCD9; */
   /* color: rgb(248, 246, 240); */
-  color: #DC4405;
+  /* color: #DC4405; */
+  color: rgb(192, 214, 223);
   display: inline;
 }
 
@@ -151,7 +154,8 @@ a {
   /* animation: float 6s ease-in-out infinite; */
   width: 132px;
   margin: auto;
-  margin-top: 50px;
+  display: block;
+  /* margin-top: 50px; */
 }
 
 .create-bracket-button:hover{
@@ -179,7 +183,6 @@ button:hover {
 }
 
 .button-area{
-  margin-top: 200px;
 }
 
 #name-box{
@@ -191,7 +194,8 @@ button:hover {
   max-width: 40%;
   font-size: 20;
   border-radius: 10px;
-  border: 1px solid black;
+  border: 1px solid transparent;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
   outline: none;
 }
 
@@ -233,16 +237,63 @@ button:hover {
   }
 }
 
+@keyframes moonball-horizontally {
+	0% {
+		transform: translatex(0px);
+    transform: translatey(0px);
+	}
+	10% {
+		transform: translatex(-100px) translatey(-250px) rotateZ(-180deg);
+	}
+
+  15% {
+		transform: translatex(-150px) translatey(-300px) rotateZ(-270deg);
+	}
+
+  20%{
+    transform: translatex(-250px) translatey(-350px) rotateZ(-300deg);
+  }
+
+  25%{
+    transform: translatex(-350px) translatey(-300px) rotateZ(-330deg);
+  }
+
+  30%{
+    transform: translatex(-400px) translatey(-250px) rotateZ(-360deg);
+  }
+
+	37.5% {
+    /* this is when it gets to the left beaver */
+		transform: translatex(-500px) translatey(0px) rotateZ(-360deg);
+
+	}
+
+  70%{
+    transform: translatex(-150px) translatey(50px);
+    
+  }
+
+  100%{
+    transform: translateX(0px) translateY(0px) rotateZ(360deg)
+  }
+}
+
 
 .beaver{
   width: 200px;
   height: auto;
-  animation: float 4s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 
 }
 
 .moving{
-  animation: float-horizontally 6s ease-in-out infinite;
+  animation-delay: -5s;
+  animation: float-horizontally 5s linear infinite;
+}
+
+.moonball{
+  animation-delay: -5s;
+  animation: moonball-horizontally 5s linear infinite;
 }
 
 .ball{
@@ -254,9 +305,11 @@ button:hover {
 }
 
 .tennis-match{
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
+  /* width: 50vw; */
 
 }
 
@@ -264,4 +317,19 @@ button:hover {
   font-size: 3vmax;
   text-align: center;
   margin-bottom: 50px;
+}
+
+#create-tournament-box{
+  background-color: rgb(74, 111, 165);
+  border: 1px solid transparent;
+  width: 60vw;
+  margin: auto;
+  padding: 50px;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 2px 2px 3px;
+}
+
+.test-background{
+  /* background-color: rgb(219, 233, 238); */
+  background-image: linear-gradient(90deg, #9CBCD9,rgb(42, 113, 179));
 }
