@@ -7,9 +7,10 @@ import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const clientFolder = fs.readdirSync(path.join(__dirname, 'client'));
+const publicFolder = fs.readdirSync(path.join(__dirname, 'client/public'));
+const adminFolder = fs.readdirSync(path.join(__dirname, 'client/admin'));
 
-clientFolder.forEach(async (file) => {
+publicFolder.forEach(async (file) => {
     var b = browserify({
         entries: ['./client/' + file],
         cache: {},
@@ -21,6 +22,28 @@ clientFolder.forEach(async (file) => {
         b.bundle()
             .on('error', console.error)
             .pipe(fs.createWriteStream('./public/javascripts/' + file));
+    };
+    
+    b.on('update', bundle);
+    b.on('log', console.log);
+    
+    bundle();
+
+    console.log('Started:', file);
+});
+
+adminFolder.forEach(async (file) => {
+    var b = browserify({
+        entries: ['./client/' + file],
+        cache: {},
+        packageCache: {},
+        plugin: [watchify]
+    });
+    
+    const bundle = () => {
+        b.bundle()
+            .on('error', console.error)
+            .pipe(fs.createWriteStream('./admin/javascripts/' + file));
     };
     
     b.on('update', bundle);
