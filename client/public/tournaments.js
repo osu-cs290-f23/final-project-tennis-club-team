@@ -13,7 +13,7 @@
         for(const tourney of data.data) {
             const tElement = document.createElement('div');
             const tLink = document.createElement('a');
-            const rBtn = document.createElement('button');
+            // const rBtn = document.createElement('button');
 
             const trash = document.createElement('i');
             trash.classList.add('fa');
@@ -26,47 +26,47 @@
             tLink.innerText = tourney.name;
 
             // rBtn.textContent = 'Delete';
-            rBtn.addEventListener('click', async () => {
-                swal({
-                    title: 'Are you sure?',
-                    text: 'Once deleted, you cannot recover this tournament!',
-                    icon: 'warning',
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then(async (willDelete) => {
-                    if (willDelete) {
-                        try {
-                            data = await axios({
-                                method: 'delete',
-                                url: '/tournaments?id=' + tourney._id
-                            });
+            // rBtn.addEventListener('click', async () => {
+            //     swal({
+            //         title: 'Are you sure?',
+            //         text: 'Once deleted, you cannot recover this tournament!',
+            //         icon: 'warning',
+            //         buttons: true,
+            //         dangerMode: true,
+            //     })
+            //     .then(async (willDelete) => {
+            //         if (willDelete) {
+            //             try {
+            //                 data = await axios({
+            //                     method: 'delete',
+            //                     url: '/tournaments?id=' + tourney._id
+            //                 });
 
-                            load();
+            //                 load();
                             
-                            new Noty({
-                                type: 'success',
-                                layout: 'topRight',
-                                theme: 'relax',
-                                text: 'Done!',
-                                closeWith: ['click', 'button'],
-                                timeout: 3000
-                            }).show();  
-                        } catch(error) {
-                            console.error('Error', error);
+            //                 new Noty({
+            //                     type: 'success',
+            //                     layout: 'topRight',
+            //                     theme: 'relax',
+            //                     text: 'Done!',
+            //                     closeWith: ['click', 'button'],
+            //                     timeout: 3000
+            //                 }).show();  
+            //             } catch(error) {
+            //                 console.error('Error', error);
 
-                            new Noty({
-                                type: 'error',
-                                layout: 'topRight',
-                                theme: 'relax',
-                                text: 'Could not delete!',
-                                closeWith: ['click', 'button'],
-                                timeout: 3000
-                            }).show();  
-                        }           
-                    }
-                });
-            });
+            //                 new Noty({
+            //                     type: 'error',
+            //                     layout: 'topRight',
+            //                     theme: 'relax',
+            //                     text: 'Could not delete!',
+            //                     closeWith: ['click', 'button'],
+            //                     timeout: 3000
+            //                 }).show();  
+            //             }           
+            //         }
+            //     });
+            // });
 
             tElement.appendChild(tLink);
             tElement.appendChild(rBtn);
