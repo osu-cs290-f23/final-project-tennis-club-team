@@ -4,13 +4,17 @@
     //Require dependencies here
     const axios = require('axios/dist/browser/axios.cjs');
     const bracketry = require('bracketry');
-    const _ = require('lodash');
+    const flatpickr = require("flatpickr");
     const socket = io();
+    const _ = require('lodash');
 
     //State variables
     var index = 0;
     var selectedBracket = null;
     var selectedMatch = null;
+    var playerMap = new Map();
+    var locationMap = new Map();
+    var errors = [];
 
     //Define tournament search fields
     const url = document.URL;
@@ -23,16 +27,24 @@
     const playerAField = document.querySelector('#a-name');
     const playerBField = document.querySelector('#b-name');
     const timeField = document.querySelector('#time');
+    const clearButton = document.querySelector('#clear');
     const placeField = document.querySelector('#place');
+    const courtField = document.querySelector('#courts');
     const aScoreMain = document.querySelector('#a-score-main');
     const aScoreSub = document.querySelector('#a-score-sub');
     const bScoreMain = document.querySelector('#b-score-main');
     const bScoreSub = document.querySelector('#b-score-sub');
+    const dateTimePicker = flatpickr('#time', {
+        enableTime: true,
+        dateFormat: "l, h:iK",
+        static: true
+    });
 
     const optionMenu = document.querySelector(".select-menu");
     const optionButton = optionMenu.querySelector(".select-btn");
     const addEvent = optionMenu.querySelector("#add-event");
     const removeEvent = optionMenu.querySelector("#remove-event");
+    const verifyTimes = optionMenu.querySelector('#verify-times');
 
     //Define html data locations
     const backDraw = document.querySelector('#back-draw');
@@ -75,14 +87,13 @@
             wrapperBorderColor: 'transparent',
             roundTitlesBorderColor: 'transparent',
             hoveredMatchBorderColor: '#DC4405',
-            rootFontFamily: 'Comfortaa',
+            rootFontFamily: 'Comfortaa'
         };
 
         const options = (bracket) => {
             return {
                 ...style,
                 navButtonsPosition: 'overTitles',
-                useClassicalLayout: true,
                 onMatchClick: (match) => {
                     selectedBracket = bracket;
 
@@ -149,13 +160,34 @@
             playerBField.value = team[col];
 
             timeField.value = match1.time.split('|')[0].trim();
-            placeField.value = match1.time.split('|')[1].trim();
-    
+
+            if(timeField.value === 'TBA') {
+                timeField.value = '';
+            }
+
+            if(match1.date && timeField.value) 
+                dateTimePicker.setDate(match1.date);
+
+            const placeCourt = match1.time.split('|')[1].trim();
+
+            if(placeCourt === 'TBA') {
+                placeField.value = '';
+                courtField.value = '';
+            } else if(!placeCourt.includes(',')) {
+                placeField.value = placeCourt;
+                courtField.value = '';
+            } else {
+                placeField.value = placeCourt.split(',')[0].trim();
+                courtField.value = placeCourt.split(',')[1].trim();
+            }
+
             aScoreMain.value = match1.score;
-            //aScoreSub.value = match2.score;
+            aScoreSub.disabled = true;
+            aScoreSub.value = '';
     
             bScoreMain.value = match2.score;
-            //bScoreSub.value = selectedMatch.sides?.[1]?.scores?.[0]?.subscore;
+            bScoreSub.disabled = true;
+            bScoreSub.value = '';
         }
 
         const poolModalClose = (modal) => {
@@ -184,15 +216,27 @@
             if(!timeField.value)
                 timeField.value = 'TBA'
 
+            if(dateTimePicker.selectedDates.length) {
+                match1.date = dateTimePicker.selectedDates[0];
+                match2.date = dateTimePicker.selectedDates[0];
+            }
+
             if(!placeField.value)
-                placeField.value = 'TBA'
+                placeField.value = 'TBA';
+            
+            if(!courtField.value)
+                courtField.value = 'TBA';
+
+            if(placeField.value === 'TBA' || courtField.value === 'TBA')
+                placeField.value = 'TBA';
+            else
+                placeField.value = placeField.value + ', ' + courtField.value;
 
             match1.time = timeField.value + ' | ' + placeField.value;
             match2.time = match1.time;
 
             // Adding players, time, and place to schedule information
-            
-
+            verify();
             update();
         }
 
@@ -209,12 +253,33 @@
             }
     
             timeField.value = selectedMatch.matchStatus?.split('|')[0].trim();
-            placeField.value = selectedMatch.matchStatus?.split('|')[1].trim();
+
+            if(timeField.value === 'TBA') {
+                timeField.value = '';
+            }
+
+            if(selectedMatch.date && timeField.value)
+                dateTimePicker.setDate(selectedMatch.date);
+            
+            const placeCourt = selectedMatch.matchStatus?.split('|')[1].trim();
+
+            if(placeCourt === 'TBA') {
+                placeField.value = '';
+                courtField.value = '';
+            } else if(!placeCourt.includes(',')) {
+                placeField.value = placeCourt;
+                courtField.value = '';
+            } else {
+                placeField.value = placeCourt.split(',')[0].trim();
+                courtField.value = placeCourt.split(',')[1].trim();
+            }
     
             aScoreMain.value = selectedMatch.sides?.[0]?.scores?.[0]?.mainScore;
+            aScoreSub.disabled = false;
             aScoreSub.value = selectedMatch.sides?.[0]?.scores?.[0]?.subscore;
     
             bScoreMain.value = selectedMatch.sides?.[1]?.scores?.[0]?.mainScore;
+            bScoreSub.disabled = false;
             bScoreSub.value = selectedMatch.sides?.[1]?.scores?.[0]?.subscore;
         };
     
@@ -249,10 +314,17 @@
                 timeField.value = 'TBA';
             }
     
-            if(!placeField.value) {
+            if(!placeField.value)
                 placeField.value = 'TBA';
-            }
-    
+            
+            if(!courtField.value)
+                courtField.value = 'TBA';
+
+            if(placeField.value === 'TBA' || courtField.value === 'TBA')
+                placeField.value = 'TBA';
+            else
+                placeField.value = placeField.value + ', ' + courtField.value;
+
             selectedMatch.matchStatus = timeField.value + ' | ' + placeField.value;
 
             if(selectedBracket === 'main') {
@@ -267,6 +339,28 @@
 
             if(tournamentData.events[index].type === 'double') {
                 tournamentData.events[index].back = backBracket.getAllData();
+            }
+
+            if(selectedBracket === 'main') {
+                for(const match of tournamentData.events[index].main.matches) {
+                    if(match.roundIndex === selectedMatch.roundIndex && match.order === selectedMatch.order) {
+                        if(dateTimePicker.selectedDates.length) {
+                            match.date = dateTimePicker.selectedDates[0];
+                        }
+
+                        break;
+                    }
+                }
+            } else {
+                for(const match of tournamentData.events[index].back.matches) {
+                    if(match.roundIndex === selectedMatch.roundIndex && match.order === selectedMatch.order) {
+                        if(dateTimePicker.selectedDates.length) {
+                            match.date = dateTimePicker.selectedDates[0];
+                        }
+
+                        break;
+                    }
+                }
             }
 
             if(!tournamentData.events[index].main.contestants[playerAField.value]) {
@@ -299,6 +393,7 @@
                 }
             }
 
+            verify();
             update();
         };
     
@@ -320,8 +415,155 @@
         });
 
         const poolClickHandler = (event) => {
+            if(!('i' in event.target.dataset) || !('j' in event.target.dataset) || !('k' in event.target.dataset)) {
+                return;
+            }
+
+            if(parseInt(event.target.dataset.j) < 0 || parseInt(event.target.dataset.k) < 0 || event.target.dataset.j === event.target.dataset.k) {
+                return;
+            }
+
+            if(tournamentData.events[index].pools[event.target.dataset.i].teams.length === 4 && (parseInt(event.target.dataset.j) === (3 - parseInt(event.target.dataset.k)))) {
+                return;
+            }
+
             selectedMatch = event.target;
             poolModal.open('#bracketModal');
+        };
+
+        const verify = () => {
+            const matchups = [];
+
+            for(const event of tournamentData.events) {
+                if(event.type === 'pool') { // Adding all pool matchups
+
+                    for(var i = 0; i < event.count; i++) { // Iterate through all the pools
+                        if(event.pools[i].teams.length < 4) { // Add matchups for pools of 3
+                            matchups.push({
+                                matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
+                                time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
+                                place: event.pools[i].matches[0][1].time.split('|')[1].trim()
+                            });
+                            matchups.push({
+                                matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
+                                time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
+                                place: event.pools[i].matches[0][2].time.split('|')[1].trim()
+                            });
+                            matchups.push({
+                                matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[2],
+                                time: event.pools[i].matches[1][2].time.split('|')[0].trim(),
+                                place: event.pools[i].matches[1][2].time.split('|')[1].trim()
+                            });
+                        } else { // Add matchups for pools of 4
+                            matchups.push({
+                                matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
+                                time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
+                                place: event.pools[i].matches[0][1].time.split('|')[1].trim()
+                            });
+                            matchups.push({
+                                matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
+                                time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
+                                place: event.pools[i].matches[0][2].time.split('|')[1].trim()
+                            });
+                            matchups.push({
+                                matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[3],
+                                time: event.pools[i].matches[1][3].time.split('|')[0].trim(),
+                                place: event.pools[i].matches[1][3].time.split('|')[1].trim()
+                            });
+                            matchups.push({
+                                matchup: event.pools[i].teams[2] + ' vs ' + event.pools[i].teams[3],
+                                time: event.pools[i].matches[2][3].time.split('|')[0].trim(),
+                                place: event.pools[i].matches[2][3].time.split('|')[1].trim()
+                            });
+                        }
+                    }
+                } else if (event.type === 'single'){ // Adding bracket matches for single elim
+                    for(var i = 0; i < event.main.matches.length; i++) {
+                        matchups.push({
+                            matchup: event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId,
+                            time: event.main.matches[i].matchStatus.split('|')[0].trim(),
+                            place: event.main.matches[i].matchStatus.split('|')[1].trim(),
+                        });
+                    }
+                } else { // Adding bracket matchups for double elim
+                    for(var i = 0; i < event.main.matches.length; i++) {
+                        matchups.push({
+                            matchup: event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId,
+                            time: event.main.matches[i].matchStatus.split('|')[0].trim(),
+                            place: event.main.matches[i].matchStatus.split('|')[1].trim(),
+                        });
+                    }
+                    for(var i = 0; i < event.back.matches.length; i++) {
+                        matchups.push({
+                            matchup: event.back.matches[i].sides?.[0]?.contestantId + ' vs ' + event.back.matches[i].sides?.[1]?.contestantId,
+                            time: event.back.matches[i].matchStatus.split('|')[0].trim(),
+                            place: event.back.matches[i].matchStatus.split('|')[1].trim(),
+                        });
+                    }
+                }
+            }
+
+            playerMap = new Map();
+            locationMap = new Map();
+            errors = [];
+
+            for(const matchup of matchups) {
+                if(matchup.time === 'TBA') {
+                    continue;
+                }
+
+                const players = [...matchup.matchup.split(' vs ')[0].split(' / '), ...matchup.matchup.split(' vs ')[1].split(' / ')];
+                
+                for(const player of players) {
+                    if(player && player !== 'Bye' && playerMap.get(player)?.has(matchup.time)) {
+                        errors.push({
+                            fault: player,
+                            time: matchup.time
+                        });
+                    } else {
+                        if(!playerMap.has(player)) {
+                            playerMap.set(player, new Set());
+                        } 
+    
+                        playerMap.get(player).add(matchup.time);
+                    }
+                }
+
+                if(location !== 'TBA' && locationMap.get(matchup.place)?.has(matchup.time)) {
+                    errors.push({
+                        fault: matchup.place,
+                        time: matchup.time
+                    });
+                } else {
+                    if(!locationMap.has(matchup.place)) {
+                        locationMap.set(matchup.place, new Set());
+                    } 
+
+                    locationMap.get(matchup.place).add(matchup.time);
+                }
+            }
+
+            const errorList = document.createElement('ul');
+
+            for(const error of errors) {
+                const errorMessage = document.createElement('li');
+
+                errorMessage.textContent = error.fault + ' @ ' + error.time;
+
+                errorList.appendChild(errorMessage);
+            }
+
+            //TODO: Color text when there is time conflict
+
+            if(errors.length !== 0) {
+                console.log(errors);
+
+                swal({
+                    title: 'Time Conflicts',
+                    content: errorList,
+                    icon: 'error'
+                });
+            }
         };
 
         const loadEvent = (index) => {
@@ -631,9 +873,11 @@
                                         var cellText = document.createTextNode('');
                                         cell.style.backgroundColor = "black";
                                 }
-
+                                
                                 cell.appendChild(cellText);
-
+                                if(j > 0 && k > 0) {
+                                    cell.title = event.pools[i].matches[j-1][k-1].time;
+                                }
                                 cell.classList.add('cell-wrapper');
 
                                 row.appendChild(cell);
@@ -645,7 +889,7 @@
                         poolPlayWrapper.appendChild(poolTable);
                         poolPlayWrapper.addEventListener('click', poolClickHandler);
                     }  
-
+                    
                     const playermap = new Map();
 
                     for(var k = 0; k < event.teams.length; k++){
@@ -790,6 +1034,13 @@
                 });
             }
         });
+
+        verifyTimes.addEventListener('click', () => verify(index));
+
+        clearButton.addEventListener('click', () => {
+            timeField.value = '';
+            dateTimePicker.setDate(undefined);
+        })
 
         index = -1;
         loadEvent(-1);

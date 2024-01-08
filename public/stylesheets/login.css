@@ -1,0 +1,10 @@
+.login-prompt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+label {
+    font-size: 2em;
+}

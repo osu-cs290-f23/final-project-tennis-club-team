@@ -3,9 +3,38 @@ import express from 'express';
 import { ObjectId } from 'bson';
 import { createSingleElim, createDoubleElim, createPooledEvent } from '../lib/events.js';
 
-var router = express.Router();
+var publicRouter = express.Router();
+var privateRouter = express.Router();
 
-router.delete('/', async function(req, res, next) {
+publicRouter.get('/', async (req, res, next) => {
+    try {
+        const coll = await db.collection('tournaments');
+        const result = await coll.find({}).project({ name: 1 }).toArray();
+
+        res.status(200).send(result);
+    } catch(error) {
+        console.error(error);
+
+        res.status(501).send(error);
+    }        
+});
+
+publicRouter.get('/:id', async (req, res, next) => {
+    try {
+        const coll = await db.collection('tournaments');
+        const result = await coll.findOne({ _id: new ObjectId(req.params.id) });
+
+        console.log(result);
+
+        res.status(200).send(result);
+    } catch(error) {
+        console.error(error);
+
+        res.status(401).send(error);
+    }
+});
+
+privateRouter.delete('/', async function(req, res, next) {
     try {
         const coll = await db.collection('tournaments');
         const result = await coll.deleteOne({ _id: new ObjectId(req.query.id) });
@@ -22,35 +51,7 @@ router.delete('/', async function(req, res, next) {
     }
 });
 
-router.all('/', async (req, res, next) => {
-    try {
-        const coll = await db.collection('tournaments');
-        const result = await coll.find({}).project({ name: 1 }).toArray();
-
-        res.status(200).send(result);
-    } catch(error) {
-        console.error(error);
-
-        res.status(501).send(error);
-    }        
-});
-
-router.get('/:id', async (req, res, next) => {
-    try {
-        const coll = await db.collection('tournaments');
-        const result = await coll.findOne({ _id: new ObjectId(req.params.id) });
-
-        console.log(result);
-
-        res.status(200).send(result);
-    } catch(error) {
-        console.error(error);
-
-        res.status(401).send(error);
-    }
-});
-
-router.post('/create', async function(req, res, next) {
+privateRouter.post('/create', async function(req, res, next) {
     try {
         const coll = await db.collection('tournaments');
         const result = await coll.insertOne({ name: req.body.name, events: []});
@@ -67,7 +68,7 @@ router.post('/create', async function(req, res, next) {
     }
 });
 
-router.post('/:id/update', async (req, res, next) => {
+privateRouter.post('/:id/update', async (req, res, next) => {
     try {
         const coll = await db.collection('tournaments');
 
@@ -83,7 +84,7 @@ router.post('/:id/update', async (req, res, next) => {
     }
 });
 
-router.post('/:id/addevent', async function(req, res, next) {
+privateRouter.post('/:id/addevent', async function(req, res, next) {
     try {
         const coll = await db.collection('tournaments');
         var event; 
@@ -114,4 +115,4 @@ router.post('/:id/addevent', async function(req, res, next) {
     }
 });
 
-export default router;
+export { publicRouter, privateRouter };

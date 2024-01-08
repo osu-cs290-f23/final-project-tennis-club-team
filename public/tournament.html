@@ -1,16 +1,15 @@
 <html>
   <head>
     <title>Beaver Brackets</title>
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300;400;500;600;700&display=swap" rel="stylesheet"> 
-
     <link rel="stylesheet" href="/stylesheets/style.css">
     <link rel="stylesheet" href="/stylesheets/tournament.css">
     <link rel="stylesheet" href="/stylesheets/hystmodal.min.css">
     <link rel="stylesheet" href="/stylesheets/noty.css">
     <link rel="stylesheet" href="/stylesheets/relax.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_orange.css">
     <script defer src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script defer src="/javascripts/noty.js"></script>
     <script defer src="/javascripts/socket.io.js"></script>
@@ -24,7 +23,6 @@
       </a>
 
       <a href="/">
-
           <img class = "logo navbar-logo" src = tennis-beaver-2.png alt = "Beaver Logo">
       </a>
 
@@ -39,6 +37,9 @@
             </li>
             <li id="remove-event" class="option">
               <span class="option-text">Remove Event</span>
+            </li>
+            <li id="verify-times" class="option">
+              <span class="option-text">Verify Times</span>
             </li>
           </ul>
         </div>
@@ -93,8 +94,16 @@
                   <input id="time" type="text" placeholder="Time" />
                 </div>
                 <div class="side-by-side">
-                  <h3 for="time">Place</h3>
+                  <button id="clear" type="button">Clear</button>
+                </div>
+                <div></div>
+                <div class="side-by-side">
+                  <h3 for="place">Place</h3>
                   <input id="place" type="text" placeholder="Place" />
+                </div>
+                <div class="side-by-side">
+                  <h3 for="time">Court(s)</h3>
+                  <input id="courts" type="text" placeholder="Court(s)" />
                 </div>
               </div>
           </div>
