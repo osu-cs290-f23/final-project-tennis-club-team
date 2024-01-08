@@ -35,7 +35,7 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(favicon(path.join(__dirname, 'public/favicon', 'favicon.ico')));
 app.use(session({
     secret: 't3nn1s4ev4',
     resave: false,
@@ -44,14 +44,18 @@ app.use(session({
 }));
 app.use(passport.authenticate('session'));
 
-publicRouter.param
-
-app.use(favicon(path.join(__dirname, 'public/favicon', 'favicon.ico')));
-app.use('/admin', checkSession, express.static(path.join(__dirname, 'admin')));
-
 app.use('/', indexRouter);
 app.use('/', authRouter);
-app.use('/tournaments', publicRouter, checkSession, privateRouter);
+app.use('/tournaments', publicRouter, () => {console.log('hit')}, checkSession, privateRouter);
+
+app.use(express.static(path.join(__dirname, 'public')), (req, res, next) => {
+    if(req.user?.username !== auth.username) {
+        return;
+    }
+
+    next();
+}, express.static(path.join(__dirname, 'admin')));
+app.use('/admin', checkSession, express.static(path.join(__dirname, 'admin')));
 
 app.get('*', function(req, res) {
     res.status(404).sendFile(__dirname + "/public/404.html")

@@ -8,6 +8,8 @@ var privateRouter = express.Router();
 
 publicRouter.get('/', async (req, res, next) => {
     try {
+        console.log('Entering...');
+
         const coll = await db.collection('tournaments');
         const result = await coll.find({}).project({ name: 1 }).toArray();
 

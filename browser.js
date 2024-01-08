@@ -12,7 +12,7 @@ const adminFolder = fs.readdirSync(path.join(__dirname, 'client/admin'));
 
 publicFolder.forEach(async (file) => {
     var b = browserify({
-        entries: ['./client/' + file],
+        entries: ['./client/public/' + file],
         cache: {},
         packageCache: {},
         plugin: [watchify]
@@ -34,7 +34,7 @@ publicFolder.forEach(async (file) => {
 
 adminFolder.forEach(async (file) => {
     var b = browserify({
-        entries: ['./client/' + file],
+        entries: ['./client/admin/' + file],
         cache: {},
         packageCache: {},
         plugin: [watchify]
