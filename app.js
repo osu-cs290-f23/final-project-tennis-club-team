@@ -46,16 +46,16 @@ app.use(passport.authenticate('session'));
 
 app.use('/', indexRouter);
 app.use('/', authRouter);
-app.use('/tournaments', publicRouter, () => {console.log('hit')}, checkSession, privateRouter);
+app.use('/tournaments', publicRouter, checkSession, privateRouter);
 
-app.use(express.static(path.join(__dirname, 'public')), (req, res, next) => {
-    if(req.user?.username !== auth.username) {
-        return;
+app.use((req, res, next) => {
+    if(req.user?.username === auth.username) {
+        express.static(path.join(__dirname, 'admin'), { fallthrough: true })(req, res, next);
+    } else {
+        next();
     }
-
-    next();
-}, express.static(path.join(__dirname, 'admin')));
-app.use('/admin', checkSession, express.static(path.join(__dirname, 'admin')));
+});
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('*', function(req, res) {
     res.status(404).sendFile(__dirname + "/public/404.html")

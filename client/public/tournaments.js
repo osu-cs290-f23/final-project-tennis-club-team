@@ -69,8 +69,8 @@
             // });
 
             tElement.appendChild(tLink);
-            tElement.appendChild(rBtn);
-            rBtn.appendChild(trash);
+            // tElement.appendChild(rBtn);
+            // rBtn.appendChild(trash);
             tl.appendChild(tElement);
         }
     };

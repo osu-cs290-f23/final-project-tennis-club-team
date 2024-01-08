@@ -91,17 +91,17 @@
             rootFontFamily: 'Comfortaa'
         };
 
-        const options = (bracket) => {
-            return {
-                ...style,
-                navButtonsPosition: 'overTitles',
-                onMatchClick: (match) => {
-                    selectedBracket = bracket;
+        // const options = (bracket) => {
+        //     return {
+        //         ...style,
+        //         navButtonsPosition: 'overTitles',
+        //         onMatchClick: (match) => {
+        //             selectedBracket = bracket;
 
-                    matchClickHandler(match);
-                }
-            };
-        };
+        //             matchClickHandler(match);
+        //         }
+        //     };
+        // };
 
         const addEventTabs = () => {
             eventTabs.replaceChildren([]);
@@ -150,426 +150,426 @@
             // loadEvent(index);
         };
         
-        const poolModalOpen = (modal) => {
-            var pool = parseInt(selectedMatch.dataset.i);
-            var row = parseInt(selectedMatch.dataset.j);
-            var col = parseInt(selectedMatch.dataset.k);
-            var match1 = tournamentData.events[index].pools[pool].matches[row][col];
-            var match2 = tournamentData.events[index].pools[pool].matches[col][row];
-            var team = tournamentData.events[index].pools[pool].teams;
-            playerAField.value = team[row];
-            playerBField.value = team[col];
+        // const poolModalOpen = (modal) => {
+        //     var pool = parseInt(selectedMatch.dataset.i);
+        //     var row = parseInt(selectedMatch.dataset.j);
+        //     var col = parseInt(selectedMatch.dataset.k);
+        //     var match1 = tournamentData.events[index].pools[pool].matches[row][col];
+        //     var match2 = tournamentData.events[index].pools[pool].matches[col][row];
+        //     var team = tournamentData.events[index].pools[pool].teams;
+        //     playerAField.value = team[row];
+        //     playerBField.value = team[col];
 
-            timeField.value = match1.time.split('|')[0].trim();
+        //     timeField.value = match1.time.split('|')[0].trim();
 
-            if(timeField.value === 'TBA') {
-                timeField.value = '';
-            }
+        //     if(timeField.value === 'TBA') {
+        //         timeField.value = '';
+        //     }
 
-            if(match1.date && timeField.value) 
-                dateTimePicker.setDate(match1.date);
+        //     if(match1.date && timeField.value) 
+        //         dateTimePicker.setDate(match1.date);
 
-            const placeCourt = match1.time.split('|')[1].trim();
+        //     const placeCourt = match1.time.split('|')[1].trim();
 
-            if(placeCourt === 'TBA') {
-                placeField.value = '';
-                courtField.value = '';
-            } else if(!placeCourt.includes(',')) {
-                placeField.value = placeCourt;
-                courtField.value = '';
-            } else {
-                placeField.value = placeCourt.split(',')[0].trim();
-                courtField.value = placeCourt.split(',')[1].trim();
-            }
+        //     if(placeCourt === 'TBA') {
+        //         placeField.value = '';
+        //         courtField.value = '';
+        //     } else if(!placeCourt.includes(',')) {
+        //         placeField.value = placeCourt;
+        //         courtField.value = '';
+        //     } else {
+        //         placeField.value = placeCourt.split(',')[0].trim();
+        //         courtField.value = placeCourt.split(',')[1].trim();
+        //     }
 
-            aScoreMain.value = match1.score;
-            aScoreSub.disabled = true;
-            aScoreSub.value = '';
+        //     aScoreMain.value = match1.score;
+        //     aScoreSub.disabled = true;
+        //     aScoreSub.value = '';
     
-            bScoreMain.value = match2.score;
-            bScoreSub.disabled = true;
-            bScoreSub.value = '';
-        }
+        //     bScoreMain.value = match2.score;
+        //     bScoreSub.disabled = true;
+        //     bScoreSub.value = '';
+        // }
 
-        const poolModalClose = (modal) => {
-            var pool = parseInt(selectedMatch.dataset.i);
-            var row = parseInt(selectedMatch.dataset.j);
-            var col = parseInt(selectedMatch.dataset.k);
-            var match1 = tournamentData.events[index].pools[pool].matches[row][col];
-            var match2 = tournamentData.events[index].pools[pool].matches[col][row];
-            var team = tournamentData.events[index].pools[pool].teams;
+        // const poolModalClose = (modal) => {
+        //     var pool = parseInt(selectedMatch.dataset.i);
+        //     var row = parseInt(selectedMatch.dataset.j);
+        //     var col = parseInt(selectedMatch.dataset.k);
+        //     var match1 = tournamentData.events[index].pools[pool].matches[row][col];
+        //     var match2 = tournamentData.events[index].pools[pool].matches[col][row];
+        //     var team = tournamentData.events[index].pools[pool].teams;
 
-            // Setting the players correctly
-            if(playerAField.value)
-                team[row] = playerAField.value;
+        //     // Setting the players correctly
+        //     if(playerAField.value)
+        //         team[row] = playerAField.value;
 
-            if(playerBField.value)
-                team[col] = playerBField.value;
+        //     if(playerBField.value)
+        //         team[col] = playerBField.value;
 
-            // Setting the scores correctly
-            if(aScoreMain.value)
-                match1.score = parseInt(aScoreMain.value);
-            else 
-                match1.score = 0;
+        //     // Setting the scores correctly
+        //     if(aScoreMain.value)
+        //         match1.score = parseInt(aScoreMain.value);
+        //     else 
+        //         match1.score = 0;
             
-            if(bScoreMain.value)    
-                match2.score = parseInt(bScoreMain.value);
-            else
-                match2.score = 0
+        //     if(bScoreMain.value)    
+        //         match2.score = parseInt(bScoreMain.value);
+        //     else
+        //         match2.score = 0
 
-            // Setting the time and place correctly
-            if(!timeField.value)
-                timeField.value = 'TBA'
+        //     // Setting the time and place correctly
+        //     if(!timeField.value)
+        //         timeField.value = 'TBA'
 
-            if(dateTimePicker.selectedDates.length) {
-                match1.date = dateTimePicker.selectedDates[0];
-                match2.date = dateTimePicker.selectedDates[0];
-            }
+        //     if(dateTimePicker.selectedDates.length) {
+        //         match1.date = dateTimePicker.selectedDates[0];
+        //         match2.date = dateTimePicker.selectedDates[0];
+        //     }
 
-            if(!placeField.value)
-                placeField.value = 'TBA';
+        //     if(!placeField.value)
+        //         placeField.value = 'TBA';
             
-            if(!courtField.value)
-                courtField.value = 'TBA';
+        //     if(!courtField.value)
+        //         courtField.value = 'TBA';
 
-            if(placeField.value === 'TBA' || courtField.value === 'TBA')
-                placeField.value = 'TBA';
-            else
-                placeField.value = placeField.value + ', ' + courtField.value;
+        //     if(placeField.value === 'TBA' || courtField.value === 'TBA')
+        //         placeField.value = 'TBA';
+        //     else
+        //         placeField.value = placeField.value + ', ' + courtField.value;
 
-            match1.time = timeField.value + ' | ' + placeField.value;
-            match2.time = match1.time;
+        //     match1.time = timeField.value + ' | ' + placeField.value;
+        //     match2.time = match1.time;
 
-            // Adding players, time, and place to schedule information
-            verify();
-            update();
-        }
+        //     // Adding players, time, and place to schedule information
+        //     verify();
+        //     update();
+        // }
 
-        const modalOpen = (modal) => {
-            playerAField.value = selectedMatch.sides[0]?.contestantId;
-            playerBField.value = selectedMatch.sides[1]?.contestantId;
+        // const modalOpen = (modal) => {
+        //     playerAField.value = selectedMatch.sides[0]?.contestantId;
+        //     playerBField.value = selectedMatch.sides[1]?.contestantId;
 
-            if(!selectedMatch.sides[0]?.contestantId) {
-                playerAField.value = '';
-            }
+        //     if(!selectedMatch.sides[0]?.contestantId) {
+        //         playerAField.value = '';
+        //     }
 
-            if(!selectedMatch.sides[1]?.contestantId) {
-                playerBField.value = '';
-            }
+        //     if(!selectedMatch.sides[1]?.contestantId) {
+        //         playerBField.value = '';
+        //     }
     
-            timeField.value = selectedMatch.matchStatus?.split('|')[0].trim();
+        //     timeField.value = selectedMatch.matchStatus?.split('|')[0].trim();
 
-            if(timeField.value === 'TBA') {
-                timeField.value = '';
-            }
+        //     if(timeField.value === 'TBA') {
+        //         timeField.value = '';
+        //     }
 
-            if(selectedMatch.date && timeField.value)
-                dateTimePicker.setDate(selectedMatch.date);
+        //     if(selectedMatch.date && timeField.value)
+        //         dateTimePicker.setDate(selectedMatch.date);
             
-            const placeCourt = selectedMatch.matchStatus?.split('|')[1].trim();
+        //     const placeCourt = selectedMatch.matchStatus?.split('|')[1].trim();
 
-            if(placeCourt === 'TBA') {
-                placeField.value = '';
-                courtField.value = '';
-            } else if(!placeCourt.includes(',')) {
-                placeField.value = placeCourt;
-                courtField.value = '';
-            } else {
-                placeField.value = placeCourt.split(',')[0].trim();
-                courtField.value = placeCourt.split(',')[1].trim();
-            }
+        //     if(placeCourt === 'TBA') {
+        //         placeField.value = '';
+        //         courtField.value = '';
+        //     } else if(!placeCourt.includes(',')) {
+        //         placeField.value = placeCourt;
+        //         courtField.value = '';
+        //     } else {
+        //         placeField.value = placeCourt.split(',')[0].trim();
+        //         courtField.value = placeCourt.split(',')[1].trim();
+        //     }
     
-            aScoreMain.value = selectedMatch.sides?.[0]?.scores?.[0]?.mainScore;
-            aScoreSub.disabled = false;
-            aScoreSub.value = selectedMatch.sides?.[0]?.scores?.[0]?.subscore;
+        //     aScoreMain.value = selectedMatch.sides?.[0]?.scores?.[0]?.mainScore;
+        //     aScoreSub.disabled = false;
+        //     aScoreSub.value = selectedMatch.sides?.[0]?.scores?.[0]?.subscore;
     
-            bScoreMain.value = selectedMatch.sides?.[1]?.scores?.[0]?.mainScore;
-            bScoreSub.disabled = false;
-            bScoreSub.value = selectedMatch.sides?.[1]?.scores?.[0]?.subscore;
-        };
+        //     bScoreMain.value = selectedMatch.sides?.[1]?.scores?.[0]?.mainScore;
+        //     bScoreSub.disabled = false;
+        //     bScoreSub.value = selectedMatch.sides?.[1]?.scores?.[0]?.subscore;
+        // };
     
-        const modalClose = (modal) => {
-            selectedMatch.sides[0] = {
-                scores: [
-                    {
-                        mainScore: aScoreMain.value,
-                        subscore: aScoreSub.value
-                    }
-                ]
-            };
+        // const modalClose = (modal) => {
+        //     selectedMatch.sides[0] = {
+        //         scores: [
+        //             {
+        //                 mainScore: aScoreMain.value,
+        //                 subscore: aScoreSub.value
+        //             }
+        //         ]
+        //     };
 
-            if(playerAField.value) {
-                selectedMatch.sides[0].contestantId = playerAField.value;
-            }
+        //     if(playerAField.value) {
+        //         selectedMatch.sides[0].contestantId = playerAField.value;
+        //     }
         
-            selectedMatch.sides[1] = {
-                scores: [
-                    {
-                        mainScore: bScoreMain.value,
-                        subscore: bScoreSub.value
-                    }
-                ]
-            };
+        //     selectedMatch.sides[1] = {
+        //         scores: [
+        //             {
+        //                 mainScore: bScoreMain.value,
+        //                 subscore: bScoreSub.value
+        //             }
+        //         ]
+        //     };
 
-            if(playerBField.value) {
-                selectedMatch.sides[1].contestantId = playerBField.value;
-            }
+        //     if(playerBField.value) {
+        //         selectedMatch.sides[1].contestantId = playerBField.value;
+        //     }
     
-            if(!timeField.value) {
-                timeField.value = 'TBA';
-            }
+        //     if(!timeField.value) {
+        //         timeField.value = 'TBA';
+        //     }
     
-            if(!placeField.value)
-                placeField.value = 'TBA';
+        //     if(!placeField.value)
+        //         placeField.value = 'TBA';
             
-            if(!courtField.value)
-                courtField.value = 'TBA';
+        //     if(!courtField.value)
+        //         courtField.value = 'TBA';
 
-            if(placeField.value === 'TBA' || courtField.value === 'TBA')
-                placeField.value = 'TBA';
-            else
-                placeField.value = placeField.value + ', ' + courtField.value;
+        //     if(placeField.value === 'TBA' || courtField.value === 'TBA')
+        //         placeField.value = 'TBA';
+        //     else
+        //         placeField.value = placeField.value + ', ' + courtField.value;
 
-            selectedMatch.matchStatus = timeField.value + ' | ' + placeField.value;
+        //     selectedMatch.matchStatus = timeField.value + ' | ' + placeField.value;
 
-            if(selectedBracket === 'main') {
-                mainBracket.applyMatchesUpdates([selectedMatch]);
-            } else {
-                backBracket.applyMatchesUpdates([selectedMatch]);
-            }
+        //     if(selectedBracket === 'main') {
+        //         mainBracket.applyMatchesUpdates([selectedMatch]);
+        //     } else {
+        //         backBracket.applyMatchesUpdates([selectedMatch]);
+        //     }
 
-            if(tournamentData.events[index].type !== 'pool') {
-                tournamentData.events[index].main = mainBracket.getAllData();
-            }
+        //     if(tournamentData.events[index].type !== 'pool') {
+        //         tournamentData.events[index].main = mainBracket.getAllData();
+        //     }
 
-            if(tournamentData.events[index].type === 'double') {
-                tournamentData.events[index].back = backBracket.getAllData();
-            }
+        //     if(tournamentData.events[index].type === 'double') {
+        //         tournamentData.events[index].back = backBracket.getAllData();
+        //     }
 
-            if(selectedBracket === 'main') {
-                for(const match of tournamentData.events[index].main.matches) {
-                    if(match.roundIndex === selectedMatch.roundIndex && match.order === selectedMatch.order) {
-                        if(dateTimePicker.selectedDates.length) {
-                            match.date = dateTimePicker.selectedDates[0];
-                        }
+        //     if(selectedBracket === 'main') {
+        //         for(const match of tournamentData.events[index].main.matches) {
+        //             if(match.roundIndex === selectedMatch.roundIndex && match.order === selectedMatch.order) {
+        //                 if(dateTimePicker.selectedDates.length) {
+        //                     match.date = dateTimePicker.selectedDates[0];
+        //                 }
 
-                        break;
-                    }
-                }
-            } else {
-                for(const match of tournamentData.events[index].back.matches) {
-                    if(match.roundIndex === selectedMatch.roundIndex && match.order === selectedMatch.order) {
-                        if(dateTimePicker.selectedDates.length) {
-                            match.date = dateTimePicker.selectedDates[0];
-                        }
+        //                 break;
+        //             }
+        //         }
+        //     } else {
+        //         for(const match of tournamentData.events[index].back.matches) {
+        //             if(match.roundIndex === selectedMatch.roundIndex && match.order === selectedMatch.order) {
+        //                 if(dateTimePicker.selectedDates.length) {
+        //                     match.date = dateTimePicker.selectedDates[0];
+        //                 }
 
-                        break;
-                    }
-                }
-            }
+        //                 break;
+        //             }
+        //         }
+        //     }
 
-            if(!tournamentData.events[index].main.contestants[playerAField.value]) {
-                tournamentData.events[index].main.contestants[playerAField.value] = {
-                    entryStatus: '',
-                    players: [ { title: playerAField.value } ]
-                };
-            }
+        //     if(!tournamentData.events[index].main.contestants[playerAField.value]) {
+        //         tournamentData.events[index].main.contestants[playerAField.value] = {
+        //             entryStatus: '',
+        //             players: [ { title: playerAField.value } ]
+        //         };
+        //     }
 
-            if(!tournamentData.events[index].main.contestants[playerBField.value]) {
-                tournamentData.events[index].main.contestants[playerBField.value] = {
-                    entryStatus: '',
-                    players: [ { title: playerBField.value } ]
-                };
-            }
+        //     if(!tournamentData.events[index].main.contestants[playerBField.value]) {
+        //         tournamentData.events[index].main.contestants[playerBField.value] = {
+        //             entryStatus: '',
+        //             players: [ { title: playerBField.value } ]
+        //         };
+        //     }
 
-            if(tournamentData.events[index].type === 'double') {
-                if(!tournamentData.events[index].back.contestants[playerAField.value]) {
-                    tournamentData.events[index].back.contestants[playerAField.value] = {
-                        entryStatus: '',
-                        players: [ { title: playerAField.value } ]
-                    };
-                }
+        //     if(tournamentData.events[index].type === 'double') {
+        //         if(!tournamentData.events[index].back.contestants[playerAField.value]) {
+        //             tournamentData.events[index].back.contestants[playerAField.value] = {
+        //                 entryStatus: '',
+        //                 players: [ { title: playerAField.value } ]
+        //             };
+        //         }
 
-                if(!tournamentData.events[index].back.contestants[playerBField.value]) {
-                    tournamentData.events[index].back.contestants[playerBField.value] = {
-                        entryStatus: '',
-                        players: [ { title: playerBField.value } ]
-                    };
-                }
-            }
+        //         if(!tournamentData.events[index].back.contestants[playerBField.value]) {
+        //             tournamentData.events[index].back.contestants[playerBField.value] = {
+        //                 entryStatus: '',
+        //                 players: [ { title: playerBField.value } ]
+        //             };
+        //         }
+        //     }
 
-            verify();
-            update();
-        };
+        //     verify();
+        //     update();
+        // };
     
-        // Modal for brackets
-        const bracketModal = new HystModal({
-            beforeOpen: modalOpen,
-            afterClose: modalClose
-        });
+        // // Modal for brackets
+        // const bracketModal = new HystModal({
+        //     beforeOpen: modalOpen,
+        //     afterClose: modalClose
+        // });
     
-        const matchClickHandler = (match) => {
-            selectedMatch = match;
-            bracketModal.open('#bracketModal');  
-        };
+        // const matchClickHandler = (match) => {
+        //     selectedMatch = match;
+        //     bracketModal.open('#bracketModal');  
+        // };
 
-        // Modal for pools
-        const poolModal = new HystModal({
-            beforeOpen: poolModalOpen,
-            afterClose: poolModalClose
-        });
+        // // Modal for pools
+        // const poolModal = new HystModal({
+        //     beforeOpen: poolModalOpen,
+        //     afterClose: poolModalClose
+        // });
 
-        const poolClickHandler = (event) => {
-            if(!('i' in event.target.dataset) || !('j' in event.target.dataset) || !('k' in event.target.dataset)) {
-                return;
-            }
+        // const poolClickHandler = (event) => {
+        //     if(!('i' in event.target.dataset) || !('j' in event.target.dataset) || !('k' in event.target.dataset)) {
+        //         return;
+        //     }
 
-            if(parseInt(event.target.dataset.j) < 0 || parseInt(event.target.dataset.k) < 0 || event.target.dataset.j === event.target.dataset.k) {
-                return;
-            }
+        //     if(parseInt(event.target.dataset.j) < 0 || parseInt(event.target.dataset.k) < 0 || event.target.dataset.j === event.target.dataset.k) {
+        //         return;
+        //     }
 
-            if(tournamentData.events[index].pools[event.target.dataset.i].teams.length === 4 && (parseInt(event.target.dataset.j) === (3 - parseInt(event.target.dataset.k)))) {
-                return;
-            }
+        //     if(tournamentData.events[index].pools[event.target.dataset.i].teams.length === 4 && (parseInt(event.target.dataset.j) === (3 - parseInt(event.target.dataset.k)))) {
+        //         return;
+        //     }
 
-            selectedMatch = event.target;
-            poolModal.open('#bracketModal');
-        };
+        //     selectedMatch = event.target;
+        //     poolModal.open('#bracketModal');
+        // };
 
-        const verify = () => {
-            const matchups = [];
+        // const verify = () => {
+        //     const matchups = [];
 
-            for(const event of tournamentData.events) {
-                if(event.type === 'pool') { // Adding all pool matchups
+        //     for(const event of tournamentData.events) {
+        //         if(event.type === 'pool') { // Adding all pool matchups
 
-                    for(var i = 0; i < event.count; i++) { // Iterate through all the pools
-                        if(event.pools[i].teams.length < 4) { // Add matchups for pools of 3
-                            matchups.push({
-                                matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
-                                time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
-                                place: event.pools[i].matches[0][1].time.split('|')[1].trim()
-                            });
-                            matchups.push({
-                                matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
-                                time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
-                                place: event.pools[i].matches[0][2].time.split('|')[1].trim()
-                            });
-                            matchups.push({
-                                matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[2],
-                                time: event.pools[i].matches[1][2].time.split('|')[0].trim(),
-                                place: event.pools[i].matches[1][2].time.split('|')[1].trim()
-                            });
-                        } else { // Add matchups for pools of 4
-                            matchups.push({
-                                matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
-                                time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
-                                place: event.pools[i].matches[0][1].time.split('|')[1].trim()
-                            });
-                            matchups.push({
-                                matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
-                                time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
-                                place: event.pools[i].matches[0][2].time.split('|')[1].trim()
-                            });
-                            matchups.push({
-                                matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[3],
-                                time: event.pools[i].matches[1][3].time.split('|')[0].trim(),
-                                place: event.pools[i].matches[1][3].time.split('|')[1].trim()
-                            });
-                            matchups.push({
-                                matchup: event.pools[i].teams[2] + ' vs ' + event.pools[i].teams[3],
-                                time: event.pools[i].matches[2][3].time.split('|')[0].trim(),
-                                place: event.pools[i].matches[2][3].time.split('|')[1].trim()
-                            });
-                        }
-                    }
-                } else if (event.type === 'single'){ // Adding bracket matches for single elim
-                    for(var i = 0; i < event.main.matches.length; i++) {
-                        matchups.push({
-                            matchup: event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId,
-                            time: event.main.matches[i].matchStatus.split('|')[0].trim(),
-                            place: event.main.matches[i].matchStatus.split('|')[1].trim(),
-                        });
-                    }
-                } else { // Adding bracket matchups for double elim
-                    for(var i = 0; i < event.main.matches.length; i++) {
-                        matchups.push({
-                            matchup: event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId,
-                            time: event.main.matches[i].matchStatus.split('|')[0].trim(),
-                            place: event.main.matches[i].matchStatus.split('|')[1].trim(),
-                        });
-                    }
-                    for(var i = 0; i < event.back.matches.length; i++) {
-                        matchups.push({
-                            matchup: event.back.matches[i].sides?.[0]?.contestantId + ' vs ' + event.back.matches[i].sides?.[1]?.contestantId,
-                            time: event.back.matches[i].matchStatus.split('|')[0].trim(),
-                            place: event.back.matches[i].matchStatus.split('|')[1].trim(),
-                        });
-                    }
-                }
-            }
+        //             for(var i = 0; i < event.count; i++) { // Iterate through all the pools
+        //                 if(event.pools[i].teams.length < 4) { // Add matchups for pools of 3
+        //                     matchups.push({
+        //                         matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
+        //                         time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
+        //                         place: event.pools[i].matches[0][1].time.split('|')[1].trim()
+        //                     });
+        //                     matchups.push({
+        //                         matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
+        //                         time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
+        //                         place: event.pools[i].matches[0][2].time.split('|')[1].trim()
+        //                     });
+        //                     matchups.push({
+        //                         matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[2],
+        //                         time: event.pools[i].matches[1][2].time.split('|')[0].trim(),
+        //                         place: event.pools[i].matches[1][2].time.split('|')[1].trim()
+        //                     });
+        //                 } else { // Add matchups for pools of 4
+        //                     matchups.push({
+        //                         matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
+        //                         time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
+        //                         place: event.pools[i].matches[0][1].time.split('|')[1].trim()
+        //                     });
+        //                     matchups.push({
+        //                         matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
+        //                         time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
+        //                         place: event.pools[i].matches[0][2].time.split('|')[1].trim()
+        //                     });
+        //                     matchups.push({
+        //                         matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[3],
+        //                         time: event.pools[i].matches[1][3].time.split('|')[0].trim(),
+        //                         place: event.pools[i].matches[1][3].time.split('|')[1].trim()
+        //                     });
+        //                     matchups.push({
+        //                         matchup: event.pools[i].teams[2] + ' vs ' + event.pools[i].teams[3],
+        //                         time: event.pools[i].matches[2][3].time.split('|')[0].trim(),
+        //                         place: event.pools[i].matches[2][3].time.split('|')[1].trim()
+        //                     });
+        //                 }
+        //             }
+        //         } else if (event.type === 'single'){ // Adding bracket matches for single elim
+        //             for(var i = 0; i < event.main.matches.length; i++) {
+        //                 matchups.push({
+        //                     matchup: event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId,
+        //                     time: event.main.matches[i].matchStatus.split('|')[0].trim(),
+        //                     place: event.main.matches[i].matchStatus.split('|')[1].trim(),
+        //                 });
+        //             }
+        //         } else { // Adding bracket matchups for double elim
+        //             for(var i = 0; i < event.main.matches.length; i++) {
+        //                 matchups.push({
+        //                     matchup: event.main.matches[i].sides?.[0]?.contestantId + ' vs ' + event.main.matches[i].sides?.[1]?.contestantId,
+        //                     time: event.main.matches[i].matchStatus.split('|')[0].trim(),
+        //                     place: event.main.matches[i].matchStatus.split('|')[1].trim(),
+        //                 });
+        //             }
+        //             for(var i = 0; i < event.back.matches.length; i++) {
+        //                 matchups.push({
+        //                     matchup: event.back.matches[i].sides?.[0]?.contestantId + ' vs ' + event.back.matches[i].sides?.[1]?.contestantId,
+        //                     time: event.back.matches[i].matchStatus.split('|')[0].trim(),
+        //                     place: event.back.matches[i].matchStatus.split('|')[1].trim(),
+        //                 });
+        //             }
+        //         }
+        //     }
 
-            playerMap = new Map();
-            locationMap = new Map();
-            errors = [];
+        //     playerMap = new Map();
+        //     locationMap = new Map();
+        //     errors = [];
 
-            for(const matchup of matchups) {
-                if(matchup.time === 'TBA') {
-                    continue;
-                }
+        //     for(const matchup of matchups) {
+        //         if(matchup.time === 'TBA') {
+        //             continue;
+        //         }
 
-                const players = [...matchup.matchup.split(' vs ')[0].split(' / '), ...matchup.matchup.split(' vs ')[1].split(' / ')];
+        //         const players = [...matchup.matchup.split(' vs ')[0].split(' / '), ...matchup.matchup.split(' vs ')[1].split(' / ')];
                 
-                for(const player of players) {
-                    if(player && player !== 'Bye' && playerMap.get(player)?.has(matchup.time)) {
-                        errors.push({
-                            fault: player,
-                            time: matchup.time
-                        });
-                    } else {
-                        if(!playerMap.has(player)) {
-                            playerMap.set(player, new Set());
-                        } 
+        //         for(const player of players) {
+        //             if(player && player !== 'Bye' && playerMap.get(player)?.has(matchup.time)) {
+        //                 errors.push({
+        //                     fault: player,
+        //                     time: matchup.time
+        //                 });
+        //             } else {
+        //                 if(!playerMap.has(player)) {
+        //                     playerMap.set(player, new Set());
+        //                 } 
     
-                        playerMap.get(player).add(matchup.time);
-                    }
-                }
+        //                 playerMap.get(player).add(matchup.time);
+        //             }
+        //         }
 
-                if(location !== 'TBA' && locationMap.get(matchup.place)?.has(matchup.time)) {
-                    errors.push({
-                        fault: matchup.place,
-                        time: matchup.time
-                    });
-                } else {
-                    if(!locationMap.has(matchup.place)) {
-                        locationMap.set(matchup.place, new Set());
-                    } 
+        //         if(location !== 'TBA' && locationMap.get(matchup.place)?.has(matchup.time)) {
+        //             errors.push({
+        //                 fault: matchup.place,
+        //                 time: matchup.time
+        //             });
+        //         } else {
+        //             if(!locationMap.has(matchup.place)) {
+        //                 locationMap.set(matchup.place, new Set());
+        //             } 
 
-                    locationMap.get(matchup.place).add(matchup.time);
-                }
-            }
+        //             locationMap.get(matchup.place).add(matchup.time);
+        //         }
+        //     }
 
-            const errorList = document.createElement('ul');
+        //     const errorList = document.createElement('ul');
 
-            for(const error of errors) {
-                const errorMessage = document.createElement('li');
+        //     for(const error of errors) {
+        //         const errorMessage = document.createElement('li');
 
-                errorMessage.textContent = error.fault + ' @ ' + error.time;
+        //         errorMessage.textContent = error.fault + ' @ ' + error.time;
 
-                errorList.appendChild(errorMessage);
-            }
+        //         errorList.appendChild(errorMessage);
+        //     }
 
-            //TODO: Color text when there is time conflict
+        //     //TODO: Color text when there is time conflict
 
-            if(errors.length !== 0) {
-                console.log(errors);
+        //     if(errors.length !== 0) {
+        //         console.log(errors);
 
-                swal({
-                    title: 'Time Conflicts',
-                    content: errorList,
-                    icon: 'error'
-                });
-            }
-        };
+        //         swal({
+        //             title: 'Time Conflicts',
+        //             content: errorList,
+        //             icon: 'error'
+        //         });
+        //     }
+        // };
 
         const loadEvent = (index) => {
             eventTabs.children[index+1].classList.add('open');
@@ -1040,60 +1040,60 @@
             }
         });
 
-        optionButton.addEventListener('click', (event) => {
-            if(!optionMenu.classList.contains('active')) {
-                event.stopPropagation();
-            }
+        // optionButton.addEventListener('click', (event) => {
+        //     if(!optionMenu.classList.contains('active')) {
+        //         event.stopPropagation();
+        //     }
 
-            optionMenu.classList.toggle('active');
+        //     optionMenu.classList.toggle('active');
 
-            document.querySelector('.options.hidden')?.classList.remove('hidden');
+        //     document.querySelector('.options.hidden')?.classList.remove('hidden');
             
-            window.addEventListener("click", (event) => {
-                if(!optionButton.contains(event.target)) {
-                    optionMenu.classList.remove('active');
-                }
-            }, { once: true });
-        });        
+        //     window.addEventListener("click", (event) => {
+        //         if(!optionButton.contains(event.target)) {
+        //             optionMenu.classList.remove('active');
+        //         }
+        //     }, { once: true });
+        // });        
 
-        addEvent.addEventListener('click', () => window.location.href = '/load.html?id=' + searchParams.get('id'));
+        //addEvent.addEventListener('click', () => window.location.href = '/load.html?id=' + searchParams.get('id'));
         
-        removeEvent.addEventListener('click', () => {
-            if(index !== -1) {
-                swal({
-                    title: 'Are you sure?',
-                    text: 'Once deleted, you cannot recover this event!',
-                    icon: 'warning',
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then(async (willDelete) => {
-                    if (willDelete) {
-                        tournamentData.events.splice(index, 1);
+        // removeEvent.addEventListener('click', () => {
+        //     if(index !== -1) {
+        //         swal({
+        //             title: 'Are you sure?',
+        //             text: 'Once deleted, you cannot recover this event!',
+        //             icon: 'warning',
+        //             buttons: true,
+        //             dangerMode: true,
+        //         })
+        //         .then(async (willDelete) => {
+        //             if (willDelete) {
+        //                 tournamentData.events.splice(index, 1);
 
-                        index = -1;
+        //                 index = -1;
 
-                        await update();
+        //                 await update();
                         
-                        new Noty({
-                            type: 'success',
-                            layout: 'topRight',
-                            theme: 'relax',
-                            text: 'Done!',
-                            closeWith: ['click', 'button'],
-                            timeout: 3000
-                        }).show();                        
-                    }
-                });
-            }
-        });
+        //                 new Noty({
+        //                     type: 'success',
+        //                     layout: 'topRight',
+        //                     theme: 'relax',
+        //                     text: 'Done!',
+        //                     closeWith: ['click', 'button'],
+        //                     timeout: 3000
+        //                 }).show();                        
+        //             }
+        //         });
+        //     }
+        // });
 
-        verifyTimes.addEventListener('click', () => verify(index));
+        // verifyTimes.addEventListener('click', () => verify(index));
 
-        clearButton.addEventListener('click', () => {
-            timeField.value = '';
-            dateTimePicker.setDate(undefined);
-        })
+        // clearButton.addEventListener('click', () => {
+        //     timeField.value = '';
+        //     dateTimePicker.setDate(undefined);
+        // })
 
         index = -1;
         loadEvent(-1);
