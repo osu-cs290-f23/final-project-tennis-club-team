@@ -21,6 +21,7 @@
     "express-session": "^1.17.3",
     "flatpickr": "^4.6.13",
     "gridjs": "^6.0.6",
+    "handlebars": "^4.7.8",
     "hystmodal": "^1.0.1",
     "lodash": "^4.17.21",
     "mongodb": "^6.3.0",

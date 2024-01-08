@@ -209,9 +209,13 @@
             // Setting the scores correctly
             if(aScoreMain.value)
                 match1.score = parseInt(aScoreMain.value);
+            else 
+                match1.score = 0;
             
             if(bScoreMain.value)    
                 match2.score = parseInt(bScoreMain.value);
+            else
+                match2.score = 0
 
             // Setting the time and place correctly
             if(!timeField.value)
@@ -587,42 +591,62 @@
 
                         for(var i = 0; i < event.count; i++) { // Iterate through all the pools
                             if(event.pools[i].teams.length < 4) { // Add matchups for pools of 3
-                                matchups.push({
-                                    matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
-                                    time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
-                                    place: event.pools[i].matches[0][1].time.split('|')[1].trim()
-                                });
-                                matchups.push({
-                                    matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
-                                    time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
-                                    place: event.pools[i].matches[0][2].time.split('|')[1].trim()
-                                });
-                                matchups.push({
-                                    matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[2],
-                                    time: event.pools[i].matches[1][2].time.split('|')[0].trim(),
-                                    place: event.pools[i].matches[1][2].time.split('|')[1].trim()
-                                });
+                                for(var j = 0; j < 3; j++) {
+                                    for(var k = 0; k < j; k++) {
+                                        if(i === j) continue;
+                                        matchups.push({
+                                            matchup: event.pools[i].teams[j] + ' vs ' + event.pools[i].teams[k],
+                                            time: event.pools[i].matches[j][k].time.split('|')[0].trim(),
+                                            place: event.pools[i].matches[j][k].time.split('|')[1].trim()
+                                        });
+                                    }
+                                }
+                                // matchups.push({
+                                //     matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
+                                //     time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
+                                //     place: event.pools[i].matches[0][1].time.split('|')[1].trim()
+                                // });
+                                // matchups.push({
+                                //     matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
+                                //     time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
+                                //     place: event.pools[i].matches[0][2].time.split('|')[1].trim()
+                                // });
+                                // matchups.push({
+                                //     matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[2],
+                                //     time: event.pools[i].matches[1][2].time.split('|')[0].trim(),
+                                //     place: event.pools[i].matches[1][2].time.split('|')[1].trim()
+                                // });
                             } else { // Add matchups for pools of 4
-                                matchups.push({
-                                    matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
-                                    time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
-                                    place: event.pools[i].matches[0][1].time.split('|')[1].trim()
-                                });
-                                matchups.push({
-                                    matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
-                                    time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
-                                    place: event.pools[i].matches[0][2].time.split('|')[1].trim()
-                                });
-                                matchups.push({
-                                    matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[3],
-                                    time: event.pools[i].matches[1][3].time.split('|')[0].trim(),
-                                    place: event.pools[i].matches[1][3].time.split('|')[1].trim()
-                                });
-                                matchups.push({
-                                    matchup: event.pools[i].teams[2] + ' vs ' + event.pools[i].teams[3],
-                                    time: event.pools[i].matches[2][3].time.split('|')[0].trim(),
-                                    place: event.pools[i].matches[2][3].time.split('|')[1].trim()
-                                });
+                                for(var j = 0; j < 4; j++) {
+                                    for(var k = 0; k < j; k++) {
+                                        if(j === k || k-j === j) continue;
+                                        matchups.push({
+                                            matchup: event.pools[i].teams[j] + ' vs ' + event.pools[i].teams[k],
+                                            time: event.pools[i].matches[j][k].time.split('|')[0].trim(),
+                                            place: event.pools[i].matches[j][k].time.split('|')[1].trim()
+                                        });
+                                    }
+                                }
+                                // matchups.push({
+                                //     matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[1],
+                                //     time: event.pools[i].matches[0][1].time.split('|')[0].trim(),
+                                //     place: event.pools[i].matches[0][1].time.split('|')[1].trim()
+                                // });
+                                // matchups.push({
+                                //     matchup: event.pools[i].teams[0] + ' vs ' + event.pools[i].teams[2],
+                                //     time: event.pools[i].matches[0][2].time.split('|')[0].trim(),
+                                //     place: event.pools[i].matches[0][2].time.split('|')[1].trim()
+                                // });
+                                // matchups.push({
+                                //     matchup: event.pools[i].teams[1] + ' vs ' + event.pools[i].teams[3],
+                                //     time: event.pools[i].matches[1][3].time.split('|')[0].trim(),
+                                //     place: event.pools[i].matches[1][3].time.split('|')[1].trim()
+                                // });
+                                // matchups.push({
+                                //     matchup: event.pools[i].teams[2] + ' vs ' + event.pools[i].teams[3],
+                                //     time: event.pools[i].matches[2][3].time.split('|')[0].trim(),
+                                //     place: event.pools[i].matches[2][3].time.split('|')[1].trim()
+                                // });
                             }
                         }
                     } else if (event.type === 'single'){ // Adding bracket matches for single elim
@@ -651,35 +675,50 @@
                     }
                 }
 
+                // Create a map of all the matches happening at different sites
+                // Map structure is as follows
+                //       Site
+                //        ||
+                //        \/
+                //   Day and Court
+                //        ||
+                //        \/
+                // Time and Matchup
+                ////////////////////////////////////////////////////////////////
+
                 var site = new Map();
                 for(var i = 0; i < matchups.length; i++) {
                     if(matchups[i].time.includes(',') &&
                         matchups[i].place.includes(',')) {
                                 
+                        // Add a site to the map if a site exists
                         if (!site.has(matchups[i].place.split(',')[0].trim())) {
-                            site.set(matchups[i].place.split(',')[0].trim(), new Map());
+                            site.set(matchups[i].place.split(',')[0].trim(), new Map()); // Value of the site map is a day map
                         }
 
-                        let dayMap = site.get(matchups[i].place.split(',')[0].trim());
+                        let dayMap = site.get(matchups[i].place.split(',')[0].trim()); // Set key of the day map
 
+                            // Add the day and court the match is at if it exists
                             if(!dayMap.has(matchups[i].time.split(',')[0].trim() + ', ' + matchups[i].place.split(',')[1].trim())) {
-                                dayMap.set(matchups[i].time.split(',')[0].trim() + ', ' + matchups[i].place.split(',')[1].trim(), new Map());
+                                dayMap.set(matchups[i].time.split(',')[0].trim() + ', ' + matchups[i].place.split(',')[1].trim(), new Map()); // Value of the day map is a time map
                             }
 
                             let timeMap = dayMap.get(
-                                matchups[i].time.split(',')[0].trim() + ', ' + matchups[i].place.split(',')[1].trim()
+                                matchups[i].time.split(',')[0].trim() + ', ' + matchups[i].place.split(',')[1].trim() // Set key of the time map
                             );
             
+                            // Add the time of the match and the matchup if it exists
                             if(!timeMap.has(matchups[i].time.split(',')[1].trim())) {
-                                timeMap.set(matchups[i].time.split(',')[1].trim(), matchups[i].matchup);
+                                timeMap.set(matchups[i].time.split(',')[1].trim(), matchups[i].matchup); // Value of the time map is the matchup
                             }
                     }                    
                 }
 
-                // Render the damn table now
+                // Rendering the schedule table
                 scheduleWrapper.replaceChildren([]);
 
                 for (let [key, dayMap] of site) {
+                    // Creating a title for each schedule based on the number of sites
                     let siteSection = document.createElement('section');
                     let siteTitle = document.createElement('h1');
                     let siteName = document.createTextNode(key);
@@ -692,14 +731,19 @@
 
                     var dayTracker = new Set();
 
+                    // For each unique day create a new table
                     for(let [key, timeMap] of dayMap) {
+                        // If the day is not unique we skip iteration of this loops
                         if (dayTracker.has(key.split(',')[0].trim())) continue;
+
+                        // Create the header for the schedule of that day
                         let dayTitle = document.createElement('h1');
                         let dayName = document.createTextNode(key.split(',')[0].trim());
                         dayTitle.appendChild(dayName);
 
-                        dayTracker.add(key.split(',')[0].trim());
+                        dayTracker.add(key.split(',')[0].trim()); // Keep track of this day
 
+                        // Create a table to place matchups
                         let table = document.createElement('tbl');
                         let tableBody = document.createElement('tbody');
                         let headerRow = document.createElement('tr');
@@ -707,11 +751,15 @@
                         let courts = [];
                         let times = []; 
                         
+                        // Go through the dayMap again
                         for(let [tkey, value] of dayMap) {
-                           if(key.split(',')[0].trim() !== tkey.split(',')[0].trim()) continue;                             
+                            // If a a timeMap has not been gone through yet skip iteration of this loop
+                            if(key.split(',')[0].trim() !== tkey.split(',')[0].trim()) continue;                             
 
+                            // Add the court to the array
                             courts.push(tkey.split(',')[1].trim());
 
+                            // Add the time of the matchup
                             let timeMap = dayMap.get(tkey);
                             for(let [rkey, value] of timeMap) {
                                 if(!times.includes(rkey)) {
@@ -733,6 +781,7 @@
                             else return 0;
                         });
 
+                        // Rendering the cells of the header row of the table
                         for(let i = 0; i <= courts.length; i++) {
                             let cell = document.createElement('td');
                             if(i === 0) {
@@ -751,6 +800,7 @@
 
                         tableBody.appendChild(headerRow);
 
+                        // Rendering the actual schedule in the table
                         for(let i = 0; i < times.length; i++) {
                             let row = document.createElement('tr');
                             let cell = document.createElement('td');
@@ -785,11 +835,11 @@
 
                     scheduleWrapper.appendChild(siteSection);
                 }
-            } else {          
+            } else { // Rendering brackets or pools depending on the event type          
                 const event = tournamentData.events[index];
                 eventTitle.textContent = tournamentData.name + ': ' + event.name;
 
-                if(event.type === 'single') {
+                if(event.type === 'single') { // Rendering a single elimination bracket
                     mainDraw.classList.remove('hidden');
 
                     if(!mainBracket) {
@@ -799,7 +849,7 @@
                     }
                 }
 
-                if(event.type === 'double') {
+                if(event.type === 'double') { // Rendering a double elimination bracket
                     backDraw.classList.remove('hidden');
                     mainDraw.classList.remove('hidden');
 
@@ -816,7 +866,7 @@
                     }
                 }
 
-                if(event.type === 'pool') {
+                if(event.type === 'pool') { // Rendering pool play
                     poolPlay.classList.remove('hidden');
 
                     poolPlayWrapper.replaceChildren([]);
@@ -910,6 +960,7 @@
                       }
                     }
                     
+                    // Keep track of each players/teams W/L record for ranking purposes
                     const RankedArray = Array.from(playermap.entries()).toSorted((a,b)=> {
                         if(a[1].won + a[1].loss === 0) {
                             return 1;
@@ -924,6 +975,7 @@
 
                     console.log(RankedArray)
 
+                    // Rendering the leaderboard for pool play
                     Leaderboard.replaceChildren([])
 
                     var poolTable = document.createElement('tbl');
