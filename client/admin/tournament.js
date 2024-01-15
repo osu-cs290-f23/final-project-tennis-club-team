@@ -1099,6 +1099,6 @@
     } catch(error) {
         console.log(error);
 
-        window.location.href="/404.html";
+        // window.location.href="/404.html";
     }
 })();

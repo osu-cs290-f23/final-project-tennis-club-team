@@ -28,20 +28,23 @@
           <img class = "logo navbar-logo" src = "/images/tennis-beaver-2.png" alt = "Beaver Logo">
       </a>
 
-        <div class="select-menu">
-          <div class="select-btn">
-            <span class="sBtn-text">&#xFE19;</span>
-          </div>
-        
-          <ul class="options hidden">
-            <li id="add-event" class="option">
-              <span class="option-text">Add Event</span>
-            </li>
-            <li id="remove-event" class="option">
-              <span class="option-text">Remove Event</span>
-            </li>
-          </ul>
+      <div class="select-menu">
+        <div class="select-btn">
+          <span class="sBtn-text">&#xFE19;</span>
         </div>
+      
+        <ul class="options hidden">
+          <li id="add-event" class="option">
+            <span class="option-text">Add Event</span>
+          </li>
+          <li id="remove-event" class="option">
+            <span class="option-text">Remove Event</span>
+          </li>
+          <li id="verify-times" class="option">
+            <span class="option-text">Verify Times</span>
+          </li>
+        </ul>
+      </div>
     </div>
 
     
@@ -93,12 +96,20 @@
                   <input id="time" type="text" placeholder="Time" />
                 </div>
                 <div class="side-by-side">
-                  <h3 for="time">Place</h3>
+                  <button id="clear" type="button">Clear</button>
+                </div>
+                <div></div>
+                <div class="side-by-side">
+                  <h3 for="place">Place</h3>
                   <input id="place" type="text" placeholder="Place" />
+                </div>
+                <div class="side-by-side">
+                  <h3 for="time">Court(s)</h3>
+                  <input id="courts" type="text" placeholder="Court(s)" />
                 </div>
               </div>
           </div>
       </div>
-  </div>
+    </div>
   </body>
 </html>

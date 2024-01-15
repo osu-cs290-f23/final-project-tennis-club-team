@@ -1100,7 +1100,7 @@
     } catch(error) {
         console.log(error);
 
-        window.location.href="/404.html";
+        // window.location.href="/404.html";
     }
 })();
 },{"axios/dist/browser/axios.cjs":2,"bracketry":4,"flatpickr":6,"lodash":8}],2:[function(require,module,exports){

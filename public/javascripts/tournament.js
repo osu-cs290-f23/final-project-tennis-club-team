@@ -11,11 +11,11 @@
 
     //State variables
     var index = 0;
-    var selectedBracket = null;
-    var selectedMatch = null;
-    var playerMap = new Map();
-    var locationMap = new Map();
-    var errors = [];
+    // var selectedBracket = null;
+    // var selectedMatch = null;
+    // var playerMap = new Map();
+    // var locationMap = new Map();
+    // var errors = [];
 
     //Define tournament search fields
     const url = document.URL;
@@ -25,27 +25,27 @@
     const eventTitle = document.querySelector('#event-title');
     
     //Define modal form fields
-    const playerAField = document.querySelector('#a-name');
-    const playerBField = document.querySelector('#b-name');
-    const timeField = document.querySelector('#time');
-    const clearButton = document.querySelector('#clear');
-    const placeField = document.querySelector('#place');
-    const courtField = document.querySelector('#courts');
-    const aScoreMain = document.querySelector('#a-score-main');
-    const aScoreSub = document.querySelector('#a-score-sub');
-    const bScoreMain = document.querySelector('#b-score-main');
-    const bScoreSub = document.querySelector('#b-score-sub');
-    const dateTimePicker = flatpickr('#time', {
-        enableTime: true,
-        dateFormat: "l, h:iK",
-        static: true
-    });
+    // const playerAField = document.querySelector('#a-name');
+    // const playerBField = document.querySelector('#b-name');
+    // const timeField = document.querySelector('#time');
+    // const clearButton = document.querySelector('#clear');
+    // const placeField = document.querySelector('#place');
+    // const courtField = document.querySelector('#courts');
+    // const aScoreMain = document.querySelector('#a-score-main');
+    // const aScoreSub = document.querySelector('#a-score-sub');
+    // const bScoreMain = document.querySelector('#b-score-main');
+    // const bScoreSub = document.querySelector('#b-score-sub');
+    // const dateTimePicker = flatpickr('#time', {
+    //     enableTime: true,
+    //     dateFormat: "l, h:iK",
+    //     static: true
+    // });
 
     const optionMenu = document.querySelector(".select-menu");
-    const optionButton = optionMenu.querySelector(".select-btn");
-    const addEvent = optionMenu.querySelector("#add-event");
-    const removeEvent = optionMenu.querySelector("#remove-event");
-    const verifyTimes = optionMenu.querySelector('#verify-times');
+    // const optionButton = optionMenu.querySelector(".select-btn");
+    // const addEvent = optionMenu.querySelector("#add-event");
+    // const removeEvent = optionMenu.querySelector("#remove-event");
+    // const verifyTimes = optionMenu.querySelector('#verify-times');
 
     //Define html data locations
     const backDraw = document.querySelector('#back-draw');
@@ -91,17 +91,17 @@
             rootFontFamily: 'Comfortaa'
         };
 
-        // const options = (bracket) => {
-        //     return {
-        //         ...style,
-        //         navButtonsPosition: 'overTitles',
-        //         onMatchClick: (match) => {
-        //             selectedBracket = bracket;
+        const options = (bracket) => {
+            return {
+                ...style,
+                navButtonsPosition: 'overTitles',
+                onMatchClick: (match) => {
+                    selectedBracket = bracket;
 
-        //             matchClickHandler(match);
-        //         }
-        //     };
-        // };
+                    matchClickHandler(match);
+                }
+            };
+        };
 
         const addEventTabs = () => {
             eventTabs.replaceChildren([]);
@@ -127,28 +127,28 @@
             }
         };
 
-        const update = async () => {
-            try {
-                tournamentData = (await axios.post('/tournaments/' + searchParams.get('id') + '/update', tournamentData, {
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })).data;
-                socket.emit('update','update')
-            } catch(error) {
-                new Noty({
-                    type: 'error',
-                    layout: 'topRight',
-                    theme: 'relax',
-                    text: 'Error updating event!',
-                    closeWith: ['click', 'button'],
-                    timeout: 3000
-                }).show();
-            }
+        // const update = async () => {
+        //     try {
+        //         tournamentData = (await axios.post('/tournaments/' + searchParams.get('id') + '/update', tournamentData, {
+        //             headers: {
+        //                 'Content-Type': 'application/json'
+        //             }
+        //         })).data;
+        //         socket.emit('update','update')
+        //     } catch(error) {
+        //         new Noty({
+        //             type: 'error',
+        //             layout: 'topRight',
+        //             theme: 'relax',
+        //             text: 'Error updating event!',
+        //             closeWith: ['click', 'button'],
+        //             timeout: 3000
+        //         }).show();
+        //     }
 
-            // addEventTabs();    
-            // loadEvent(index);
-        };
+        //     // addEventTabs();    
+        //     // loadEvent(index);
+        // };
         
         // const poolModalOpen = (modal) => {
         //     var pool = parseInt(selectedMatch.dataset.i);
@@ -938,7 +938,7 @@
                         poolTable.appendChild(poolTableBody);
                         poolPlayWrapper.appendChild(poolTitle);
                         poolPlayWrapper.appendChild(poolTable);
-                        poolPlayWrapper.addEventListener('click', poolClickHandler);
+                        // poolPlayWrapper.addEventListener('click', poolClickHandler);
                     }  
                     
                     const playermap = new Map();

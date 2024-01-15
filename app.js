@@ -50,7 +50,7 @@ app.use('/tournaments', publicRouter, checkSession, privateRouter);
 
 app.use((req, res, next) => {
     if(req.user?.username === auth.username) {
-        express.static(path.join(__dirname, 'admin'), { fallthrough: true })(req, res, next);
+        express.static(path.join(__dirname, 'admin'))(req, res, next);
     } else {
         next();
     }
