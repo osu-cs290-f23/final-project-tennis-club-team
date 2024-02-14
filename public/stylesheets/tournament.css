@@ -194,7 +194,7 @@ h3 {
   max-width: 15%;
   border-bottom: none;
   overflow: hidden;
-  text-overflow: ellipsis;
+  /* text-overflow: ellipsis; */
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-color: grey; 
@@ -263,9 +263,9 @@ tbl {
   padding-bottom: 6px;
   border-style: solid;
   max-width: 10em;
-  overflow: hidden;
+  /* overflow: hidden;
   white-space: nowrap;
-  text-overflow: ellipsis;
+  text-overflow: ellipsis; */
 }
 
 .cell-wrapper:hover {

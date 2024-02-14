@@ -17,6 +17,16 @@
     var locationMap = new Map();
     var errors = [];
 
+    const dayOrder = {
+        'Monday': 0,
+        'Tuesday': 1,
+        'Wednesday': 2,
+        'Thursday': 3,
+        'Friday': 4,
+        'Saturday': 5,
+        'Sunday': 6
+    };
+
     //Define tournament search fields
     const url = document.URL;
     const searchParams = new URLSearchParams(url.split('?')[1]);  
@@ -588,12 +598,12 @@
 
                 for(const event of tournamentData.events) {
                     if(event.type === 'pool') { // Adding all pool matchups
-
                         for(var i = 0; i < event.count; i++) { // Iterate through all the pools
                             if(event.pools[i].teams.length < 4) { // Add matchups for pools of 3
                                 for(var j = 0; j < 3; j++) {
                                     for(var k = 0; k < j; k++) {
-                                        if(i === j) continue;
+                                        if(j === k) continue;
+
                                         matchups.push({
                                             matchup: event.pools[i].teams[j] + ' vs ' + event.pools[i].teams[k],
                                             time: event.pools[i].matches[j][k].time.split('|')[0].trim(),
@@ -686,6 +696,8 @@
                 // Time and Matchup
                 ////////////////////////////////////////////////////////////////
 
+                console.log(matchups);
+
                 var site = new Map();
                 for(var i = 0; i < matchups.length; i++) {
                     if(matchups[i].time.includes(',') &&
@@ -722,6 +734,7 @@
                     let siteSection = document.createElement('section');
                     let siteTitle = document.createElement('h1');
                     let siteName = document.createTextNode(key);
+                    let siteDayList = [];
 
                     siteTitle.classList.add('pool-title');
                     siteTitle.appendChild(siteName);
@@ -829,9 +842,18 @@
                         }
                         
                         table.appendChild(tableBody);
-                        siteSection.appendChild(dayTitle);
-                        siteSection.appendChild(table);
+                        siteDayList.push({
+                            'dayName': dayName,
+                            'dayTitle': dayTitle,
+                            'table': table
+                        });
                     }
+
+                    siteDayList.sort((a, b) => Math.max(-1, Math.min(1, dayOrder[a.dayTitle] - dayOrder[b.dayTitle])));
+                    siteDayList.forEach(dayObj => {
+                        siteSection.appendChild(dayObj.dayTitle);
+                        siteSection.appendChild(dayObj.table);
+                    })
 
                     scheduleWrapper.appendChild(siteSection);
                 }
